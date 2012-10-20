@@ -1,12 +1,17 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * GUTS - GPS Utilized Tracking System
+ * A tracking control device that sets the antenna
+ * orientation on an offroad vehicle
+ * 
+ * @author Patrick Selge
+ * @version 0.1
  */
+
 package guts;
 
 /**
  *
- * @author patrick
+ * @author Patrick Selge
  */
 public class GUTS {
 
