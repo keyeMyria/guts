@@ -15,10 +15,13 @@ package guts;
  */
 public class GUTS {
 
+    private static GUI gui;
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        gui = new GUI();
+        gui.main(null);
     }
 }
