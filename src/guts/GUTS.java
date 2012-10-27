@@ -16,7 +16,6 @@ package guts;
 public class GUTS {
 
     private static GUI gui;
-    /* test */
     
     /**
      * @param args the command line arguments
