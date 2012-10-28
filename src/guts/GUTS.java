@@ -181,7 +181,7 @@ public class GUTS {
      * Returns the mageneticfieldsensor.
      * @return magneticFieldSensor as magneticFieldSensor object
      */
-    private MagneticFieldSensor getMagnetivFieldSensor(){
+    private MagneticFieldSensor getMagneticFieldSensor(){
         return this.magneticFieldSensor;
     }
     
