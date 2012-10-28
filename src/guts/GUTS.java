@@ -45,6 +45,9 @@ public class GUTS {
         gui.main(null);
     }
 
+    /*
+     * Override default constructor for default values.
+     */
     public GUTS() {
         this.antennaCorrectionEnabled = false;
         this.storeTrackEnabled = false;
