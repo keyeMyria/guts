@@ -1,11 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package guts;
 
 /**
- *
+ * This class represents an magneticfieldsensor to allow accessing and
+ * interpretating the returned values of the hardwaresensor.
  * @author Cedric Ohle
  */
 public class MagneticFieldSensor {
