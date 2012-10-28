@@ -6,6 +6,9 @@ package guts;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import org.jdesktop.swingx.*;
+import org.jdesktop.swingx.JXMapKit.DefaultProviders;
 
 /**
  *
@@ -18,6 +21,10 @@ public class GUI extends JFrame {
      */
     public GUI() {
         drawInterface();
+        antennaSelection.addItem("Test");
+        antennaControlButton.setText("Deaktivieren");
+        positionStatusLED.setEnabled(false);
+        
         //initComponents();
         //jXMapKit1.setAddressLocation(new GeoPosition(52.483791,13.226141));
 
@@ -73,9 +80,11 @@ public class GUI extends JFrame {
         setResizable(false);
         setBackground(Color.lightGray);
         
+        
         mainFrame = getContentPane();
         mainFrame.setBackground(Color.lightGray);
-        mainFrame.setPreferredSize(new Dimension(1000,800));
+        mainFrame.setPreferredSize(new Dimension(1000,700));
+        
         
         drawLeftPanel();
         drawMainPanel();
@@ -101,7 +110,6 @@ public class GUI extends JFrame {
     
     private void drawMainPanel() {
         mainPanel = new JPanel();
-        mainPanel.setPreferredSize(new Dimension(760,760));
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
 
         mainPanel.add(drawTopPanel());
@@ -126,58 +134,121 @@ public class GUI extends JFrame {
         positionStatusLED = new StatusLED();
         
         statusPanel.add(drawStatusLine(antennaStatusLED, "Antennenausrichtung"));
-        statusPanel.add(Box.createRigidArea(new Dimension(0,3)));
         statusPanel.add(drawStatusLine(positionStatusLED, "Positionsausrichtung"));
-        positionStatusLED.disable();
-
         
         return statusPanel;
     }
     
     private JPanel drawStatusLine(StatusLED led, String label) {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        SizedPanel panel = new SizedPanel(290, 35);
+        panel.setBorder(BorderFactory.createEmptyBorder(3,10,3,10));
         
-        panel.setBorder(BorderFactory.createEmptyBorder(4,10,4,10));
         panel.add(led);
         panel.add(Box.createRigidArea(new Dimension(3,0)));
         panel.add(new JLabel(label));
-        panel.setAlignmentX(0);
-        
-        panel.setMaximumSize(new Dimension(290,30));
-        
+         
         return panel;
     }
     
     private TitledBox drawAntennaControlPanel() {
         antennaControlPanel = new TitledBox("Antennenausrichtung",220,100);
         
-        // TODO drawAntennaSelection()
-        // TODO drawAntennaControlToggleButton();
+        antennaControlButton = drawControlButton("Aktivieren");
+        
+        antennaControlPanel.add(drawAntennaSelection());
+        antennaControlPanel.add(wrapControlButton(antennaControlButton));
         
         return antennaControlPanel;
     }
     
+    private JPanel drawAntennaSelection() {
+        SizedPanel panel = new SizedPanel(220,35,FlowLayout.CENTER);
+        
+        antennaSelection = new JComboBox();
+        
+        panel.add(new JLabel("Antenne:"));
+        panel.add(antennaSelection);
+                
+        return panel;
+    }
     
+    private JPanel wrapControlButton(JButton button) {
+        SizedPanel panel = new SizedPanel(220,35,FlowLayout.CENTER);
+        panel.add(button);
+
+        return panel;
+    }
+    
+    private JButton drawControlButton(String label) {
+        JButton button = new JButton(label);
+        button.setPreferredSize(new Dimension(200,30));
+        
+        return button;
+    }
     
     private TitledBox drawPositionControlPanel() {
         positionControlPanel = new TitledBox("Positionsaufzeichnung",220,100);
         
-        // TODO drawPositionControlToggleButton();
+        positionControlResetButton = drawControlButton("Zurücksetzen");
+        positionControlToggleButton = drawControlButton("Aktivieren");
+        
+        positionControlPanel.add(wrapControlButton(positionControlResetButton));
+        positionControlPanel.add(wrapControlButton(positionControlToggleButton));
         
         return positionControlPanel;
     }
     
-    private JPanel drawMapPanel() {
-        JPanel mapPanel = new JPanel();
-        mapPanel.setBorder(BorderFactory.createTitledBorder("MapPanel"));
+    private JLayeredPane drawMapPanel() {
+        layeredMap = new JLayeredPane();
         
-        return mapPanel;
+        JXMapKit mapKit = new JXMapKit();
+        mapKit.setName("mapKit");
+        
+        mapKit.setDefaultProvider(DefaultProviders.OpenStreetMaps); 
+        
+        mapKit.setMiniMapVisible(false);
+        mapKit.setZoomSliderVisible(false);
+        
+        mapKit.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+        mapKit.setBounds(0, 0, 752, 602);
+        
+        JPanel minimap = drawMinimap();
+        
+        layeredMap.add(mapKit, JLayeredPane.DEFAULT_LAYER);
+        layeredMap.add(minimap, JLayeredPane.POPUP_LAYER);
+        
+        return layeredMap;
+    }
+    
+    private JPanel drawMinimap() {
+        JPanel panel = new JPanel();     
+        panel.setLayout(new BorderLayout());
+
+        panel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        panel.setBounds(481,321,280,280);
+        panel.setBackground(new Color(0, 0, 0, 175));
+         
+        panel.add(drawJeep());
+        
+
+        
+        return panel;
+    }
+    
+    private Jeep drawJeep() {
+        jeepTop = new Jeep(Jeep.BIRDVIEW);
+        
+        jeepTop.setHorizontalAlignment(SwingConstants.CENTER); 
+        
+        return jeepTop;
     }
     
     private Container mainFrame;
     private JPanel leftPanel;
     private JPanel mainPanel;
     private JPanel topPanel;
+    
+    private JLayeredPane layeredMap;
     
     private JPanel sensorDataPanel;
     private JPanel axisVisualPanel;
@@ -187,6 +258,14 @@ public class GUI extends JFrame {
     
     private StatusLED antennaStatusLED;
     private StatusLED positionStatusLED;
+    
+    private JComboBox antennaSelection;
+    
+    private JButton antennaControlButton;
+    private JButton positionControlToggleButton;
+    private JButton positionControlResetButton;
+    
+    private Jeep jeepTop;
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

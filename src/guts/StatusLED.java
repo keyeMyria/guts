@@ -5,9 +5,7 @@
 package guts;
 
 import java.net.URL;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 /**
  *
