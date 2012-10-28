@@ -47,6 +47,7 @@ class LatchEngine extends Engine{
      * moves it if the movement borders are exceeded the servo is moved to the border.
      * @params angle the new angle as float
      */
+    @Override
     public void moveToAngle(float angle){
         //todo: needs implementation
     }
