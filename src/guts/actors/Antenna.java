@@ -1,11 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package guts;
+
+package guts.actors;
 
 /**
- *
+ * This class represents the antenna. It has three engines to allow to be
+ * positionend.
  * @author Cedric Ohle
  */
 public class Antenna {
@@ -13,26 +11,51 @@ public class Antenna {
     private LatchEngine pitchEngine;
     private LatchEngine rollEngine;
     
+    
+    /**
+     * Sets the yawengine
+     * @param yawEngine as engine object
+     */
     private void setYawEngine(Engine yawEngine){
         this.yawEngine = yawEngine;
     }
     
+    /**
+     * Sets the pitchEngine
+     * @param pitchEngine as latchengine object
+     */
     private void setPitchEngine(LatchEngine pitchEngine){
         this.pitchEngine = pitchEngine;
     }
     
+    /**
+     * Sets the rollEngine
+     * @param rollEngine as latchengine object
+     */
     private void setRollEngine(LatchEngine rollEngine){
         this.rollEngine = rollEngine;
     }
     
+    /**
+     * Returns the yawEngine
+     * @returns yawEngine as latchengine object
+     */
     private Engine getYawEngine(){
         return this.yawEngine;
     }
     
+    /**
+     * Returns the pitchEngine
+     * @returns pitchEngine as latchengine object
+     */
     private LatchEngine getPitchEngine(){
         return this.pitchEngine;
     }
     
+    /**
+     * Returns the rollEngine
+     * @returns rollEngine as latchengine object
+     */
     private LatchEngine getRollEngine(){
         return this.rollEngine;
     }

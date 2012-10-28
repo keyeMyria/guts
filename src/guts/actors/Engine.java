@@ -1,5 +1,5 @@
 
-package guts;
+package guts.actors;
 
 /**
  * This class represents an servoengine with a sensor to get the current angle.

@@ -1,5 +1,5 @@
 
-package guts;
+package guts.sensors;
 
 /**
  * This class represents an magneticfieldsensor to allow accessing and

@@ -1,5 +1,5 @@
 
-package guts;
+package guts.entities;
 
 /**
  * This class represents an axis object to describe the postion of a object in
