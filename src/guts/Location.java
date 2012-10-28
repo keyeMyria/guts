@@ -6,7 +6,7 @@ package guts;
 
 /**
  *
- * @author cohle
+ * @author Cedric Ohle
  */
 class Location {
     private float longitude;

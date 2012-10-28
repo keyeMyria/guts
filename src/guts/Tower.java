@@ -6,7 +6,7 @@ package guts;
 
 /**
  *
- * @author cohle
+ * @author Cedric Ohle
  */
 public class Tower {
     private Location towerLocation;
