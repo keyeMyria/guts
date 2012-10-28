@@ -146,7 +146,7 @@ public class GUTS {
      * @param mageneticFieldSensor as MagneticFieldSensor object
      */
     private void setMagneticFieldSensor(MagneticFieldSensor mageneticFieldSensor){
-        this.magneticFieldSensor = magneticFieldSensor;
+        this.magneticFieldSensor = mageneticFieldSensor;
     }
     
     /**
