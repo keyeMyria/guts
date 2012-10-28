@@ -67,8 +67,9 @@ public class Antenna {
      * @param newAxis as Axis object
      */
     public void applyNewAxis(Axis newAxis){
-        this.getRollEngine().moveToAngle(newAxis.getRoll());
-        this.getPitchEngine().moveToAngle(newAxis.getPitch());
-        this.getYawEngine().moveToAngle(newAxis.getYawn());
+        this.rollEngine.moveToAngle(newAxis.getRoll());
+        this.pitchEngine.moveToAngle(newAxis.getPitch());
+        this.yawEngine.moveToAngle(newAxis.getYawn());
     }
 }
+    
