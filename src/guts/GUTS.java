@@ -12,6 +12,7 @@ package guts;
 import guts.actors.Antenna;
 import guts.entities.Axis;
 import guts.entities.Location;
+import guts.entities.Tower;
 import guts.sensors.GPS;
 import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
@@ -76,9 +77,10 @@ public class GUTS {
      */
     public void correctAntennaPostion(){
         Axis newAxis = calculateCorrection(
-                    gps.fetchLocation(),
-                    gyroscope.fetchPosition(),
-                    magneticFieldSensor.fetchAngleToMagneticNorth()
+                    this.gps.fetchLocation(),
+                    this.gyroscope.fetchPosition(),
+                    this.magneticFieldSensor.fetchAngleToMagneticNorth(),
+                    this.getTowerByID(this.activeTower).getLocation()
                 );
         antenna.applyNewAxis(newAxis);
     }
@@ -123,9 +125,11 @@ public class GUTS {
      * @param currentLocation as location object
      * @param currentAxis as axis object
      * @param currentAngle as float
+     * @param activeTowerLocation as Location object
      * @return newAxis as axis object
      */
-    private Axis calculateCorrection(Location currentLocation, Axis currentAxis, float currentAngle){
+    private Axis calculateCorrection(Location currentLocation, Axis currentAxis,
+                float currentAngle, Location activeTowerLocation){
         //todo: needs implementation
         return null;
     }
@@ -224,6 +228,15 @@ public class GUTS {
      */
     private LinkedList getTowers(){
         return this.towers;
+    }
+    
+    /**
+     * Returns the tower with given ID from the tower list
+     * @return tower as Tower object
+     */
+    private Tower getTowerByID(int ID){
+        //todo: needs implementation
+        return null;
     }
 
 }
