@@ -43,6 +43,11 @@ public class GUTS {
         gui = new GUI();
         gui.main(null);
     }
+
+    public GUTS() {
+        this.antennaCorrectionEnabled = false;
+        this.storeTrackEnabled = false;
+    }
     
     /**
      * Enable/Disable the antennacorrection mechanism. 
