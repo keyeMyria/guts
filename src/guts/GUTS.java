@@ -53,14 +53,22 @@ public class GUTS {
      * Enable/Disable the antennacorrection mechanism. 
      */
     public void toggleAntennaCorrection(){
-        //todo: implementation needed
+        if (this.antennaCorrectionEnabled == true){
+            this.antennaCorrectionEnabled = false;
+        }else{
+            this.antennaCorrectionEnabled = true;
+        }
     }
     
     /**
      * Enable/Disable the trackrecording mechanism.
      */
     public void toggleTrackRecording(){
-        //todo: implementation needed
+        if (this.storeTrackEnabled == true){
+            this.storeTrackEnabled = false;
+        }else{
+            this.storeTrackEnabled = true;
+        }
     }
     
     /**
