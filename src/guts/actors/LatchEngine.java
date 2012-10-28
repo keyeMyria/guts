@@ -40,4 +40,15 @@ class LatchEngine extends Engine{
     public float getRightMax(){
         return this.rightMax;
     }
+    
+    /**
+     * Allows setting of a new angle to get to.
+     * Calculates the needed direction and distance to drive the servoengine and
+     * moves it if the movement borders are exceeded the servo is moved to the border.
+     * @params angle the new angle as float
+     */
+    @Override
+    public void moveToAngle(float angle){
+        //todo: needs implementation
+    }
 }

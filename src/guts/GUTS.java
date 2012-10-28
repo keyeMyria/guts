@@ -12,6 +12,7 @@ package guts;
 import guts.actors.Antenna;
 import guts.entities.Axis;
 import guts.entities.Location;
+import guts.entities.Tower;
 import guts.sensors.GPS;
 import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
@@ -43,26 +44,45 @@ public class GUTS {
         gui = new GUI();
         gui.main(null);
     }
+
+    public GUTS() {
+        this.antennaCorrectionEnabled = false;
+        this.storeTrackEnabled = false;
+    }
     
     /**
      * Enable/Disable the antennacorrection mechanism. 
      */
     public void toggleAntennaCorrection(){
-        //todo: implementation needed
+        if (this.antennaCorrectionEnabled == true){
+            this.antennaCorrectionEnabled = false;
+        }else{
+            this.antennaCorrectionEnabled = true;
+        }
     }
     
     /**
      * Enable/Disable the trackrecording mechanism.
      */
     public void toggleTrackRecording(){
-        //todo: implementation needed
+        if (this.storeTrackEnabled == true){
+            this.storeTrackEnabled = false;
+        }else{
+            this.storeTrackEnabled = true;
+        }
     }
     
     /**
      * Corrects the antenna position.
      */
     public void correctAntennaPostion(){
-        //todo: implementation needed
+        Axis newAxis = calculateCorrection(
+                    this.gps.fetchLocation(),
+                    this.gyroscope.fetchPosition(),
+                    this.magneticFieldSensor.fetchAngleToMagneticNorth(),
+                    this.getTowerByID(this.activeTower).getLocation()
+                );
+        antenna.applyNewAxis(newAxis);
     }
     
     /**
@@ -105,9 +125,11 @@ public class GUTS {
      * @param currentLocation as location object
      * @param currentAxis as axis object
      * @param currentAngle as float
+     * @param activeTowerLocation as Location object
      * @return newAxis as axis object
      */
-    private Axis calculateCorrection(Location currentLocation, Axis currentAxis, float currentAngle){
+    private Axis calculateCorrection(Location currentLocation, Axis currentAxis,
+                float currentAngle, Location activeTowerLocation){
         //todo: needs implementation
         return null;
     }
@@ -129,11 +151,27 @@ public class GUTS {
     }
     
     /**
+     * Sets the gps.
+     * @param gps as gps object
+     */
+    private void setGPS(GPS gps){
+        this.gps = gps;
+    }
+    
+    /**
+     * Returns the gps.
+     * @return gps as gps object
+     */
+    private GPS getGPS(){
+        return this.gps;
+    }
+    
+    /**
      * Sets the mageneticfieldsensor.
      * @param mageneticFieldSensor as MagneticFieldSensor object
      */
     private void setMagneticFieldSensor(MagneticFieldSensor mageneticFieldSensor){
-        this.magneticFieldSensor = magneticFieldSensor;
+        this.magneticFieldSensor = mageneticFieldSensor;
     }
     
     /**
@@ -190,6 +228,15 @@ public class GUTS {
      */
     private LinkedList getTowers(){
         return this.towers;
+    }
+    
+    /**
+     * Returns the tower with given ID from the tower list
+     * @return tower as Tower object
+     */
+    private Tower getTowerByID(int ID){
+        //todo: needs implementation
+        return null;
     }
 
 }
