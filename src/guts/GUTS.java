@@ -147,6 +147,22 @@ public class GUTS {
     }
     
     /**
+     * Sets the gps.
+     * @param gps as gps object
+     */
+    private void setGPS(GPS gps){
+        this.gps = gps;
+    }
+    
+    /**
+     * Returns the gps.
+     * @return gps as gps object
+     */
+    private GPS getGPS(){
+        return this.gps;
+    }
+    
+    /**
      * Sets the mageneticfieldsensor.
      * @param mageneticFieldSensor as MagneticFieldSensor object
      */
