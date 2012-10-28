@@ -12,7 +12,7 @@ public class MagneticFieldSensor {
     
     /**
      * The Funtion fetches the current angle to the magnetic north from the driver
-     * @return Angle to magnetic nort as float
+     * @return Angle to magnetic north as float
      */
     public float fetchAngleToMagneticNorth(){
         //todo: needs driver access and implementation
