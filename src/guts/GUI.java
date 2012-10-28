@@ -4,54 +4,28 @@
  */
 package guts;
 
-import java.net.URL;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import org.jdesktop.swingx.JXMapKit;
-import org.jdesktop.swingx.mapviewer.GeoPosition;
+import java.awt.*;
+import javax.swing.*;
 
 /**
  *
  * @author patrick
  */
-public class GUI extends javax.swing.JFrame {
-
-    private JXMapKit mapKit;
-    private URL resource1;
-    private JLabel jeep;
+public class GUI extends JFrame {
     
     /**
      * Creates new form GUI
      */
     public GUI() {
-        initComponents();
-        jXMapKit1.setAddressLocation(new GeoPosition(52.483791,13.226141));
+        drawInterface();
+        //initComponents();
+        //jXMapKit1.setAddressLocation(new GeoPosition(52.483791,13.226141));
 
-        drawPitchVisualization();
-        drawCar();      
+        //drawPitchVisualization();
+        //drawCar();      
         //createMapKit();
     }
         
-    private void drawPitchVisualization() {
-        JLabel circle = new JLabel(new ovalContainer());
-        imageA.add(circle);
-    }
-    
-    private void drawCar() {
-        URL jeepResource = GUTS.class.getResource( "/guts/Jeep.png" );
-        Icon jeepIcon = new ImageIcon(jeepResource);
-        
-        jeep = new JLabel(jeepIcon);
-        
-        
-        Car.add(jeep);
-    }
-    
-    private void rotateCar() {
-        
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -61,285 +35,24 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel8 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jLabel1 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jPanel3 = new javax.swing.JPanel();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        imageA = new javax.swing.JPanel();
-        mapContainer = new javax.swing.JInternalFrame();
-        mapStack = new javax.swing.JLayeredPane();
-        Car = new javax.swing.JPanel();
-        jXMapKit1 = new org.jdesktop.swingx.JXMapKit();
-
-        jLabel8.setText("jLabel8");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
         setForeground(new java.awt.Color(0, 204, 204));
         setResizable(false);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Antennenausrichtung", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setLocation(new java.awt.Point(-32210, -32740));
-        jComboBox1.setMinimumSize(new java.awt.Dimension(93, 27));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(94, 27));
-        jComboBox1.setSize(new java.awt.Dimension(93, 27));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Funkmast:");
-
-        jToggleButton1.setText("Ausrichten");
-
-        org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jLabel1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jComboBox1, 0, 108, Short.MAX_VALUE)
-                .addContainerGap())
-            .add(jToggleButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel2Layout.createSequentialGroup()
-                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel1))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(jToggleButton1)
-                .addContainerGap())
-        );
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Streckendaten", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-
-        jToggleButton2.setText("Aufnehmen");
-
-        jButton1.setText("Reset");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel3Layout.createSequentialGroup()
-                .add(0, 11, Short.MAX_VALUE)
-                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jToggleButton2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel3Layout.createSequentialGroup()
-                .add(jToggleButton2)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(jButton1)
-                .addContainerGap())
-        );
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Status"));
-
-        jLabel6.setText("Antennenausrichtung");
-
-        jLabel7.setText("Streckenaufzeichnung");
-
-        org.jdesktop.layout.GroupLayout jPanel4Layout = new org.jdesktop.layout.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel4Layout.createSequentialGroup()
-                .add(56, 56, 56)
-                .add(jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel7)
-                    .add(jLabel6))
-                .addContainerGap(97, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel4Layout.createSequentialGroup()
-                .add(12, 12, 12)
-                .add(jLabel6)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jLabel7)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Sensordaten"));
-
-        jTextField1.setEditable(false);
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("0,00 °");
-
-        jLabel2.setText("Latitude");
-
-        jLabel3.setText("Longitude");
-
-        jTextField2.setEditable(false);
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("0,00 °");
-
-        jLabel4.setText("Ausrichtung");
-
-        jTextField3.setEditable(false);
-        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField3.setText("0,00 °");
-
-        jLabel5.setText("Geschwindigkeit");
-
-        jTextField4.setEditable(false);
-        jTextField4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField4.setText("0,00 km/h");
-
-        imageA.setLayout(new javax.swing.BoxLayout(imageA, javax.swing.BoxLayout.LINE_AXIS));
-
-        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextField1)
-            .add(jTextField2)
-            .add(jTextField3)
-            .add(jTextField4)
-            .add(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(imageA, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel2)
-                            .add(jLabel3)
-                            .add(jLabel4)
-                            .add(jLabel5))
-                        .add(0, 70, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jLabel2)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel3)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel4)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jTextField3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel5)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jTextField4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(imageA, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        mapContainer.setBackground(new java.awt.Color(102, 102, 102));
-        mapContainer.setBorder(null);
-        mapContainer.setVisible(true);
-
-        Car.setOpaque(false);
-        Car.setBounds(260, 120, 180, 110);
-        mapStack.add(Car, javax.swing.JLayeredPane.POPUP_LAYER);
-
-        jXMapKit1.setAddressLocationShown(false);
-        jXMapKit1.setDefaultProvider(org.jdesktop.swingx.JXMapKit.DefaultProviders.OpenStreetMaps);
-        jXMapKit1.setFocusable(false);
-        jXMapKit1.setMiniMapVisible(false);
-        jXMapKit1.setOpaque(false);
-        jXMapKit1.setRequestFocusEnabled(false);
-        jXMapKit1.setScrollableTracksViewportHeight(false);
-        jXMapKit1.setScrollableTracksViewportWidth(false);
-        jXMapKit1.setVerifyInputWhenFocusTarget(false);
-        jXMapKit1.setZoom(1);
-        jXMapKit1.setZoomSliderVisible(false);
-        jXMapKit1.setBounds(0, 0, 700, 340);
-        mapStack.add(jXMapKit1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        org.jdesktop.layout.GroupLayout mapContainerLayout = new org.jdesktop.layout.GroupLayout(mapContainer.getContentPane());
-        mapContainer.getContentPane().setLayout(mapContainerLayout);
-        mapContainerLayout.setHorizontalGroup(
-            mapContainerLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(mapStack)
-        );
-        mapContainerLayout.setVerticalGroup(
-            mapContainerLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(mapStack, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
-        );
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(jPanel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .add(mapContainer)))
+            .add(0, 887, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                    .add(jPanel4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(mapContainer, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(0, 0, Short.MAX_VALUE))
-            .add(layout.createSequentialGroup()
-                .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .add(0, 886, Short.MAX_VALUE)
         );
-
-        jPanel3.getAccessibleContext().setAccessibleName("Position");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -348,36 +61,133 @@ public class GUI extends javax.swing.JFrame {
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new GUI().setVisible(true);
             }
         });
     }
+    
+    private void drawInterface() {
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        setBackground(Color.lightGray);
+        
+        mainFrame = getContentPane();
+        mainFrame.setBackground(Color.lightGray);
+        mainFrame.setPreferredSize(new Dimension(1000,800));
+        
+        drawLeftPanel();
+        drawMainPanel();
+
+        mainFrame.add(leftPanel, BorderLayout.WEST);
+        mainFrame.add(mainPanel);        
+        
+        pack();
+    }
+    
+    private void drawLeftPanel() {
+        leftPanel = new JPanel();
+        leftPanel.setPreferredSize(new Dimension(250,600));
+        leftPanel.setLayout(new BoxLayout(leftPanel,BoxLayout.PAGE_AXIS));
+        
+        sensorDataPanel = new JPanel(new GridLayout(8,1));
+        sensorDataPanel.setBorder(BorderFactory.createTitledBorder("Sensordaten"));
+        axisVisualPanel = new JPanel(new GridLayout(2,1));
+        
+        leftPanel.add(sensorDataPanel);
+        leftPanel.add(axisVisualPanel);
+    }
+    
+    private void drawMainPanel() {
+        mainPanel = new JPanel();
+        mainPanel.setPreferredSize(new Dimension(760,760));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+
+        mainPanel.add(drawTopPanel());
+        mainPanel.add(drawMapPanel());
+    }
+    
+    private JPanel drawTopPanel() {
+        topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        topPanel.setLayout(new BoxLayout(topPanel,BoxLayout.LINE_AXIS));
+        
+        topPanel.add(drawStatusPanel());
+        topPanel.add(drawAntennaControlPanel());
+        topPanel.add(drawPositionControlPanel());
+        
+        return topPanel;
+    }
+    
+    private TitledBox drawStatusPanel() {
+        statusPanel = new TitledBox("Statusinformationen",320,100);
+        
+        antennaStatusLED = new StatusLED();
+        positionStatusLED = new StatusLED();
+        
+        statusPanel.add(drawStatusLine(antennaStatusLED, "Antennenausrichtung"));
+        statusPanel.add(Box.createRigidArea(new Dimension(0,3)));
+        statusPanel.add(drawStatusLine(positionStatusLED, "Positionsausrichtung"));
+        positionStatusLED.disable();
+
+        
+        return statusPanel;
+    }
+    
+    private JPanel drawStatusLine(StatusLED led, String label) {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        
+        panel.setBorder(BorderFactory.createEmptyBorder(4,10,4,10));
+        panel.add(led);
+        panel.add(Box.createRigidArea(new Dimension(3,0)));
+        panel.add(new JLabel(label));
+        panel.setAlignmentX(0);
+        
+        panel.setMaximumSize(new Dimension(290,30));
+        
+        return panel;
+    }
+    
+    private TitledBox drawAntennaControlPanel() {
+        antennaControlPanel = new TitledBox("Antennenausrichtung",220,100);
+        
+        // TODO drawAntennaSelection()
+        // TODO drawAntennaControlToggleButton();
+        
+        return antennaControlPanel;
+    }
+    
+    
+    
+    private TitledBox drawPositionControlPanel() {
+        positionControlPanel = new TitledBox("Positionsaufzeichnung",220,100);
+        
+        // TODO drawPositionControlToggleButton();
+        
+        return positionControlPanel;
+    }
+    
+    private JPanel drawMapPanel() {
+        JPanel mapPanel = new JPanel();
+        mapPanel.setBorder(BorderFactory.createTitledBorder("MapPanel"));
+        
+        return mapPanel;
+    }
+    
+    private Container mainFrame;
+    private JPanel leftPanel;
+    private JPanel mainPanel;
+    private JPanel topPanel;
+    
+    private JPanel sensorDataPanel;
+    private JPanel axisVisualPanel;
+    private TitledBox statusPanel;
+    private TitledBox antennaControlPanel;
+    private TitledBox positionControlPanel;
+    
+    private StatusLED antennaStatusLED;
+    private StatusLED positionStatusLED;
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Car;
-    private javax.swing.JPanel imageA;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private org.jdesktop.swingx.JXMapKit jXMapKit1;
-    private javax.swing.JInternalFrame mapContainer;
-    private javax.swing.JLayeredPane mapStack;
     // End of variables declaration//GEN-END:variables
 }
