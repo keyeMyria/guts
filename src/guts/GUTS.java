@@ -75,7 +75,12 @@ public class GUTS {
      * Corrects the antenna position.
      */
     public void correctAntennaPostion(){
-        //todo: implementation needed
+        Axis newAxis = calculateCorrection(
+                    gps.fetchLocation(),
+                    gyroscope.fetchPosition(),
+                    magneticFieldSensor.fetchAngleToMagneticNorth()
+                );
+        antenna.applyNewAxis(newAxis);
     }
     
     /**
