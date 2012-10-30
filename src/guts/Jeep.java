@@ -4,6 +4,8 @@
  */
 package guts;
 
+import guts.gui.EasyImage;
+import java.awt.BorderLayout;
 import java.net.URL;
 import javax.swing.*;
 
@@ -11,16 +13,16 @@ import javax.swing.*;
  *
  * @author patrick
  */
-public class Jeep extends JLabel {
+public class Jeep extends JPanel {
     public static final int BIRDVIEW = 1;
     public static final int SIDEVIEW = 2;
     public static final int FRONTVIEW = 3;
     
-    private Icon jeepView;
+    private EasyImage jeepView;
     
-    public Jeep(int view) {        
-        cacheImage(view);  
-        this.setIcon(jeepView);
+    public Jeep(int view) {
+        this.setLayout(new BorderLayout());
+        cacheImage(view); 
     }
         
     private void cacheImage(int view) {
@@ -38,6 +40,12 @@ public class Jeep extends JLabel {
                 jeepResource = GUTS.class.getResource("/guts/jeep.top.png");
         }
 
-        jeepView = new ImageIcon(jeepResource);
+        jeepView = new EasyImage(jeepResource);
+        jeepView.rotated(90);
+
+        this.add(jeepView);
+        
+        
+        
     } 
 }
