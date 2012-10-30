@@ -20,7 +20,7 @@ public class Jeep {
         BufferedImage img;
 
 	public Jeep(int centerX, int centerY) {
-            jeepResource = Jeep.class.getResource("/jeepRotation/jeep.top.png");
+            jeepResource = Jeep.class.getResource("/jeepRotation/Jeep.top.png");
             
             try {
                 img = ImageIO.read(jeepResource);
