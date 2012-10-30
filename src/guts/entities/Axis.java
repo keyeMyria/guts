@@ -12,7 +12,7 @@ public class Axis {
     private float roll;
     
     /**
-     * Sets the pitchangle
+     * Sets the pitch angle
      * @param pitch as float
      */
     public void setPitch(float pitch){
@@ -20,7 +20,7 @@ public class Axis {
     }
     
     /**
-     * Sets the yawnangle
+     * Sets the yawn angle
      * @param yawn as float
      */
     public void setYawn(float yawn){
@@ -28,7 +28,7 @@ public class Axis {
     }
     
     /**
-     * Sets the rollangle
+     * Sets the roll angle
      * @param roll as float
      */
     public void setRoll(float roll){
@@ -36,24 +36,24 @@ public class Axis {
     }
     
     /**
-     * Returns the pitchangle
-     * @return the pitchangle as float
+     * Returns the pitch angle
+     * @return the pitch angle as float
      */
     public float getPitch(){
         return this.pitch;
     }
     
     /**
-     * Returns the yawnangle
-     * @return the yawnangle as float
+     * Returns the yawn angle
+     * @return the yawn angle as float
      */
     public float getYawn(){
         return this.yawn;
     }
     
     /**
-     * Returns the rollangle
-     * @return the rollangle as float
+     * Returns the roll angle
+     * @return the roll angle as float
      */
     public float getRoll(){
         return this.roll;
