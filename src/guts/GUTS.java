@@ -10,31 +10,28 @@
 package guts;
 
 import guts.actors.Antenna;
+
 import guts.entities.Axis;
 import guts.entities.Location;
-
 import guts.entities.TowerCollection;
 import guts.entities.TrackLog;
 
-import guts.entities.Tower;
-import guts.gui.Image;
 import guts.sensors.GPS;
 import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.LinkedList;
-import javax.swing.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
-public class GUTS {
+public class GUTS implements Runnable {
 
     private static GUI gui;
+    private static GUTS guts;
     
     // Sensors
     private Gyroscope gyroscope;
-    private MagneticFieldSensor magneticFieldSensor;
+    private static MagneticFieldSensor magneticFieldSensor;
     private GPS gps;
     
     private Antenna antenna;
@@ -46,29 +43,45 @@ public class GUTS {
     private TrackLog trackLog;
     private TowerCollection towers;
     
-    
-    
+    private static double angel;
+
     /**
      * The main function
      * @param args the command line arguments
      */
     public static void main(String[] args) throws InterruptedException {
-        GUI gui = new GUI();
-        Thread t1 = new Thread( gui );
         
-        double angle = 20.0;
+        guts = new GUTS();
+        gui = new GUI();
+        
+        Thread t1 = new Thread( gui );
+        Thread t2 = new Thread( guts );
+        
+        t2.start();
+        
         t1.start();
-        t1.join();
+        t1.join();        
         
         while(true) {
-            angle++;
-
-
-            gui.rotateJeep(angle);
-            t1.sleep(200);
-        }
-        //
+            gui.rotateJeep(GUTS.angel);
             
+            Thread.sleep(Config.REFRESHRATE);   
+        }  
+        
+    }
+    
+    @Override 
+    public void run() {
+            while(true) {
+                angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
+                try {
+                //System.out.println(angel);
+                    Thread.sleep(Config.REFRESHRATE);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(GUTS.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
+        
     }
 
     /*
@@ -86,8 +99,7 @@ public class GUTS {
         
         // Create Stores
         this.towers = new TowerCollection();
-        this.trackLog = new TrackLog();
-        
+        this.trackLog = new TrackLog();   
         
         
     }
@@ -121,7 +133,7 @@ public class GUTS {
         Axis newAxis = calculateCorrection(
                     this.gps.fetchLocation(),
                     this.gyroscope.fetchPosition(),
-                    this.magneticFieldSensor.fetchAngleToMagneticNorth(),
+                    this.magneticFieldSensor.fetchAngelToMagneticNorth(),
                     this.towers.findByID(this.activeTower).getLocation()
                 );
         antenna.applyNewAxis(newAxis);
@@ -184,7 +196,7 @@ public class GUTS {
      * @return newAxis as axis object
      */
     private Axis calculateCorrection(Location currentLocation, Axis currentAxis,
-                float currentAngle, Location activeTowerLocation){
+                double currentAngle, Location activeTowerLocation){
         //todo: needs implementation
         return null;
     }
