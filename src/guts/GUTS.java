@@ -30,11 +30,12 @@ public class GUTS {
     
     private Antenna antenna;
     private int activeTower;
-    private TowerCollection towers;
+    
     private boolean storeTrackEnabled;
     private boolean antennaCorrectionEnabled;
     
     private TrackLog trackLog;
+    private TowerCollection towers;
     
     
     
