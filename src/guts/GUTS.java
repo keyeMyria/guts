@@ -12,11 +12,10 @@ package guts;
 import guts.actors.Antenna;
 import guts.entities.Axis;
 import guts.entities.Location;
-import guts.entities.Tower;
+import guts.entities.TowerCollection;
 import guts.sensors.GPS;
 import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
-import java.util.LinkedList;
 
 
 public class GUTS {
@@ -30,7 +29,7 @@ public class GUTS {
     
     private Antenna antenna;
     private int activeTower;
-    private LinkedList towers;
+    private TowerCollection towers;
     private boolean storeTrackEnabled;
     private boolean antennaCorrectionEnabled;
     
@@ -85,7 +84,7 @@ public class GUTS {
                     this.gps.fetchLocation(),
                     this.gyroscope.fetchPosition(),
                     this.magneticFieldSensor.fetchAngleToMagneticNorth(),
-                    this.getTowerByID(this.activeTower).getLocation()
+                    this.towers.findByID(this.activeTower).getLocation()
                 );
         antenna.applyNewAxis(newAxis);
     }
@@ -223,7 +222,7 @@ public class GUTS {
      * Sets the list of towers.
      * @param towers as linked list object
      */
-    private void setTowers(LinkedList towers){
+    private void setTowers(TowerCollection towers){
         this.towers = towers;
     }
     
@@ -231,17 +230,8 @@ public class GUTS {
      * Returns the list of towers.
      * @return towers as linked list object
      */
-    private LinkedList getTowers(){
+    private TowerCollection getTowers(){
         return this.towers;
-    }
-    
-    /**
-     * Returns the tower with given ID from the tower list
-     * @return tower as Tower object
-     */
-    private Tower getTowerByID(int ID){
-        //todo: needs implementation
-        return null;
     }
 
 }
