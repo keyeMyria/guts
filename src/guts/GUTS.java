@@ -31,7 +31,8 @@ public class GUTS implements Runnable {
     
     // Sensors
     private Gyroscope gyroscope;
-    private static MagneticFieldSensor magneticFieldSensor;
+    private MagneticFieldSensor magneticFieldSensor;
+    private MagneticFieldSensor antennaMockObject;
     private GPS gps;
     
     private Antenna antenna;
@@ -44,6 +45,7 @@ public class GUTS implements Runnable {
     private TowerCollection towers;
     
     private static double angel;
+    private static double angelAntenna;
 
     /**
      * The main function
@@ -64,6 +66,7 @@ public class GUTS implements Runnable {
         
         while(true) {
             gui.rotateJeep(GUTS.angel);
+            gui.rotateAntenna(GUTS.angelAntenna);
             
             Thread.sleep(Config.REFRESHRATE);   
         }  
@@ -74,6 +77,7 @@ public class GUTS implements Runnable {
     public void run() {
             while(true) {
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
+                angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
                 try {
                 //System.out.println(angel);
                     Thread.sleep(Config.REFRESHRATE);
@@ -95,6 +99,7 @@ public class GUTS implements Runnable {
         this.gps = new GPS();
         this.gyroscope = new Gyroscope();
         this.magneticFieldSensor = new MagneticFieldSensor();
+        this.antennaMockObject = new MagneticFieldSensor();
         this.antenna = new Antenna();
         
         // Create Stores

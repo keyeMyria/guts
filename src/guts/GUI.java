@@ -11,7 +11,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import org.jdesktop.swingx.*;
 import org.jdesktop.swingx.JXMapKit.DefaultProviders;
-import guts.gui.Image;
+import guts.gui.*;
 import org.jdesktop.swingx.mapviewer.GeoPosition;
 
 /**
@@ -60,12 +60,81 @@ public class GUI extends JFrame implements Runnable {
         leftPanel.setPreferredSize(new Dimension(250,600));
         leftPanel.setLayout(new BoxLayout(leftPanel,BoxLayout.PAGE_AXIS));
         
-        sensorDataPanel = new JPanel(new GridLayout(8,1));
+        sensorDataPanel = new JPanel();
+        sensorDataPanel.setLayout(new BoxLayout(sensorDataPanel,BoxLayout.PAGE_AXIS));
         sensorDataPanel.setBorder(BorderFactory.createTitledBorder("Sensordaten"));
-        axisVisualPanel = new JPanel(new GridLayout(2,1));
+        sensorDataPanel.setPreferredSize(new Dimension(250,240));
+        
+        JLabel l1 = new JLabel("Latitude");
+        l1.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
+        sensorDataPanel.add(l1);
+        sensorDataPanel.add(new JTextField());
+
+        JLabel l2 = new JLabel("Longitude");
+        l2.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
+        sensorDataPanel.add(l2);
+        sensorDataPanel.add(new JTextField());
+
+        JLabel l3 = new JLabel("Ausrichtung");
+        l3.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
+        sensorDataPanel.add(l3);
+        sensorDataPanel.add(new JTextField());
+        
+        JLabel l4 = new JLabel("Geschwindigkeit");
+        l4.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
+        sensorDataPanel.add(l4);
+        sensorDataPanel.add(new JTextField());
+        
+        axisVisualPanel = new JPanel();
+        axisVisualPanel.setLayout(new BorderLayout());
+        axisVisualPanel.add(drawAxisPanel(Config.PITCH_PANEL,0));
+        axisVisualPanel.add(drawAxisPanel(Config.YAWN_PANEL,185));
+        
+        axisVisualPanel.setPreferredSize(new Dimension(250,360));
         
         leftPanel.add(sensorDataPanel);
         leftPanel.add(axisVisualPanel);
+    }
+    
+    private DrawableCanvas drawAxisPanel(int image, int delta) {
+        DrawableCanvas pitchPanel = new DrawableCanvas(0,delta+10,250,170);
+        pitchPanel.setLayout(new BorderLayout());        
+        
+        JLayeredPane layeredMiniMap = new JLayeredPane();
+        
+        pitchPanel.add(layeredMiniMap);
+         
+        DrawableCanvas layer1 = new DrawableCanvas(0,delta+10,250,170);
+        DrawableCanvas layer2 = new DrawableCanvas(0,delta+10,250,170);
+        DrawableCanvas layer3 = new DrawableCanvas(75,delta+135,90,20);
+        
+        RotatableImage jeepSide = null;
+        if(image == Config.PITCH_PANEL) {
+            jeepSide = new guts.gui.RotatableImage("/img/jeep.side.png",120, 70);
+        } else {
+            jeepSide = new guts.gui.RotatableImage("/img/jeep.front.png", 120, 70);
+        }
+        RotatableImage background = new guts.gui.RotatableImage("/img/box.png",120,80);      
+        
+        JLabel label;
+        
+        String a = String.format("%2.2f°", 0.0);
+        
+        label = new JLabel(a);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        Font newLabelFont=new Font(label.getFont().getName(),Font.BOLD,label.getFont().getSize()); 
+        label.setFont(newLabelFont);        
+        layer3.add(label);
+        
+        layeredMiniMap.add(layer1, JLayeredPane.DEFAULT_LAYER);
+        layeredMiniMap.add(layer2, JLayeredPane.POPUP_LAYER);
+        layeredMiniMap.add(layer3, JLayeredPane.DRAG_LAYER);
+        
+        layer1.add(background);
+        layer2.add(jeepSide);
+        
+        return pitchPanel;
+        
     }
     
     private void drawMainPanel() {
@@ -172,6 +241,8 @@ public class GUI extends JFrame implements Runnable {
         mapKit.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
         mapKit.setBounds(0, 0, 752, 602);
         mapKit.setAddressLocation(new GeoPosition(52.483791,13.226141));
+        
+        
                 
         JPanel minimap = drawMinimap();
         
@@ -181,27 +252,40 @@ public class GUI extends JFrame implements Runnable {
         return layeredMap;
     }
     
-    private JPanel drawMinimap() {
-        JPanel panel = new JPanel();     
-        panel.setLayout(new BorderLayout());
-
-        panel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-        panel.setBounds(481,321,280,280);
-        panel.setBackground(new Color(0, 0, 0, 175));
+    private DrawableCanvas drawMinimap() {
+        DrawableCanvas minimap = new DrawableCanvas(481,321,280,280);  
+        minimap.setOpaque(true);
+        minimap.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        minimap.setBackground(new Color(0, 0, 0, 175));
         
+        JLayeredPane layeredMiniMap = new JLayeredPane();
+        
+        minimap.add(layeredMiniMap);
          
-        jeep = new guts.gui.Image("/img/Jeep.top.png",140, 140);
-        jeep.setOpaque(false);
+        DrawableCanvas layer1 = new DrawableCanvas(0,0,280,280);
+        DrawableCanvas layer2 = new DrawableCanvas(0,0,280,280);
         
+        jeep = new guts.gui.RotatableImage("/img/jeep.top.png",140, 140);
+        antenna = new guts.gui.RotatableImage("/img/antenna.png",140,140);        
         
+        layeredMiniMap.add(layer1, JLayeredPane.DEFAULT_LAYER);
+        layeredMiniMap.add(layer2, JLayeredPane.POPUP_LAYER);
         
-        panel.add(jeep);
+        layer1.add(jeep);
+        layer2.add(antenna);
         
-        return panel;
+        return minimap;
     }
     
     public void rotateJeep(double val) {
         jeep.rotateTo(Math.toRadians(val));
+        pack();
+        repaint();
+        this.setVisible(true);
+    }
+    
+    public void rotateAntenna(double val) {
+        antenna.rotateTo(Math.toRadians(val));
         pack();
         repaint();
         this.setVisible(true);
@@ -229,5 +313,6 @@ public class GUI extends JFrame implements Runnable {
     private JButton positionControlToggleButton;
     private JButton positionControlResetButton;    
     
-    public Image jeep;
+    public RotatableImage jeep;
+    public RotatableImage antenna;
 }
