@@ -13,10 +13,14 @@ import guts.actors.Antenna;
 import guts.entities.Axis;
 import guts.entities.Location;
 import guts.entities.Tower;
+import guts.gui.Image;
 import guts.sensors.GPS;
 import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
+import javax.swing.Timer;
 
 
 public class GUTS {
@@ -40,11 +44,23 @@ public class GUTS {
      * The main function
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-     //   gui = new GUI();
-      //  gui.main(null);
-    jeepRotation.Rotator rotator=new jeepRotation.Rotator();
-    
+    public static void main(String[] args) throws InterruptedException {
+        GUI gui = new GUI();
+        Thread t1 = new Thread( gui );
+        
+        double angle = 20.0;
+        t1.start();
+        t1.join();
+        
+        while(true) {
+        angle++;
+        
+        
+        gui.rotateJeep(angle);
+        t1.sleep(200);
+        }
+        //
+            
     }
 
     public GUTS() {
@@ -240,5 +256,4 @@ public class GUTS {
         //todo: needs implementation
         return null;
     }
-
 }
