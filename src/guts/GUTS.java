@@ -16,7 +16,6 @@ import guts.entities.Location;
 import guts.entities.TowerCollection;
 import guts.entities.TrackLog;
 
-import guts.entities.Tower;
 import guts.gui.Image;
 import guts.sensors.GPS;
 import guts.sensors.Gyroscope;
