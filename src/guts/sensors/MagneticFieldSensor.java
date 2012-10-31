@@ -1,6 +1,9 @@
 
 package guts.sensors;
 
+import guts.Config;
+import guts.sim.SimMagneticFieldSensor;
+
 /**
  * This class represents an magneticfieldsensor to allow accessing and
  * interpretating the returned values of the hardwaresensor.
@@ -8,6 +11,15 @@ package guts.sensors;
  */
 public class MagneticFieldSensor {
     private int address;
+    private SimMagneticFieldSensor simMagneticFieldSensor;
+    
+    public MagneticFieldSensor(){
+        this.simMagneticFieldSensor = new SimMagneticFieldSensor();
+    }
+    
+    public MagneticFieldSensor(int address){
+        this.address = address;
+    }
     
     
     /**
@@ -15,7 +27,11 @@ public class MagneticFieldSensor {
      * @return Angle to magnetic north as float
      */
     public float fetchAngleToMagneticNorth(){
-        //todo: needs driver access and implementation
-        return 0;
+        if (Config.SIMULATIONENABLED == true){
+            return this.simMagneticFieldSensor.getAngleToMagneticNorth();
+        } else{
+            // Implement real hardware access
+            return 0;
+        }
     }
 }
