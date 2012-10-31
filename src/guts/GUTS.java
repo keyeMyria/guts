@@ -43,12 +43,32 @@ public class GUTS {
      * The main function
      * @param args the command line arguments
      */
+<<<<<<< HEAD
     public static void main(String[] args) {
         
      //   gui = new GUI();
       //  gui.main(null);
     jeepRotation.Rotator rotator=new jeepRotation.Rotator();
     
+=======
+    public static void main(String[] args) throws InterruptedException {
+        GUI gui = new GUI();
+        Thread t1 = new Thread( gui );
+        
+        double angle = 20.0;
+        t1.start();
+        t1.join();
+        
+        while(true) {
+        angle++;
+        
+        
+        gui.rotateJeep(angle);
+        t1.sleep(200);
+        }
+        //
+            
+>>>>>>> refs/heads/master
     }
 
     /*
@@ -211,5 +231,17 @@ public class GUTS {
     private TowerCollection getTowers(){
         return this.towers;
     }
+<<<<<<< HEAD
 
+=======
+    
+    /**
+     * Returns the tower with given ID from the tower list
+     * @return tower as Tower object
+     */
+    private Tower getTowerByID(int ID){
+        //todo: needs implementation
+        return null;
+    }
+>>>>>>> refs/heads/master
 }
