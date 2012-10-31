@@ -2,7 +2,7 @@
 
 package guts.entities;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * This class represents the location of a object in a two-dimensonal plane.
@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 public class Location {
     private float longitude;
     private float latitude;
-    private Timestamp timestamp;
+    private Date timestamp;
     
     /**
      * Sets the longitude
@@ -49,7 +49,7 @@ public class Location {
      * Sets the timestamp
      * @param timestamp as timestamp
      */
-    public void setTimestamp(Timestamp timestamp){
+    public void setTimestamp(Date timestamp){
         this.timestamp = timestamp;
     }
     
@@ -57,7 +57,7 @@ public class Location {
      * Returns the latitude
      * @return latitude as float 
      */
-    public Timestamp getTimestamp(){
+    public Date getTimestamp(){
         return this.timestamp;
     }
     
