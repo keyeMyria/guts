@@ -13,6 +13,7 @@ import guts.actors.Antenna;
 import guts.entities.Axis;
 import guts.entities.Location;
 import guts.entities.TowerCollection;
+import guts.entities.TrackLog;
 import guts.sensors.GPS;
 import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
@@ -32,6 +33,8 @@ public class GUTS {
     private TowerCollection towers;
     private boolean storeTrackEnabled;
     private boolean antennaCorrectionEnabled;
+    
+    private TrackLog trackLog;
     
     
     
@@ -59,7 +62,12 @@ public class GUTS {
         this.gyroscope = new Gyroscope();
         this.magneticFieldSensor = new MagneticFieldSensor();
         this.antenna = new Antenna();
+        
+        // Create Stores
         this.towers = new TowerCollection();
+        this.trackLog = new TrackLog();
+        
+        
         
     }
     
@@ -103,7 +111,7 @@ public class GUTS {
      * @param currentLocation as location object
      */
     public void saveDataPoint(Location currentLocation){
-        //todo: implementation needed
+        this.trackLog.add(currentLocation);
     }
     
     /**
