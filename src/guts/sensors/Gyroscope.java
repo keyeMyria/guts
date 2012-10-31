@@ -35,7 +35,7 @@ public class Gyroscope {
             a.setYawn(simGyroscope.getYawn());
             return a;
         }else{
-            // Implement real Hardware access
+            // Implement real hardware access
             return null;
         }
         
