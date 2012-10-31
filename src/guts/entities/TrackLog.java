@@ -23,6 +23,10 @@ public class TrackLog implements Iterable<Location>{
         list.add(location);
     }
     
+    public Location getLast(){
+        return list.getLast();
+    }
+    
     /**
      * Returns a iterator
      * @return
