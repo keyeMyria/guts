@@ -41,8 +41,10 @@ public class GUTS {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        gui = new GUI();
-        gui.main(null);
+     //   gui = new GUI();
+      //  gui.main(null);
+    jeepRotation.Rotator rotator=new jeepRotation.Rotator();
+    
     }
 
     /*

@@ -4,6 +4,7 @@
  */
 package guts;
 
+import guts.gui.EasyImage;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -12,7 +13,7 @@ import org.jdesktop.swingx.JXMapKit.DefaultProviders;
 
 /**
  *
- * @author patrick
+ * @author Patrick Selge
  */
 public class GUI extends JFrame {
     
@@ -80,11 +81,9 @@ public class GUI extends JFrame {
         setResizable(false);
         setBackground(Color.lightGray);
         
-        
         mainFrame = getContentPane();
         mainFrame.setBackground(Color.lightGray);
         mainFrame.setPreferredSize(new Dimension(1000,700));
-        
         
         drawLeftPanel();
         drawMainPanel();
@@ -214,7 +213,7 @@ public class GUI extends JFrame {
         
         JPanel minimap = drawMinimap();
         
-        layeredMap.add(mapKit, JLayeredPane.DEFAULT_LAYER);
+        //layeredMap.add(mapKit, JLayeredPane.DEFAULT_LAYER);
         layeredMap.add(minimap, JLayeredPane.POPUP_LAYER);
         
         return layeredMap;
@@ -229,17 +228,14 @@ public class GUI extends JFrame {
         panel.setBackground(new Color(0, 0, 0, 175));
          
         panel.add(drawJeep());
-        
-
+        //drawJeep();
         
         return panel;
     }
     
     private Jeep drawJeep() {
         jeepTop = new Jeep(Jeep.BIRDVIEW);
-        
-        jeepTop.setHorizontalAlignment(SwingConstants.CENTER); 
-        
+                
         return jeepTop;
     }
     
