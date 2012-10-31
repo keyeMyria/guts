@@ -119,8 +119,21 @@ public class GUTS {
      * Calculates and returns the current speed based on the last two datapoints.
      * @return currentSpeed as float
      */
-    public float calculateSpeed(){
-        //todo: implementation needed
+    public double calculateSpeed(){
+//        Location currentLocation = this.gps.fetchLocation();
+//        Location lastLocation = this.trackLog.getLast();
+//        
+//        double lat1 = lastLocation.getLatitudeE6()/1E6;
+//        double lat2 = currentLocation.getLatitudeE6()/1E6;
+//        double lon1 = lastLocation.getLongitudeE6()/1E6;
+//        double lon2 = currentLocation.getLongitudeE6()/1E6;
+//        double dLat = Math.toRadians(lat2-lat1);
+//        double dLon = Math.toRadians(lon2-lon1);
+//        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+//         Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+//         Math.sin(dLon/2) * Math.sin(dLon/2);
+//        double c = 2 * Math.asin(Math.sqrt(a));
+//      return Radius * c;
         return 0;
     }
     
