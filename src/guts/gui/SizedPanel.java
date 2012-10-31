@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package guts;
+package guts.gui;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
