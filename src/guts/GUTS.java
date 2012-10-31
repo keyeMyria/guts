@@ -40,6 +40,7 @@ public class GUTS {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
      //   gui = new GUI();
       //  gui.main(null);
     jeepRotation.Rotator rotator=new jeepRotation.Rotator();
@@ -52,6 +53,14 @@ public class GUTS {
     public GUTS() {
         this.antennaCorrectionEnabled = false;
         this.storeTrackEnabled = false;
+        
+        // Create Hardware
+        this.gps = new GPS();
+        this.gyroscope = new Gyroscope();
+        this.magneticFieldSensor = new MagneticFieldSensor();
+        this.antenna = new Antenna();
+        this.towers = new TowerCollection();
+        
     }
     
     /**
@@ -139,27 +148,11 @@ public class GUTS {
     }
     
     /**
-     * Sets the gyroscope.
-     * @param gyroscope as gyroscope object
-     */
-    private void setGyrosope(Gyroscope gyroscope){
-        this.gyroscope = gyroscope;
-    }
-    
-    /**
      * Returns the gyroscope.
      * @return gyroscope as gyroscope object
      */
     private Gyroscope getGyroscope(){
         return this.gyroscope;
-    }
-    
-    /**
-     * Sets the gps.
-     * @param gps as gps object
-     */
-    private void setGPS(GPS gps){
-        this.gps = gps;
     }
     
     /**
@@ -171,27 +164,11 @@ public class GUTS {
     }
     
     /**
-     * Sets the mageneticfieldsensor.
-     * @param mageneticFieldSensor as MagneticFieldSensor object
-     */
-    private void setMagneticFieldSensor(MagneticFieldSensor mageneticFieldSensor){
-        this.magneticFieldSensor = mageneticFieldSensor;
-    }
-    
-    /**
      * Returns the mageneticfieldsensor.
      * @return magneticFieldSensor as magneticFieldSensor object
      */
     private MagneticFieldSensor getMagneticFieldSensor(){
         return this.magneticFieldSensor;
-    }
-    
-    /**
-     * Sets the antenna.
-     * @param antenna as antenna object
-     */
-    private void setAntenna(Antenna antenna){
-        this.antenna = antenna;
     }
     
     /**
@@ -216,14 +193,6 @@ public class GUTS {
      */
     public int getActiveTower(){
         return this.activeTower;
-    }
-    
-    /**
-     * Sets the list of towers.
-     * @param towers as linked list object
-     */
-    private void setTowers(TowerCollection towers){
-        this.towers = towers;
     }
     
     /**
