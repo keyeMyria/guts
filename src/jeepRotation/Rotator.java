@@ -18,7 +18,7 @@ public class Rotator extends JFrame {
 	public Rotator() {
 		super();
 		
-		add(new Animator(), BorderLayout.CENTER);
+		//add(new Animator(), BorderLayout.CENTER);
 		
 		setVisible(true);
 		pack();

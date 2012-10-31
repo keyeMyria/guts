@@ -4,27 +4,29 @@
  */
 package guts;
 
-import guts.gui.EasyImage;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import org.jdesktop.swingx.*;
 import org.jdesktop.swingx.JXMapKit.DefaultProviders;
+import guts.gui.Image;
+import org.jdesktop.swingx.mapviewer.GeoPosition;
 
 /**
  *
  * @author Patrick Selge
  */
-public class GUI extends JFrame {
+public class GUI extends JFrame implements Runnable {
+    
+
     
     /**
      * Creates new form GUI
      */
     public GUI() {
-        drawInterface();
-        antennaSelection.addItem("Test");
-        antennaControlButton.setText("Deaktivieren");
-        positionStatusLED.setEnabled(false);
+        
+        
+        
         
         //initComponents();
         //jXMapKit1.setAddressLocation(new GeoPosition(52.483791,13.226141));
@@ -32,6 +34,15 @@ public class GUI extends JFrame {
         //drawPitchVisualization();
         //drawCar();      
         //createMapKit();
+    }
+    
+    @Override 
+    public void run() {
+        drawInterface();
+        antennaSelection.addItem("Test");
+        antennaControlButton.setText("Deaktivieren");
+        positionStatusLED.setEnabled(false);
+        this.setVisible(true);
     }
         
     /**
@@ -66,14 +77,8 @@ public class GUI extends JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {       
+
         
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new GUI().setVisible(true);
-            }
-        });
     }
     
     private void drawInterface() {
@@ -210,10 +215,11 @@ public class GUI extends JFrame {
         
         mapKit.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
         mapKit.setBounds(0, 0, 752, 602);
-        
+        mapKit.setAddressLocation(new GeoPosition(52.483791,13.226141));
+                
         JPanel minimap = drawMinimap();
         
-        //layeredMap.add(mapKit, JLayeredPane.DEFAULT_LAYER);
+        layeredMap.add(mapKit, JLayeredPane.DEFAULT_LAYER);
         layeredMap.add(minimap, JLayeredPane.POPUP_LAYER);
         
         return layeredMap;
@@ -226,17 +232,34 @@ public class GUI extends JFrame {
         panel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         panel.setBounds(481,321,280,280);
         panel.setBackground(new Color(0, 0, 0, 175));
+        
          
-        panel.add(drawJeep());
+        jeep = new guts.gui.Image("/guts/Jeep.top.png",140, 140);
+        jeep.setOpaque(false);
+        
+        
+        
+        panel.add(jeep);
+
+        //panel.add(drawJeep());
         //drawJeep();
         
         return panel;
     }
+
     
     private Jeep drawJeep() {
         jeepTop = new Jeep(Jeep.BIRDVIEW);
                 
         return jeepTop;
+    }
+    
+    public void rotateJeep(double val) {
+        System.out.println(val);
+        jeep.rotateTo(Math.toRadians(val));
+        pack();
+        repaint();
+        this.setVisible(true);
     }
     
     private Container mainFrame;
@@ -262,6 +285,10 @@ public class GUI extends JFrame {
     private JButton positionControlResetButton;
     
     private Jeep jeepTop;
+    
+    
+    public Image jeep;
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
