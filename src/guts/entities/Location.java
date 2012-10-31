@@ -60,4 +60,10 @@ public class Location {
     public Timestamp getTimestamp(){
         return this.timestamp;
     }
+    
+    @Override
+    public String toString(){
+        return this.timestamp + " " + this.latitude + " " + this.longitude;
+        
+    }
 }
