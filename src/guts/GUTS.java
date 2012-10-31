@@ -12,11 +12,20 @@ package guts;
 import guts.actors.Antenna;
 import guts.entities.Axis;
 import guts.entities.Location;
+
 import guts.entities.TowerCollection;
 import guts.entities.TrackLog;
+
+import guts.entities.Tower;
+import guts.gui.Image;
 import guts.sensors.GPS;
 import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import javax.swing.Timer;
+
 
 
 public class GUTS {
@@ -43,14 +52,6 @@ public class GUTS {
      * The main function
      * @param args the command line arguments
      */
-<<<<<<< HEAD
-    public static void main(String[] args) {
-        
-     //   gui = new GUI();
-      //  gui.main(null);
-    jeepRotation.Rotator rotator=new jeepRotation.Rotator();
-    
-=======
     public static void main(String[] args) throws InterruptedException {
         GUI gui = new GUI();
         Thread t1 = new Thread( gui );
@@ -60,15 +61,14 @@ public class GUTS {
         t1.join();
         
         while(true) {
-        angle++;
-        
-        
-        gui.rotateJeep(angle);
-        t1.sleep(200);
+            angle++;
+
+
+            gui.rotateJeep(angle);
+            t1.sleep(200);
         }
         //
             
->>>>>>> refs/heads/master
     }
 
     /*
@@ -231,17 +231,5 @@ public class GUTS {
     private TowerCollection getTowers(){
         return this.towers;
     }
-<<<<<<< HEAD
 
-=======
-    
-    /**
-     * Returns the tower with given ID from the tower list
-     * @return tower as Tower object
-     */
-    private Tower getTowerByID(int ID){
-        //todo: needs implementation
-        return null;
-    }
->>>>>>> refs/heads/master
 }
