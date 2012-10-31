@@ -12,6 +12,10 @@ package guts;
 import guts.actors.Antenna;
 import guts.entities.Axis;
 import guts.entities.Location;
+
+import guts.entities.TowerCollection;
+import guts.entities.TrackLog;
+
 import guts.entities.Tower;
 import guts.gui.Image;
 import guts.sensors.GPS;
@@ -21,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import javax.swing.Timer;
+
 
 
 public class GUTS {
@@ -34,9 +39,12 @@ public class GUTS {
     
     private Antenna antenna;
     private int activeTower;
-    private LinkedList towers;
+    
     private boolean storeTrackEnabled;
     private boolean antennaCorrectionEnabled;
+    
+    private TrackLog trackLog;
+    private TowerCollection towers;
     
     
     
@@ -53,19 +61,35 @@ public class GUTS {
         t1.join();
         
         while(true) {
-        angle++;
-        
-        
-        gui.rotateJeep(angle);
-        t1.sleep(200);
+            angle++;
+
+
+            gui.rotateJeep(angle);
+            t1.sleep(200);
         }
         //
             
     }
 
+    /*
+     * Override default constructor for default values.
+     */
     public GUTS() {
         this.antennaCorrectionEnabled = false;
         this.storeTrackEnabled = false;
+        
+        // Create Hardware
+        this.gps = new GPS();
+        this.gyroscope = new Gyroscope();
+        this.magneticFieldSensor = new MagneticFieldSensor();
+        this.antenna = new Antenna();
+        
+        // Create Stores
+        this.towers = new TowerCollection();
+        this.trackLog = new TrackLog();
+        
+        
+        
     }
     
     /**
@@ -98,7 +122,7 @@ public class GUTS {
                     this.gps.fetchLocation(),
                     this.gyroscope.fetchPosition(),
                     this.magneticFieldSensor.fetchAngleToMagneticNorth(),
-                    this.getTowerByID(this.activeTower).getLocation()
+                    this.towers.findByID(this.activeTower).getLocation()
                 );
         antenna.applyNewAxis(newAxis);
     }
@@ -108,15 +132,28 @@ public class GUTS {
      * @param currentLocation as location object
      */
     public void saveDataPoint(Location currentLocation){
-        //todo: implementation needed
+        this.trackLog.add(currentLocation);
     }
     
     /**
      * Calculates and returns the current speed based on the last two datapoints.
      * @return currentSpeed as float
      */
-    public float calculateSpeed(){
-        //todo: implementation needed
+    public double calculateSpeed(){
+//        Location currentLocation = this.gps.fetchLocation();
+//        Location lastLocation = this.trackLog.getLast();
+//        
+//        double lat1 = lastLocation.getLatitudeE6()/1E6;
+//        double lat2 = currentLocation.getLatitudeE6()/1E6;
+//        double lon1 = lastLocation.getLongitudeE6()/1E6;
+//        double lon2 = currentLocation.getLongitudeE6()/1E6;
+//        double dLat = Math.toRadians(lat2-lat1);
+//        double dLon = Math.toRadians(lon2-lon1);
+//        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+//         Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+//         Math.sin(dLon/2) * Math.sin(dLon/2);
+//        double c = 2 * Math.asin(Math.sqrt(a));
+//      return Radius * c;
         return 0;
     }
     
@@ -153,27 +190,11 @@ public class GUTS {
     }
     
     /**
-     * Sets the gyroscope.
-     * @param gyroscope as gyroscope object
-     */
-    private void setGyrosope(Gyroscope gyroscope){
-        this.gyroscope = gyroscope;
-    }
-    
-    /**
      * Returns the gyroscope.
      * @return gyroscope as gyroscope object
      */
     private Gyroscope getGyroscope(){
         return this.gyroscope;
-    }
-    
-    /**
-     * Sets the gps.
-     * @param gps as gps object
-     */
-    private void setGPS(GPS gps){
-        this.gps = gps;
     }
     
     /**
@@ -185,27 +206,11 @@ public class GUTS {
     }
     
     /**
-     * Sets the mageneticfieldsensor.
-     * @param mageneticFieldSensor as MagneticFieldSensor object
-     */
-    private void setMagneticFieldSensor(MagneticFieldSensor mageneticFieldSensor){
-        this.magneticFieldSensor = mageneticFieldSensor;
-    }
-    
-    /**
      * Returns the mageneticfieldsensor.
      * @return magneticFieldSensor as magneticFieldSensor object
      */
-    private MagneticFieldSensor getMagnetivFieldSensor(){
+    private MagneticFieldSensor getMagneticFieldSensor(){
         return this.magneticFieldSensor;
-    }
-    
-    /**
-     * Sets the antenna.
-     * @param antenna as antenna object
-     */
-    private void setAntenna(Antenna antenna){
-        this.antenna = antenna;
     }
     
     /**
@@ -233,27 +238,11 @@ public class GUTS {
     }
     
     /**
-     * Sets the list of towers.
-     * @param towers as linked list object
-     */
-    private void setTowers(LinkedList towers){
-        this.towers = towers;
-    }
-    
-    /**
      * Returns the list of towers.
      * @return towers as linked list object
      */
-    private LinkedList getTowers(){
+    private TowerCollection getTowers(){
         return this.towers;
     }
-    
-    /**
-     * Returns the tower with given ID from the tower list
-     * @return tower as Tower object
-     */
-    private Tower getTowerByID(int ID){
-        //todo: needs implementation
-        return null;
-    }
+
 }
