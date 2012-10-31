@@ -13,14 +13,14 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class Image extends JPanel {
+public class RotatableImage extends JPanel {
     private int centerX, centerY; //Center of the Image
     private int posX, posY;
     private double angel = 0; //Angel in radians
     private BufferedImage img;
 
-    public Image(String str, int posX, int posY) {
-        URL imgResource = Image.class.getResource(str);
+    public RotatableImage(String str, int posX, int posY) {
+        URL imgResource = RotatableImage.class.getResource(str);
         this.posX = posX;
         this.posY = posY;
 
@@ -33,6 +33,8 @@ public class Image extends JPanel {
 
         centerX = img.getWidth();
         centerY = img.getHeight();
+        
+        this.setOpaque(false);
     }
 
     @Override
