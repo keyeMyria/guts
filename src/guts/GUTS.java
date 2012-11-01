@@ -3,7 +3,8 @@
  * A tracking control device that sets the antenna
  * orientation on an offroad vehicle
  * 
- * @author Patrick Selge, Cedric Ohle
+ * @author Patrick Selge
+ * @author Cedric Ohle
  * @version 0.1
  */
 
@@ -106,7 +107,6 @@ public class GUTS implements Runnable {
         this.towers = new TowerCollection();
         this.trackLog = new TrackLog();   
         
-        
     }
     
     /**
@@ -139,7 +139,7 @@ public class GUTS implements Runnable {
                     this.gps.fetchLocation(),
                     this.gyroscope.fetchPosition(),
                     this.magneticFieldSensor.fetchAngelToMagneticNorth(),
-                    this.towers.findByID(this.activeTower).getLocation()
+                    this.towers.get(this.activeTower).getLocation()
                 );
         antenna.applyNewAxis(newAxis);
     }
