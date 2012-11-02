@@ -7,6 +7,7 @@ package guts.gui;
 import guts.Config;
 import guts.gui.comp.DrawableCanvas;
 import guts.gui.comp.RotatableImage;
+import guts.utils.*;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JLayeredPane;
@@ -29,18 +30,36 @@ public final class MapPanel extends JLayeredPane {
         
         JPanel mapKit;
         
-        mapKit.setMiniMapVisible(false);
-        mapKit.setZoomSliderVisible(false);
+        // checks if the computer can reach one of the specified urls
+        if(ConnectionCheck.isOnline("http://www.google.com") ||
+           ConnectionCheck.isOnline("http://www.heise.de")) {
+            
+            JXMapKit mk = new JXMapKit();
+            mk.setName("mapKit");
+            
+
+            mk.setDefaultProvider(JXMapKit.DefaultProviders.OpenStreetMaps); 
+
+            mk.setMiniMapVisible(false);
+            mk.setZoomSliderVisible(false);
+            mk.setAddressLocation(new GeoPosition(52.483791,13.226141)); 
+            
+            mapKit = mk;
+        } else {
+            mapKit = new JPanel();
+            mapKit.setBackground(Color.DARK_GRAY);
+        }
+
+            mapKit.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+            mapKit.setBounds(0, 0, 752, 602);
+                   
         
-        mapKit.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-        mapKit.setBounds(0, 0, 752, 602);
-        mapKit.setAddressLocation(new GeoPosition(52.483791,13.226141));
+            this.add(mapKit, JLayeredPane.DEFAULT_LAYER);
         
         
         JPanel minimap = drawMinimap();
         this.add(minimap, JLayeredPane.POPUP_LAYER);
         
-        this.add(mapKit, JLayeredPane.DEFAULT_LAYER);
     }
     
     private DrawableCanvas drawMinimap() {
