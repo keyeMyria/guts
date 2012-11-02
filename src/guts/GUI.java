@@ -5,25 +5,16 @@
 package guts;
 
 import guts.gui.*;
-import guts.gui.comp.*;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-
-import org.jdesktop.swingx.*;
-import org.jdesktop.swingx.JXMapKit.DefaultProviders;
-import org.jdesktop.swingx.mapviewer.GeoPosition;
 
 /**
  *
  * @author Patrick Selge
  */
 public class GUI extends JFrame implements Runnable {
-    
-    /* will move with it's container element */    
-    
-        
+            
     /**
      * used by GUTS for the creation of a thread
      */

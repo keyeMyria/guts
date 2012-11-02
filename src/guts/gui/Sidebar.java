@@ -4,6 +4,7 @@
  */
 package guts.gui;
 
+import guts.Config;
 import guts.gui.comp.DrawableCanvas;
 import guts.gui.comp.RotatableImage;
 import java.awt.BorderLayout;
@@ -21,7 +22,7 @@ import javax.swing.SwingConstants;
  *
  * @author Patrick Selge
  */
-public class Sidebar extends JPanel {
+public final class Sidebar extends JPanel {
     
     public Sidebar() {
         this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -82,9 +83,9 @@ public class Sidebar extends JPanel {
         
         RotatableImage jeepSide = null;
         if(image == PITCH_PANEL) {
-            jeepSide = new guts.gui.comp.RotatableImage("/img/jeep.side.png",120, 70);
+            jeepSide = new guts.gui.comp.RotatableImage(Config.VEHICLE_SIDE,120, 70);
         } else {
-            jeepSide = new guts.gui.comp.RotatableImage("/img/jeep.front.png", 120, 70);
+            jeepSide = new guts.gui.comp.RotatableImage(Config.VEHICLE_FRONT, 120, 70);
         }
         RotatableImage background = new guts.gui.comp.RotatableImage("/img/box.png",120,80);      
         
@@ -111,8 +112,8 @@ public class Sidebar extends JPanel {
     
     
     
-    private static final int PANEL_WIDTH = 250;
-    private static final int PANEL_HEIGHT = 600;
+    public static final int PANEL_WIDTH = 250;
+    public static final int PANEL_HEIGHT = 600;
     
     public static final int PITCH_PANEL = 0;
     public static final int YAWN_PANEL = 1;

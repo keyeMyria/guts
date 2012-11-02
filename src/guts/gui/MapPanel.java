@@ -4,6 +4,7 @@
  */
 package guts.gui;
 
+import guts.Config;
 import guts.gui.comp.DrawableCanvas;
 import guts.gui.comp.RotatableImage;
 import java.awt.Color;
@@ -18,17 +19,15 @@ import org.jdesktop.swingx.mapviewer.GeoPosition;
  *
  * @author Patrick Selge
  */
-public class MapPanel extends JLayeredPane {
+public final class MapPanel extends JLayeredPane {
     
     public MapPanel() {
         drawMapPanel();
     }
     
-    private void drawMapPanel() {        
-        JXMapKit mapKit = new JXMapKit();
-        mapKit.setName("mapKit");
+    private void drawMapPanel() {   
         
-        mapKit.setDefaultProvider(JXMapKit.DefaultProviders.OpenStreetMaps); 
+        JPanel mapKit;
         
         mapKit.setMiniMapVisible(false);
         mapKit.setZoomSliderVisible(false);
@@ -38,16 +37,14 @@ public class MapPanel extends JLayeredPane {
         mapKit.setAddressLocation(new GeoPosition(52.483791,13.226141));
         
         
-                
         JPanel minimap = drawMinimap();
-        
-        this.add(mapKit, JLayeredPane.DEFAULT_LAYER);
         this.add(minimap, JLayeredPane.POPUP_LAYER);
         
+        this.add(mapKit, JLayeredPane.DEFAULT_LAYER);
     }
     
     private DrawableCanvas drawMinimap() {
-        DrawableCanvas minimap = new DrawableCanvas(481,321,280,280);  
+        DrawableCanvas minimap = new DrawableCanvas(481,Mainframe.FRAME_HEIGHT-Menubar.PANEL_HEIGHT-279,280,280);  
         minimap.setOpaque(true);
         minimap.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         minimap.setBackground(new Color(0, 0, 0, 175));
@@ -59,7 +56,7 @@ public class MapPanel extends JLayeredPane {
         DrawableCanvas layer1 = new DrawableCanvas(0,0,280,280);
         DrawableCanvas layer2 = new DrawableCanvas(0,0,280,280);
         
-        jeep = new guts.gui.comp.RotatableImage("/img/jeep.top.png",140, 140);
+        jeep = new guts.gui.comp.RotatableImage(Config.VEHICLE_TOP,140, 140);
         antenna = new guts.gui.comp.RotatableImage("/img/antenna.png",140,140);        
         
         layeredMiniMap.add(layer1, JLayeredPane.DEFAULT_LAYER);

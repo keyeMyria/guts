@@ -21,7 +21,7 @@ import javax.swing.JPanel;
  *
  * @author patrick
  */
-public class Menubar extends JPanel {
+public final class Menubar extends JPanel {
     
     public Menubar() {
         this.setLayout(new BoxLayout(this,BoxLayout.LINE_AXIS));
@@ -33,7 +33,7 @@ public class Menubar extends JPanel {
     }
     
     private void drawStatusPanel() {
-        TitledBox statusPanel = new TitledBox("Statusinformationen",320,100);
+        TitledBox statusPanel = new TitledBox("Statusinformationen",320,PANEL_HEIGHT);
         
         StatusLED antennaStatusLED = new StatusLED();
         StatusLED positionStatusLED = new StatusLED();
@@ -58,7 +58,7 @@ public class Menubar extends JPanel {
     }
     
     private void drawAntennaControlPanel() {
-        TitledBox antennaControlPanel = new TitledBox("Antennenausrichtung",220,100);
+        TitledBox antennaControlPanel = new TitledBox("Antennenausrichtung",220,PANEL_HEIGHT);
         
         JButton antennaControlButton = drawControlButton("Aktivieren");
         
@@ -96,7 +96,7 @@ public class Menubar extends JPanel {
     }
     
     private void drawPositionControlPanel() {
-        TitledBox positionControlPanel = new TitledBox("Positionsaufzeichnung",220,100);
+        TitledBox positionControlPanel = new TitledBox("Positionsaufzeichnung",220,PANEL_HEIGHT);
         
         JButton positionControlResetButton = drawControlButton("Zurücksetzen");
         JButton positionControlToggleButton = drawControlButton("Aktivieren");
@@ -107,5 +107,5 @@ public class Menubar extends JPanel {
         this.add(positionControlPanel);
     }
     
-    
+    public static final int PANEL_HEIGHT = 100;
 }
