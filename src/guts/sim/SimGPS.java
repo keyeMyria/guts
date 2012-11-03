@@ -6,6 +6,7 @@ package guts.sim;
 
 import guts.Config;
 import guts.entities.Location;
+import java.util.Date;
 
 /**
  *
@@ -38,7 +39,8 @@ public class SimGPS {
         } else {
             this.newLocation.setLongitude(this.newLocation.getLongitude() - longitudedelta);
             this.newLocation.setLatitude(this.newLocation.getLatitude() + Math.sin(angel));
-        } 
+        }
+        this.newLocation.setTimestamp(new Date(System.currentTimeMillis()));
     }
 
     public double getLongitude() {
