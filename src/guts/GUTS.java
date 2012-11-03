@@ -48,7 +48,8 @@ public class GUTS implements Runnable {
     
     private static double angel;
     private static double angelAntenna;
-
+    private static Location locat;
+    
     /**
      * The main function
      * @param args the command line arguments
@@ -71,6 +72,7 @@ public class GUTS implements Runnable {
         while(true) {
             gui.rotateJeep(GUTS.angel);
             //gui.rotateAntenna(GUTS.angelAntenna);
+            gui.moveToWaypoint(GUTS.locat);
             
             gui.repaint();
             
@@ -83,6 +85,7 @@ public class GUTS implements Runnable {
     public void run() {
             while(true) {
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
+                locat = this.gps.fetchLocation();
                 //angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
                 
                 try {
@@ -103,6 +106,7 @@ public class GUTS implements Runnable {
         
         // Create Hardware
         this.gps = new GPS();
+        this.gps.setStartPoint(52.483791, 13.226141);
         
         this.gyroscope = new Gyroscope();
         this.magneticFieldSensor = new MagneticFieldSensor();

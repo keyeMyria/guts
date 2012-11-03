@@ -27,7 +27,7 @@ public class SimMagneticFieldSensor {
         
         
         if(direction != 0) {
-            angel = addRad(angel, direction * delta);
+            angel = addRad(angel, direction * delta)%360;
         }
         
         if(Config.DEBUG >= Config.LOG_ALL) {
