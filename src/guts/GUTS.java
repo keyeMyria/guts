@@ -3,7 +3,8 @@
  * A tracking control device that sets the antenna
  * orientation on an offroad vehicle
  * 
- * @author Patrick Selge, Cedric Ohle
+ * @author Patrick Selge
+ * @author Cedric Ohle
  * @version 0.1
  */
 
@@ -27,8 +28,8 @@ import java.util.logging.Logger;
 
 public class GUTS implements Runnable {
 
-    private static GUI gui;
-    private static GUTS guts;
+    public static GUI gui;
+    public static GUTS guts;
     
     // Sensors
     private Gyroscope gyroscope;
@@ -67,7 +68,9 @@ public class GUTS implements Runnable {
         
         while(true) {
             gui.rotateJeep(GUTS.angel);
-            gui.rotateAntenna(GUTS.angelAntenna);
+            //gui.rotateAntenna(GUTS.angelAntenna);
+            
+            gui.repaint();
             
             Thread.sleep(Config.REFRESHRATE);   
         }  
@@ -78,9 +81,9 @@ public class GUTS implements Runnable {
     public void run() {
             while(true) {
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
-                angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
+                //angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
+                
                 try {
-                //System.out.println(angel);
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(GUTS.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,7 +109,6 @@ public class GUTS implements Runnable {
         // Create Stores
         this.towers = new TowerCollection();
         this.trackLog = new TrackLog();   
-        
         
     }
     
@@ -140,7 +142,7 @@ public class GUTS implements Runnable {
                     this.gps.fetchLocation(),
                     this.gyroscope.fetchPosition(),
                     this.magneticFieldSensor.fetchAngelToMagneticNorth(),
-                    this.towers.findByID(this.activeTower).getLocation()
+                    this.towers.get(this.activeTower).getLocation()
                 );
         antenna.applyNewAxis(newAxis);
     }
@@ -217,7 +219,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the gyroscope.
-     * @return gyroscope as gyroscope object
+     * @return A gyroscope object
      */
     private Gyroscope getGyroscope(){
         return this.gyroscope;
@@ -225,7 +227,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the gps.
-     * @return gps as gps object
+     * @return A gps object
      */
     private GPS getGPS(){
         return this.gps;
@@ -233,7 +235,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the mageneticfieldsensor.
-     * @return magneticFieldSensor as magneticFieldSensor object
+     * @return A magneticFieldSensor object
      */
     private MagneticFieldSensor getMagneticFieldSensor(){
         return this.magneticFieldSensor;
@@ -241,7 +243,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the antenna.
-     * @return antenna as antenna object
+     * @return An antenna object
      */
     private Antenna getAntenna(){
         return this.antenna;
@@ -257,7 +259,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the ID of the active targettower.
-     * @return activeTower as int
+     * @return An activeTower as int
      */
     public int getActiveTower(){
         return this.activeTower;

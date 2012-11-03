@@ -3,48 +3,25 @@
 package guts.entities;
 
 import java.util.Date;
+import org.jdesktop.swingx.mapviewer.GeoPosition;
 
 /**
  * This class represents the location of a object in a two-dimensonal plane.
  * @author Cedric Ohle
+ * @author Patrick Selge
  */
-public class Location {
-    private double longitude;
-    private double latitude;
+public class Location extends GeoPosition {
     private Date timestamp;
-    
-    /**
-     * Sets the longitude
-     * @param longitude as float
-     */
-    public void setLongitude(double longitude){
-        this.longitude = longitude;
+
+    public Location(double latitude, double longitude) {
+        this(longitude, latitude, new Date(System.currentTimeMillis()));
     }
     
-    /**
-     * Sets the latitude
-     * @param latitude as float
-     */
-    public void setLatitude(double latitude){
-        this.latitude = latitude;
+    public Location(double longitude, double latitude, Date date) {
+        super(latitude, longitude);
+        this.timestamp = date;
     }
-    
-    /**
-     * Returns the longitude
-     * @return longitude as float
-     */
-    public double getLongitude(){
-        return this.longitude;
-    }
-    
-    /**
-     * Returns the latitude
-     * @return latitude as float 
-     */
-    public double getLatitude(){
-        return this.latitude;
-    }
-    
+
     /**
      * Sets the timestamp
      * @param timestamp as timestamp
@@ -63,7 +40,7 @@ public class Location {
     
     @Override
     public String toString(){
-        return this.timestamp + " " + this.latitude + " " + this.longitude;
+        return this.timestamp + " " + this.getLatitude() + " " + this.getLongitude();
         
     }
 }
