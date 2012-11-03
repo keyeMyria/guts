@@ -164,7 +164,8 @@ public class GUTS implements Runnable {
         double difftime = currentLocation.getTimestamp().getTime() - 
                 lastLocation.getTimestamp().getTime();
         difftime = Math.abs(difftime/1000.0/60.0/60.0);
-
+        
+        // Earthraidus
         double radius = 6.371;
 
         double lat1 = lastLocation.getLatitude()/1E6;
