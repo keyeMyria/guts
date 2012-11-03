@@ -14,41 +14,42 @@ import java.util.Date;
  */
 public class SimGPS {
     
-    private Location newLocation;
+    private Location location;
     
     public void setLocation(Location startLocation){
-        this.newLocation = startLocation;
+        this.location = startLocation;
     }
     
     public void generateNewLocation(){
         //Todo: Max 180 abfangen, bei Long und lat
-        
+        double newLongitude;
+        double newLatitude;
         double angel = SimMagneticFieldSensor.getCurrentAngel();
         
         double longitudedelta = (Math.random() * 300+1)/(160000000/ Config.REFRESHRATE);
         
         if(angel > 0 && angel <= 90 ){
-            this.newLocation.setLongitude(this.newLocation.getLongitude() + longitudedelta);
-            this.newLocation.setLatitude(this.newLocation.getLatitude() + Math.sin(angel));
+            newLongitude = this.location.getLongitude() + longitudedelta;
+            newLatitude = this.location.getLatitude() + Math.sin(angel);
         } else if(angel > 90 && angel <= 180){
-            this.newLocation.setLongitude(this.newLocation.getLongitude() + longitudedelta);
-            this.newLocation.setLatitude(this.newLocation.getLatitude() - Math.sin(angel));
+            newLongitude = this.location.getLongitude() + longitudedelta;
+            newLatitude = this.location.getLatitude() - Math.sin(angel);
         } else if(angel > 180 && angel <= 270){
-            this.newLocation.setLongitude(this.newLocation.getLongitude() - longitudedelta);
-            this.newLocation.setLatitude(this.newLocation.getLatitude() - Math.sin(angel));
+            newLongitude = this.location.getLongitude() - longitudedelta;
+            newLatitude = this.location.getLatitude() - Math.sin(angel);
         } else {
-            this.newLocation.setLongitude(this.newLocation.getLongitude() - longitudedelta);
-            this.newLocation.setLatitude(this.newLocation.getLatitude() + Math.sin(angel));
+            newLongitude = this.location.getLongitude() - longitudedelta;
+            newLatitude = this.location.getLatitude() + Math.sin(angel);
         }
-        this.newLocation.setTimestamp(new Date(System.currentTimeMillis()));
+        Location newLocation = new Location(newLatitude, newLongitude);
     }
 
     public double getLongitude() {
-        return this.newLocation.getLongitude();
+        return this.location.getLongitude();
     }
 
     public double getLatitude() {
-        return this.newLocation.getLatitude();
+        return this.location.getLatitude();
     }
     
     public Location getLocation() {
