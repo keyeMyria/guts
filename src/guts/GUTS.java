@@ -68,7 +68,7 @@ public class GUTS implements Runnable {
         
         while(true) {
             gui.rotateJeep(GUTS.angel);
-            gui.rotateAntenna(GUTS.angelAntenna);
+            //gui.rotateAntenna(GUTS.angelAntenna);
             
             gui.repaint();
             
@@ -81,7 +81,7 @@ public class GUTS implements Runnable {
     public void run() {
             while(true) {
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
-                angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
+                //angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
                 
                 try {
                     Thread.sleep(Config.REFRESHRATE);

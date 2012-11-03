@@ -5,7 +5,6 @@ package guts.sensors;
 import guts.Config;
 import guts.entities.Location;
 import guts.sim.SimGPS;
-import java.util.Date;
 
 /**
  * This class provides access to the locationdata from a GPS. It handles the
@@ -24,6 +23,10 @@ public class GPS {
         this.simGPS = new SimGPS();
     }
     
+    public void setStartPoint(double longitude, double latitude) {
+        simGPS.setLocation(new Location(longitude, latitude));
+    }
+    
     
     /**
      * This function returns the current location as a location object.
@@ -31,10 +34,7 @@ public class GPS {
      */
     public Location fetchLocation(){
         if (Config.SIMULATIONENABLED == true){
-            Location l = new Location();
-            l.setTimestamp(new Date(System.currentTimeMillis()));
-            l.setLongitude(this.simGPS.getLongitude());
-            l.setLatitude(this.simGPS.getLatitude());
+            Location l = new Location(this.simGPS.getLongitude(), this.simGPS.getLatitude());
             return l;
         }
         else{
