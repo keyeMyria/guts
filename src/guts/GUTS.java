@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 
 
 
+
 public class GUTS implements Runnable {
 
     public static GUI gui;
@@ -159,21 +160,29 @@ public class GUTS implements Runnable {
      * @return currentSpeed as float
      */
     public double calculateSpeed(){
-//        Location currentLocation = this.gps.fetchLocation();
-//        Location lastLocation = this.trackLog.getLast();
-//        
-//        double lat1 = lastLocation.getLatitudeE6()/1E6;
-//        double lat2 = currentLocation.getLatitudeE6()/1E6;
-//        double lon1 = lastLocation.getLongitudeE6()/1E6;
-//        double lon2 = currentLocation.getLongitudeE6()/1E6;
-//        double dLat = Math.toRadians(lat2-lat1);
-//        double dLon = Math.toRadians(lon2-lon1);
-//        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-//         Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-//         Math.sin(dLon/2) * Math.sin(dLon/2);
-//        double c = 2 * Math.asin(Math.sqrt(a));
-//      return Radius * c;
-        return 0;
+        Location currentLocation = this.gps.fetchLocation();
+        Location lastLocation = this.trackLog.getLast();
+
+        double difftime = currentLocation.getTimestamp().getTime() - 
+                lastLocation.getTimestamp().getTime();
+        difftime = Math.abs(difftime/1000.0/60.0/60.0);
+        
+        // Earthraidus
+        double radius = 6.371;
+
+        double lat1 = lastLocation.getLatitude()/1E6;
+        double lat2 = currentLocation.getLatitude()/1E6;
+        double lon1 = lastLocation.getLongitude()/1E6;
+        double lon2 = currentLocation.getLongitude()/1E6;
+        double dLat = Math.toRadians(lat2-lat1);
+        double dLon = Math.toRadians(lon2-lon1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        double distance = radius * c;
+        
+        return distance/difftime;
     }
     
     /**

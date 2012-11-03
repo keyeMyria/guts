@@ -9,15 +9,15 @@ import java.util.Date;
  * @author Cedric Ohle
  */
 public class Location {
-    private float longitude;
-    private float latitude;
+    private double longitude;
+    private double latitude;
     private Date timestamp;
     
     /**
      * Sets the longitude
      * @param longitude as float
      */
-    public void setLongitude(float longitude){
+    public void setLongitude(double longitude){
         this.longitude = longitude;
     }
     
@@ -25,7 +25,7 @@ public class Location {
      * Sets the latitude
      * @param latitude as float
      */
-    public void setLatitude(float latitude){
+    public void setLatitude(double latitude){
         this.latitude = latitude;
     }
     
@@ -33,7 +33,7 @@ public class Location {
      * Returns the longitude
      * @return longitude as float
      */
-    public float getLongitude(){
+    public double getLongitude(){
         return this.longitude;
     }
     
@@ -41,7 +41,7 @@ public class Location {
      * Returns the latitude
      * @return latitude as float 
      */
-    public float getLatitude(){
+    public double getLatitude(){
         return this.latitude;
     }
     

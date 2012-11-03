@@ -62,7 +62,11 @@ public class SimMagneticFieldSensor {
     }
 
     
-    private double angel = 0;
+    protected static double getCurrentAngel(){
+        return angel;
+    }
+    
+    private static double angel = 0;
     private int simLength = 0;
     private int direction = 0;
     
