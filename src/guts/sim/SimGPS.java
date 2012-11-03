@@ -53,7 +53,7 @@ public class SimGPS {
     }
     
     public Location getLocation() {
-        return this.newLocation;
+        return this.location;
     }
     
 }

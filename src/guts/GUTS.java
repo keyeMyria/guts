@@ -64,7 +64,9 @@ public class GUTS implements Runnable {
         t2.start();
         
         t1.start();
-        t1.join();        
+        t1.join();  
+        
+        
         
         while(true) {
             gui.rotateJeep(GUTS.angel);
@@ -101,6 +103,7 @@ public class GUTS implements Runnable {
         
         // Create Hardware
         this.gps = new GPS();
+        
         this.gyroscope = new Gyroscope();
         this.magneticFieldSensor = new MagneticFieldSensor();
         this.antennaMockObject = new MagneticFieldSensor();
