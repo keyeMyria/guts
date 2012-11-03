@@ -52,7 +52,6 @@ public class GUI extends JFrame implements Runnable {
     }
     
     
-    private Mainframe mainframe;
-  
+    private Mainframe mainframe;  
     
 }

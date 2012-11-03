@@ -31,14 +31,14 @@ public class SimGPS {
             newLongitude = this.location.getLongitude() + longitudedelta;
             newLatitude = this.location.getLatitude() + (Math.sin(Math.toRadians(angel))/(DIVIDER/(Config.REFRESHRATE*1000)));
         } else if(angel > 90 && angel <= 180){
-            newLongitude = this.location.getLongitude() - longitudedelta;
-            newLatitude = this.location.getLatitude() + (Math.sin(Math.toRadians(angel))/(DIVIDER/(Config.REFRESHRATE*1000)));
+            newLongitude = this.location.getLongitude() + longitudedelta;
+            newLatitude = this.location.getLatitude() - (Math.sin(Math.toRadians(angel))/(DIVIDER/(Config.REFRESHRATE*1000)));
         } else if(angel > 180 && angel <= 270){
             newLongitude = this.location.getLongitude() - longitudedelta;
             newLatitude = this.location.getLatitude() - (Math.sin(Math.toRadians(angel))/(DIVIDER/(Config.REFRESHRATE*1000)));
         } else {
-            newLongitude = this.location.getLongitude() + longitudedelta;
-            newLatitude = this.location.getLatitude() - (Math.sin(Math.toRadians(angel))/(DIVIDER/(Config.REFRESHRATE*1000)));
+            newLongitude = this.location.getLongitude() - longitudedelta;
+            newLatitude = this.location.getLatitude() + (Math.sin(Math.toRadians(angel))/(DIVIDER/(Config.REFRESHRATE*1000)));
         }
 
         this.location = new Location(newLatitude, newLongitude);
