@@ -36,16 +36,10 @@ public class GUI extends JFrame implements Runnable {
     
     public void rotateJeep(double val) {
         mainframe.getJeep().rotateTo(Math.toRadians(val));
-        pack();
-        repaint();
-        this.setVisible(true);
     }
     
     public void rotateAntenna(double val) {
         mainframe.getAntenna().rotateTo(Math.toRadians(val));
-        pack();
-        repaint();
-        this.setVisible(true);
     }
     
     private Mainframe mainframe;

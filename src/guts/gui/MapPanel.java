@@ -5,6 +5,7 @@
 package guts.gui;
 
 import guts.Config;
+import guts.*;
 import guts.gui.comp.DrawableCanvas;
 import guts.gui.comp.RotatableImage;
 import guts.utils.*;
@@ -18,13 +19,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JLayeredPane;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
@@ -36,7 +41,6 @@ import org.jdesktop.swingx.mapviewer.GeoPosition;
 import org.jdesktop.swingx.mapviewer.Waypoint;
 import org.jdesktop.swingx.mapviewer.WaypointPainter;
 import org.jdesktop.swingx.mapviewer.WaypointRenderer;
-import org.jdesktop.swingx.painter.Painter;
 
 /**
  *
@@ -51,14 +55,37 @@ public final class MapPanel extends JLayeredPane {
     private JPopupMenu popUpMenu;
     
     public class TowerIcon extends Waypoint {
-        public TowerIcon(double x, double y) {
+        private String name;
+        
+        public TowerIcon(double x, double y, String name) {
             super(x,y);
+            this.name = name;
+        }
+        
+        public String getName() {
+            return this.name;
         }
     }
     
+    private String askForTowerName() {
+        //JOptionPane.showMessageDialog(mv, "Eggs are not supposed to be green.");
+        
+        Object x = "sss";
+        
+        String s = "";
+        while(s.equals("")) {
+            s = (String)JOptionPane.showInputDialog(
+                        this,
+                        "Wie soll der Tower heißen?",
+                        "");
+        }
+        return s;
+    }
+        
     // used to pan using press and drag mouse gestures
     private class PanMouseInputListener implements MouseInputListener {
         
+        @Override
         public void mousePressed(MouseEvent evt) {
             
             if (SwingUtilities.isRightMouseButton(evt)) {
@@ -120,18 +147,23 @@ public final class MapPanel extends JLayeredPane {
         popUpMenu.add(newTower);
         JMenuItem newWaypoint = new JMenuItem("Neuer Wegpunkt");
         popUpMenu.add(newWaypoint);
-        JMenuItem disableSimulation = new JMenuItem("Stope Simulation");
+        JMenuItem disableSimulation = new JMenuItem("Stoppe Simulation");
         disableSimulation.setEnabled(false);
         popUpMenu.add(disableSimulation);
 
  
         newTower.addActionListener(new ActionListener(){
+            @Override
             public void actionPerformed(ActionEvent e){
-                waypoints.add(new TowerIcon(geopos.getLatitude(), geopos.getLongitude()));
+                String name = askForTowerName();
+                waypoints.add(new TowerIcon(geopos.getLatitude(), geopos.getLongitude(), name));
+                Menubar.antennaSelection.addItem(name);
+                
             }
         });
         
         newWaypoint.addActionListener(new ActionListener(){
+            @Override
             public void actionPerformed(ActionEvent e){
                 waypoints.add(new Waypoint(geopos.getLatitude(), geopos.getLongitude()));
             }
@@ -164,11 +196,17 @@ public final class MapPanel extends JLayeredPane {
             painter.setWaypoints(waypoints);
             
             painter.setRenderer(new WaypointRenderer() {
+                @Override
                 public boolean paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint wp) {
                     if(wp instanceof TowerIcon) {
-                        g.setColor(Color.RED);
-                        g.drawLine(-5,-5,+5,+5);
-                        g.drawLine(-5,+5,+5,-5);
+                        TowerIcon towerIcon = (TowerIcon) wp;
+                        try {
+                            g.drawImage(ImageIO.read(MapPanel.class.getResource("/img/antennamast.png")), null, -11,-21);
+                        } catch (Exception ex) {
+                            Logger.getLogger(MapPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        g.setColor(Color.BLACK);
+                        g.drawString(towerIcon.getName(), 20, 4);
                     } else {
                         g.setColor(Color.BLUE);
                         g.drawOval(0, 0, 5, 5);
@@ -179,6 +217,9 @@ public final class MapPanel extends JLayeredPane {
             });
             
             mv = mk.getMainMap();
+            
+            mv.setZoom(1);
+            //mv.addMouseWheelListener(null);
             mv.setOverlayPainter(painter);
             
             MouseInputListener mia = new PanMouseInputListener();

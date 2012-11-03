@@ -27,8 +27,8 @@ import java.util.logging.Logger;
 
 public class GUTS implements Runnable {
 
-    private static GUI gui;
-    private static GUTS guts;
+    public static GUI gui;
+    public static GUTS guts;
     
     // Sensors
     private Gyroscope gyroscope;
@@ -68,6 +68,8 @@ public class GUTS implements Runnable {
         while(true) {
             gui.rotateJeep(GUTS.angel);
             gui.rotateAntenna(GUTS.angelAntenna);
+            
+            gui.repaint();
             
             Thread.sleep(Config.REFRESHRATE);   
         }  

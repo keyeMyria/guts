@@ -70,9 +70,8 @@ public final class Menubar extends JPanel {
     private JPanel drawAntennaSelection() {
         SizedPanel panel = new SizedPanel(220,35,FlowLayout.CENTER);
         
-        JComboBox antennaSelection = new JComboBox();
-        antennaSelection.addItem("Mast 1");
-        antennaSelection.addItem("Mast 2");
+        antennaSelection = new JComboBox();
+
         
         panel.add(new JLabel("Antenne:"));
         panel.add(antennaSelection);
@@ -107,4 +106,5 @@ public final class Menubar extends JPanel {
     }
     
     public static final int PANEL_HEIGHT = 100;
+    public static JComboBox antennaSelection;
 }

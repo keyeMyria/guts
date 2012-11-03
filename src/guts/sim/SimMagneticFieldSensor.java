@@ -60,6 +60,7 @@ public class SimMagneticFieldSensor {
     private double getDeltaAngel() {
         return ((int)(Math.random() * 300 + 1))/(16000.0 / Config.REFRESHRATE);
     }
+
     
     private double angel = 0;
     private int simLength = 0;
