@@ -14,10 +14,10 @@ public class Location extends GeoPosition {
     private Date timestamp;
 
     public Location(double latitude, double longitude) {
-        this(longitude, latitude, new Date(System.currentTimeMillis()));
+        this(latitude, longitude, new Date(System.currentTimeMillis()));
     }
     
-    public Location(double longitude, double latitude, Date date) {
+    public Location(double latitude, double longitude, Date date) {
         super(latitude, longitude);
         this.timestamp = date;
     }

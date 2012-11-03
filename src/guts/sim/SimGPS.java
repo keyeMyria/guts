@@ -51,4 +51,8 @@ public class SimGPS {
         return this.newLocation.getLatitude();
     }
     
+    public Location getLocation() {
+        return this.newLocation;
+    }
+    
 }

@@ -23,8 +23,8 @@ public class GPS {
         this.simGPS = new SimGPS();
     }
     
-    public void setStartPoint(double longitude, double latitude) {
-        simGPS.setLocation(new Location(longitude, latitude));
+    public void setStartPoint(double latitude, double longitude) {
+        simGPS.setLocation(new Location(latitude, longitude));
     }
     
     
@@ -33,8 +33,8 @@ public class GPS {
      * @return location as a location object
      */
     public Location fetchLocation(){
-        if (Config.SIMULATIONENABLED == true){
-            Location l = new Location(this.simGPS.getLongitude(), this.simGPS.getLatitude());
+        if (Config.SIMULATIONENABLED){
+            Location l = simGPS.getLocation();
             return l;
         }
         else{
