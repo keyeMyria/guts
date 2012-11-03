@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * GUTS - GPS Utilized Tracking System
  */
 package guts.gui;
 
@@ -19,7 +18,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author patrick
+ * @author Patrick Selge
  */
 public final class Menubar extends JPanel {
     

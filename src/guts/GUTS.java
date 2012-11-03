@@ -208,7 +208,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the gyroscope.
-     * @return gyroscope as gyroscope object
+     * @return A gyroscope object
      */
     private Gyroscope getGyroscope(){
         return this.gyroscope;
@@ -216,7 +216,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the gps.
-     * @return gps as gps object
+     * @return A gps object
      */
     private GPS getGPS(){
         return this.gps;
@@ -224,7 +224,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the mageneticfieldsensor.
-     * @return magneticFieldSensor as magneticFieldSensor object
+     * @return A magneticFieldSensor object
      */
     private MagneticFieldSensor getMagneticFieldSensor(){
         return this.magneticFieldSensor;
@@ -232,7 +232,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the antenna.
-     * @return antenna as antenna object
+     * @return An antenna object
      */
     private Antenna getAntenna(){
         return this.antenna;
@@ -248,7 +248,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the ID of the active targettower.
-     * @return activeTower as int
+     * @return An activeTower as int
      */
     public int getActiveTower(){
         return this.activeTower;

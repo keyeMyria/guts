@@ -11,6 +11,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -41,22 +42,33 @@ public final class Sidebar extends JPanel {
         JLabel l1 = new JLabel("Latitude");
         l1.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
         sensorDataPanel.add(l1);
-        sensorDataPanel.add(new JTextField());
+        JTextField latitudeTextField = new JTextField();
+        latitudeTextField.setEditable(false);
+        sensorDataPanel.add(latitudeTextField);
 
         JLabel l2 = new JLabel("Longitude");
         l2.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
         sensorDataPanel.add(l2);
-        sensorDataPanel.add(new JTextField());
+        JTextField longitudeTextField = new JTextField();
+        longitudeTextField.setEditable(false);
+        sensorDataPanel.add(longitudeTextField);
 
         JLabel l3 = new JLabel("Ausrichtung");
         l3.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
         sensorDataPanel.add(l3);
-        sensorDataPanel.add(new JTextField());
+        JTextField orientationTextField = new JTextField();
+        orientationTextField.setEditable(false);
+        sensorDataPanel.add(orientationTextField);
         
         JLabel l4 = new JLabel("Geschwindigkeit");
         l4.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
         sensorDataPanel.add(l4);
-        sensorDataPanel.add(new JTextField());
+        JTextField speedTextField = new JTextField();
+        speedTextField.setEditable(false);
+        sensorDataPanel.add(speedTextField);
+        
+        sensorDataPanel.add(Box.createRigidArea(new Dimension(0,5)));
+
         
         JPanel axisVisualPanel = new JPanel();
         axisVisualPanel.setLayout(new BorderLayout());

@@ -7,6 +7,7 @@ package guts;
 /**
  *
  * @author Cedric Ohle
+ * @author Patrick Selge
  */
 public class Config {
     // enumerations
