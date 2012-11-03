@@ -6,7 +6,6 @@ package guts.sim;
 
 import guts.Config;
 import guts.entities.Location;
-import java.util.Date;
 
 /**
  *
@@ -42,14 +41,6 @@ public class SimGPS {
             newLatitude = this.location.getLatitude() + Math.sin(angel);
         }
         Location newLocation = new Location(newLatitude, newLongitude);
-    }
-
-    public double getLongitude() {
-        return this.location.getLongitude();
-    }
-
-    public double getLatitude() {
-        return this.location.getLatitude();
     }
     
     public Location getLocation() {
