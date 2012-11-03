@@ -41,6 +41,7 @@ public class SimGPS {
             newLatitude = this.location.getLatitude() + Math.sin(angel);
         }
         Location newLocation = new Location(newLatitude, newLongitude);
+        this.location = newLocation;
     }
     
     public Location getLocation() {
