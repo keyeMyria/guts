@@ -10,6 +10,7 @@ import guts.entities.Location;
 /**
  *
  * @author Cedric Ohle
+ * @author Patrick Selge
  */
 public class SimGPS {
     
@@ -26,15 +27,34 @@ public class SimGPS {
         double angel = SimMagneticFieldSensor.getCurrentAngel();
         System.out.println(angel + "\n");
         
-        double longitudedelta = (Math.random() * 300+1)/(DIVIDER/ Config.REFRESHRATE);
+        double speed = Math.abs(((angel%90)+1)-45);
+        if(speed == 0) {
+            speed = 1;
+        }
         
-        if(angel > 0 && angel <= 90 ){
+        double longitudedelta = ((Math.random() * 300+1)/(DIVIDER/ Config.REFRESHRATE))/speed;
+        
+        if(angel == 0) {
+                newLongitude = this.location.getLongitude() + longitudedelta;
+                newLatitude = this.location.getLatitude();
+        } else if(angel == 90) {
+                newLongitude = this.location.getLongitude();
+                newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(90-angel))*longitudedelta/(DIVIDER/(Config.REFRESHRATE*1000000)));
+        } else if(angel == 180) {
+                newLongitude = this.location.getLongitude() - longitudedelta;
+                newLatitude = this.location.getLatitude();
+                
+        } else if(angel == 270) {
+                newLongitude = this.location.getLongitude();
+                newLatitude = this.location.getLatitude() - (Math.tan(Math.toRadians(270-angel))*longitudedelta/(DIVIDER/(Config.REFRESHRATE*1000000)));
+                
+        } else if(angel > 0 && angel < 90 ){
             newLongitude = this.location.getLongitude() + longitudedelta;
             newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(90-angel))*longitudedelta/(DIVIDER/(Config.REFRESHRATE*1000000)));
-        } else if(angel > 90 && angel <= 180){
+        } else if(angel > 90 && angel < 180){
             newLongitude = this.location.getLongitude() + longitudedelta;
             newLatitude = this.location.getLatitude() - (Math.tan(Math.toRadians(angel-90))*longitudedelta/(DIVIDER/(Config.REFRESHRATE*1000000)));
-        } else if(angel > 180 && angel <= 270){
+        } else if(angel > 180 && angel < 270){
             newLongitude = this.location.getLongitude() - longitudedelta;
             newLatitude = this.location.getLatitude() - (Math.tan(Math.toRadians(270-angel))*longitudedelta/(DIVIDER/(Config.REFRESHRATE*1000000)));
         } else {
