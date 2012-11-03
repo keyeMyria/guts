@@ -26,10 +26,19 @@ public class SimGPS {
         
         double longitudedelta = (Math.random() * 300+1)/(160000000/ Config.REFRESHRATE);
         
-        this.newLocation.setLongitude(this.newLocation.getLongitude() + longitudedelta);
-        
-        this.newLocation.setLatitude(this.newLocation.getLatitude() + Math.sin(angel));
-        
+        if(angel > 0 && angel <= 90 ){
+            this.newLocation.setLongitude(this.newLocation.getLongitude() + longitudedelta);
+            this.newLocation.setLatitude(this.newLocation.getLatitude() + Math.sin(angel));
+        } else if(angel > 90 && angel <= 180){
+            this.newLocation.setLongitude(this.newLocation.getLongitude() + longitudedelta);
+            this.newLocation.setLatitude(this.newLocation.getLatitude() - Math.sin(angel));
+        } else if(angel > 180 && angel <= 270){
+            this.newLocation.setLongitude(this.newLocation.getLongitude() - longitudedelta);
+            this.newLocation.setLatitude(this.newLocation.getLatitude() - Math.sin(angel));
+        } else {
+            this.newLocation.setLongitude(this.newLocation.getLongitude() - longitudedelta);
+            this.newLocation.setLatitude(this.newLocation.getLatitude() + Math.sin(angel));
+        } 
     }
 
     public double getLongitude() {
