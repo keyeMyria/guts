@@ -69,9 +69,7 @@ public final class MapPanel extends JLayeredPane {
     
     private String askForTowerName() {
         //JOptionPane.showMessageDialog(mv, "Eggs are not supposed to be green.");
-        
-        Object x = "sss";
-        
+                
         String s = "";
         while(s.equals("")) {
             s = (String)JOptionPane.showInputDialog(

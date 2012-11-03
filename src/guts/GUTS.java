@@ -81,8 +81,8 @@ public class GUTS implements Runnable {
             while(true) {
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
                 angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
+                
                 try {
-                //System.out.println(angel);
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(GUTS.class.getName()).log(Level.SEVERE, null, ex);
