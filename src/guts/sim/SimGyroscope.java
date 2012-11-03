@@ -4,21 +4,31 @@
  */
 package guts.sim;
 
+import guts.entities.Axis;
+
 /**
  *
  * @author Cedric Ohle
  */
 public class SimGyroscope {
+    
+    private Axis axis;
+    
 
-    public float getPitch() {
+
+    public double getPitch() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public float getRoll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double getRoll() {
+        // -45 bis +45 Grad
+        double roll = Math.random();
+        
+        
+        return roll;
     }
 
-    public float getYawn() {
+    public double getYawn() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

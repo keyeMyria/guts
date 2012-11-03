@@ -15,7 +15,7 @@ class Engine {
      * moves it.
      * @params angle the new angle as float
      */
-    public void moveToAngle(float angle){
+    public void moveToAngle(double angle){
         //todo: needs implementation
     }
     
@@ -32,7 +32,7 @@ class Engine {
      * Allows moving of the servoengine.
      * @params move the direction and distance
      */
-    private void move(float move){
+    private void move(double move){
         //todo: needs driver access and implementation
     }
 }
