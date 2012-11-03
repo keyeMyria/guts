@@ -21,7 +21,7 @@ public class SimGyroscope {
     }
 
     public double getRoll() {
-        // -45 bis +45 Grad
+        //TODO: -45 bis +45 Grad
         double roll = Math.random();
         
         
