@@ -29,12 +29,9 @@ public class SimGPS {
             System.out.println("Winkel im GPS: " + angel);
         }
         
-        double speed = Math.abs(((angel%90)+1)-45);
-        if(speed == 0) {
-            speed = 1;
-        }
+        double speed = Math.abs(((angel%90 )+1)/45);
         
-        double longitudedelta = ((Math.random() * 300+1)/(DIVIDER/ Config.REFRESHRATE))/speed;
+        double longitudedelta = ((Math.random() * 300+1)/(DIVIDER/ Config.REFRESHRATE))*speed;
         
         if(angel == 0) {
                 newLongitude = this.location.getLongitude() + longitudedelta;
