@@ -25,7 +25,9 @@ public class SimGPS {
         double newLongitude;
         double newLatitude;
         double angel = SimMagneticFieldSensor.getCurrentAngel();
-        System.out.println(angel + "\n");
+        if(Config.DEBUG >= Config.LOG_ALL) {
+            System.out.println("Winkel im GPS: " + angel);
+        }
         
         double speed = Math.abs(((angel%90)+1)-45);
         if(speed == 0) {
