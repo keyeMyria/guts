@@ -25,15 +25,17 @@ public class SimMagneticFieldSensor {
 
         double delta = getDeltaAngel();
         
-        
+     
         if(direction != 0) {
-            angel = addRad(angel, direction * delta)%360;
+            angel = Math.abs(angel + (direction * delta))%360;
             if(angel<0) {
                 angel = 360-angel;
+            } else if(angel>359){
+                angel = angel-359;
             }
             
         }
-        
+              
         if(Config.DEBUG >= Config.LOG_ALL) {
             System.out.println("Magnetic Field Sensor: retries:" + simLength + 
                     " | direction:" + direction + " | orientation:" + angel + 
