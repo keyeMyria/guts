@@ -11,6 +11,16 @@ public class Axis {
     private double yawn;
     private double roll;
     
+    public Axis(){
+        
+    }
+    
+    public Axis(double pitch, double yawn, double roll){
+        this.pitch = pitch;
+        this.yawn = yawn;
+        this.roll = roll;
+    }
+    
     /**
      * Sets the pitch angle
      * @param pitch as float
@@ -57,5 +67,10 @@ public class Axis {
      */
     public double getRoll(){
         return this.roll;
+    }
+    
+    @Override
+    public String toString(){
+        return ("Roll: " + this.roll + " Pitch: " + this.pitch + " Yawn: " + this.yawn);
     }
 }
