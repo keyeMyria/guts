@@ -123,22 +123,14 @@ public class GUTS implements Runnable {
      * Enable/Disable the antennacorrection mechanism. 
      */
     public void toggleAntennaCorrection(){
-        if (this.antennaCorrectionEnabled == true){
-            this.antennaCorrectionEnabled = false;
-        }else{
-            this.antennaCorrectionEnabled = true;
-        }
+        this.antennaCorrectionEnabled = !(this.antennaCorrectionEnabled);
     }
     
     /**
      * Enable/Disable the trackrecording mechanism.
      */
     public void toggleTrackRecording(){
-        if (this.storeTrackEnabled == true){
-            this.storeTrackEnabled = false;
-        }else{
-            this.storeTrackEnabled = true;
-        }
+        this.storeTrackEnabled = !(this.storeTrackEnabled);
     }
     
     /**
