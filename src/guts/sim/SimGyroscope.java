@@ -37,7 +37,8 @@ public class SimGyroscope {
     
     
     public Axis getPosition(){
-        
+        // Momentan berechnen wir yawn nicht, da wir den Wert aus dem Compass erhalten
+        // und nie interpretieren
         if(rollSimLength <= 0) {
             rollSimLength = (int)(Math.random() * (1600 / Config.REFRESHRATE)) + 1;
             rollDirection = getNextDirection();  
