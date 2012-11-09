@@ -210,8 +210,28 @@ public class GUTS implements Runnable {
      */
     private Axis calculateCorrection(Location currentLocation, Axis currentAxis,
                 double currentAngle, Location activeTowerLocation){
-        //todo: needs implementation
-        return null;
+        
+        double i, Angle, newAngle;
+        
+        //...
+        
+        Angle = Math.atan(Math.toRadians(i));
+        
+        if (Angle>=0 && Angle<=90) {
+          newAngle = 90 - Angle;  
+        }
+        
+        if (Angle>90 && Angle<=180) {
+         newAngle = 180 - Angle;   
+        }
+        
+        if (Angle>180 && Angle<=270) {
+            newAngle = 270 - Angle;
+        }
+        if (Angle>270 && Angle<=360) {
+            newAngle = 360 - Angle;
+        }
+        return newAngle;
     }
     
     /**
