@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * GUTS - GPS Utilized Tracking System
  */
 package guts.gui;
 
@@ -19,9 +18,9 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author patrick
+ * @author Patrick Selge
  */
-public class Menubar extends JPanel {
+public final class Menubar extends JPanel {
     
     public Menubar() {
         this.setLayout(new BoxLayout(this,BoxLayout.LINE_AXIS));
@@ -33,7 +32,7 @@ public class Menubar extends JPanel {
     }
     
     private void drawStatusPanel() {
-        TitledBox statusPanel = new TitledBox("Statusinformationen",320,100);
+        TitledBox statusPanel = new TitledBox("Statusinformationen",320,PANEL_HEIGHT);
         
         StatusLED antennaStatusLED = new StatusLED();
         StatusLED positionStatusLED = new StatusLED();
@@ -58,7 +57,7 @@ public class Menubar extends JPanel {
     }
     
     private void drawAntennaControlPanel() {
-        TitledBox antennaControlPanel = new TitledBox("Antennenausrichtung",220,100);
+        TitledBox antennaControlPanel = new TitledBox("Antennenausrichtung",220,PANEL_HEIGHT);
         
         JButton antennaControlButton = drawControlButton("Aktivieren");
         
@@ -71,9 +70,8 @@ public class Menubar extends JPanel {
     private JPanel drawAntennaSelection() {
         SizedPanel panel = new SizedPanel(220,35,FlowLayout.CENTER);
         
-        JComboBox antennaSelection = new JComboBox();
-        antennaSelection.addItem("Mast 1");
-        antennaSelection.addItem("Mast 2");
+        antennaSelection = new JComboBox();
+
         
         panel.add(new JLabel("Antenne:"));
         panel.add(antennaSelection);
@@ -96,7 +94,7 @@ public class Menubar extends JPanel {
     }
     
     private void drawPositionControlPanel() {
-        TitledBox positionControlPanel = new TitledBox("Positionsaufzeichnung",220,100);
+        TitledBox positionControlPanel = new TitledBox("Positionsaufzeichnung",220,PANEL_HEIGHT);
         
         JButton positionControlResetButton = drawControlButton("Zurücksetzen");
         JButton positionControlToggleButton = drawControlButton("Aktivieren");
@@ -107,5 +105,6 @@ public class Menubar extends JPanel {
         this.add(positionControlPanel);
     }
     
-    
+    public static final int PANEL_HEIGHT = 100;
+    public static JComboBox antennaSelection;
 }

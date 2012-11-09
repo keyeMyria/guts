@@ -4,12 +4,14 @@
  */
 package guts.gui;
 
+import guts.Config;
 import guts.gui.comp.DrawableCanvas;
 import guts.gui.comp.RotatableImage;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -21,7 +23,7 @@ import javax.swing.SwingConstants;
  *
  * @author Patrick Selge
  */
-public class Sidebar extends JPanel {
+public final class Sidebar extends JPanel {
     
     public Sidebar() {
         this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -40,22 +42,33 @@ public class Sidebar extends JPanel {
         JLabel l1 = new JLabel("Latitude");
         l1.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
         sensorDataPanel.add(l1);
-        sensorDataPanel.add(new JTextField());
+        JTextField latitudeTextField = new JTextField();
+        latitudeTextField.setEditable(false);
+        sensorDataPanel.add(latitudeTextField);
 
         JLabel l2 = new JLabel("Longitude");
         l2.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
         sensorDataPanel.add(l2);
-        sensorDataPanel.add(new JTextField());
+        JTextField longitudeTextField = new JTextField();
+        longitudeTextField.setEditable(false);
+        sensorDataPanel.add(longitudeTextField);
 
         JLabel l3 = new JLabel("Ausrichtung");
         l3.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
         sensorDataPanel.add(l3);
-        sensorDataPanel.add(new JTextField());
+        JTextField orientationTextField = new JTextField();
+        orientationTextField.setEditable(false);
+        sensorDataPanel.add(orientationTextField);
         
         JLabel l4 = new JLabel("Geschwindigkeit");
         l4.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
         sensorDataPanel.add(l4);
-        sensorDataPanel.add(new JTextField());
+        JTextField speedTextField = new JTextField();
+        speedTextField.setEditable(false);
+        sensorDataPanel.add(speedTextField);
+        
+        sensorDataPanel.add(Box.createRigidArea(new Dimension(0,5)));
+
         
         JPanel axisVisualPanel = new JPanel();
         axisVisualPanel.setLayout(new BorderLayout());
@@ -82,9 +95,9 @@ public class Sidebar extends JPanel {
         
         RotatableImage jeepSide = null;
         if(image == PITCH_PANEL) {
-            jeepSide = new guts.gui.comp.RotatableImage("/img/jeep.side.png",120, 70);
+            jeepSide = new guts.gui.comp.RotatableImage(Config.VEHICLE_SIDE,120, 70);
         } else {
-            jeepSide = new guts.gui.comp.RotatableImage("/img/jeep.front.png", 120, 70);
+            jeepSide = new guts.gui.comp.RotatableImage(Config.VEHICLE_FRONT, 120, 70);
         }
         RotatableImage background = new guts.gui.comp.RotatableImage("/img/box.png",120,80);      
         
@@ -111,8 +124,8 @@ public class Sidebar extends JPanel {
     
     
     
-    private static final int PANEL_WIDTH = 250;
-    private static final int PANEL_HEIGHT = 600;
+    public static final int PANEL_WIDTH = 250;
+    public static final int PANEL_HEIGHT = 600;
     
     public static final int PITCH_PANEL = 0;
     public static final int YAWN_PANEL = 1;

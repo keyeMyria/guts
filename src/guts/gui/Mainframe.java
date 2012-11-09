@@ -29,6 +29,10 @@ public final class Mainframe {
         setMapPanel(new MapPanel());   
     }
     
+    public MapPanel getMapPanel() {
+        return mapPanel;
+    }
+    
     public RotatableImage getJeep() {
         return this.mapPanel.getJeep();
     }
@@ -62,6 +66,6 @@ public final class Mainframe {
     private Menubar menubar;
     private MapPanel mapPanel;
     
-    private static final int FRAME_WIDTH = 1000;
-    private static final int FRAME_HEIGHT = 700;
+    public static final int FRAME_WIDTH = 1000;
+    public static final int FRAME_HEIGHT = 700;
 }
