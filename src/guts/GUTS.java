@@ -220,8 +220,8 @@ public class GUTS implements Runnable {
         deltay = activeTowerLocation.getLatitude() - currentLocation.getLatitude();
         
        if (deltay == 0) {
-            newAngle = 450 - currentAngle;
-                 
+       newAngle = 450 - currentAngle;
+       }          
        if (deltax == 0) {
           newAngle = 360 - currentAngle;
        }
