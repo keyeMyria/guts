@@ -34,31 +34,36 @@ public class SimGPS {
         double longitudedelta = ((Math.random() * 300+1)/(DIVIDER/ Config.REFRESHRATE))*speed;
         
         if(angel == 0) {
-                newLongitude = this.location.getLongitude() + longitudedelta;
-                newLatitude = this.location.getLatitude();
-        } else if(angel == 90) {
+                //TODO x=x y=y+dy
                 newLongitude = this.location.getLongitude();
-                newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(90-angel))*longitudedelta/(DIVIDER/(Config.REFRESHRATE*1000000)));
+                newLatitude = this.location.getLatitude() + (Math.random() * 300+1)/(DIVIDER/ Config.REFRESHRATE);
+        } else if(angel == 90) {
+                //TODO x=dx+x y=y
+                newLongitude = this.location.getLongitude() + longitudedelta;
+                newLatitude = this.location.getLatitude() ;
         } else if(angel == 180) {
+                //TODO x=x y=y-dy
+                newLongitude = this.location.getLongitude();
+                newLatitude = this.location.getLatitude() - (Math.random() * 300+1)/(DIVIDER/ Config.REFRESHRATE);
+                
+        } else if(angel == 270) {
+                //TODO x=x-dx y=y
                 newLongitude = this.location.getLongitude() - longitudedelta;
                 newLatitude = this.location.getLatitude();
                 
-        } else if(angel == 270) {
-                newLongitude = this.location.getLongitude();
-                newLatitude = this.location.getLatitude() - (Math.tan(Math.toRadians(270-angel))*longitudedelta/(DIVIDER/(Config.REFRESHRATE*1000000)));
-                
         } else if(angel > 0 && angel < 90 ){
             newLongitude = this.location.getLongitude() + longitudedelta;
-            newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(90-angel))*longitudedelta/(DIVIDER/(Config.REFRESHRATE*1000000)));
+            newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(90-angel))*longitudedelta);
         } else if(angel > 90 && angel < 180){
             newLongitude = this.location.getLongitude() + longitudedelta;
-            newLatitude = this.location.getLatitude() - (Math.tan(Math.toRadians(angel-90))*longitudedelta/(DIVIDER/(Config.REFRESHRATE*1000000)));
+            newLatitude = this.location.getLatitude() - (Math.tan(Math.toRadians(angel-90))*longitudedelta);
         } else if(angel > 180 && angel < 270){
             newLongitude = this.location.getLongitude() - longitudedelta;
-            newLatitude = this.location.getLatitude() - (Math.tan(Math.toRadians(270-angel))*longitudedelta/(DIVIDER/(Config.REFRESHRATE*1000000)));
+            newLatitude = this.location.getLatitude() - (Math.tan(Math.toRadians(270-angel))*longitudedelta);
+            // /(DIVIDER/(Config.REFRESHRATE*1000000))
         } else {
             newLongitude = this.location.getLongitude() - longitudedelta;
-            newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(angel-270))*longitudedelta/(DIVIDER/(Config.REFRESHRATE*1000000)));
+            newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(angel-270))*longitudedelta);
         }
 
         this.location = new Location(newLatitude, newLongitude);
