@@ -28,8 +28,8 @@ import java.util.logging.Logger;
 
 public class GUTS implements Runnable {
 
-    private static GUI gui;
-    private static GUTS guts;
+    public static GUI gui;
+    public static GUTS guts;
     
     // Sensors
     private Gyroscope gyroscope;
@@ -48,7 +48,8 @@ public class GUTS implements Runnable {
     
     private static double angel;
     private static double angelAntenna;
-
+    private static Location locat;
+    
     /**
      * The main function
      * @param args the command line arguments
@@ -64,11 +65,16 @@ public class GUTS implements Runnable {
         t2.start();
         
         t1.start();
-        t1.join();        
+        t1.join();  
+        
+        
         
         while(true) {
             gui.rotateJeep(GUTS.angel);
-            gui.rotateAntenna(GUTS.angelAntenna);
+            //gui.rotateAntenna(GUTS.angelAntenna);
+            gui.moveToWaypoint(GUTS.locat);
+            
+            gui.repaint();
             
             Thread.sleep(Config.REFRESHRATE);   
         }  
@@ -79,9 +85,10 @@ public class GUTS implements Runnable {
     public void run() {
             while(true) {
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
-                angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
+                locat = this.gps.fetchLocation();
+                //angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
+                
                 try {
-                //System.out.println(angel);
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(GUTS.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,6 +106,8 @@ public class GUTS implements Runnable {
         
         // Create Hardware
         this.gps = new GPS();
+        this.gps.setStartPoint(52.483791, 13.226141);
+        
         this.gyroscope = new Gyroscope();
         this.magneticFieldSensor = new MagneticFieldSensor();
         this.antennaMockObject = new MagneticFieldSensor();
@@ -114,22 +123,14 @@ public class GUTS implements Runnable {
      * Enable/Disable the antennacorrection mechanism. 
      */
     public void toggleAntennaCorrection(){
-        if (this.antennaCorrectionEnabled == true){
-            this.antennaCorrectionEnabled = false;
-        }else{
-            this.antennaCorrectionEnabled = true;
-        }
+        this.antennaCorrectionEnabled = !(this.antennaCorrectionEnabled);
     }
     
     /**
      * Enable/Disable the trackrecording mechanism.
      */
     public void toggleTrackRecording(){
-        if (this.storeTrackEnabled == true){
-            this.storeTrackEnabled = false;
-        }else{
-            this.storeTrackEnabled = true;
-        }
+        this.storeTrackEnabled = !(this.storeTrackEnabled);
     }
     
     /**
@@ -164,7 +165,8 @@ public class GUTS implements Runnable {
         double difftime = currentLocation.getTimestamp().getTime() - 
                 lastLocation.getTimestamp().getTime();
         difftime = Math.abs(difftime/1000.0/60.0/60.0);
-
+        
+        // Earthraidus
         double radius = 6.371;
 
         double lat1 = lastLocation.getLatitude()/1E6;
@@ -216,7 +218,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the gyroscope.
-     * @return gyroscope as gyroscope object
+     * @return A gyroscope object
      */
     private Gyroscope getGyroscope(){
         return this.gyroscope;
@@ -224,7 +226,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the gps.
-     * @return gps as gps object
+     * @return A gps object
      */
     private GPS getGPS(){
         return this.gps;
@@ -232,7 +234,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the mageneticfieldsensor.
-     * @return magneticFieldSensor as magneticFieldSensor object
+     * @return A magneticFieldSensor object
      */
     private MagneticFieldSensor getMagneticFieldSensor(){
         return this.magneticFieldSensor;
@@ -240,7 +242,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the antenna.
-     * @return antenna as antenna object
+     * @return An antenna object
      */
     private Antenna getAntenna(){
         return this.antenna;
@@ -256,7 +258,7 @@ public class GUTS implements Runnable {
     
     /**
      * Returns the ID of the active targettower.
-     * @return activeTower as int
+     * @return An activeTower as int
      */
     public int getActiveTower(){
         return this.activeTower;

@@ -7,15 +7,25 @@ package guts.entities;
  * @author Cedric Ohle
  */
 public class Axis {
-    private float pitch;
-    private float yawn;
-    private float roll;
+    private double pitch;
+    private double yawn;
+    private double roll;
+    
+    public Axis(){
+        
+    }
+    
+    public Axis(double pitch, double yawn, double roll){
+        this.pitch = pitch;
+        this.yawn = yawn;
+        this.roll = roll;
+    }
     
     /**
      * Sets the pitch angle
      * @param pitch as float
      */
-    public void setPitch(float pitch){
+    public void setPitch(double pitch){
         this.pitch = pitch;
     }
     
@@ -23,7 +33,7 @@ public class Axis {
      * Sets the yawn angle
      * @param yawn as float
      */
-    public void setYawn(float yawn){
+    public void setYawn(double yawn){
         this.yawn = yawn;
     }
     
@@ -31,7 +41,7 @@ public class Axis {
      * Sets the roll angle
      * @param roll as float
      */
-    public void setRoll(float roll){
+    public void setRoll(double roll){
         this.roll = roll;
     }
     
@@ -39,7 +49,7 @@ public class Axis {
      * Returns the pitch angle
      * @return the pitch angle as float
      */
-    public float getPitch(){
+    public double getPitch(){
         return this.pitch;
     }
     
@@ -47,7 +57,7 @@ public class Axis {
      * Returns the yawn angle
      * @return the yawn angle as float
      */
-    public float getYawn(){
+    public double getYawn(){
         return this.yawn;
     }
     
@@ -55,7 +65,12 @@ public class Axis {
      * Returns the roll angle
      * @return the roll angle as float
      */
-    public float getRoll(){
+    public double getRoll(){
         return this.roll;
+    }
+    
+    @Override
+    public String toString(){
+        return ("Roll: " + this.roll + " Pitch: " + this.pitch + " Yawn: " + this.yawn);
     }
 }
