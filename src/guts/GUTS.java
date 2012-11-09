@@ -214,25 +214,39 @@ public class GUTS implements Runnable {
                 double currentAngle, Location activeTowerLocation){
         
         double i, Angle, newAngle;
+        double deltax, deltay;
         
-        //...
+        deltax = activeTowerLocation.getLongitude() - currentLocation.getLongitude();
+        deltay = activeTowerLocation.getLatitude() - currentLocation.getLatitude();
         
+        if (deltay == 0) {
+            Angle =
+        }
+        
+        if (deltax == 0) {
         Angle = Math.atan(Math.toRadians(i));
+        newAngle = 90 - Angle;  
+          
+        }else{
+          i=deltay/deltax;
+          Angle = Math.atan(Math.toRadians(i));
         
-        if (Angle>=0 && Angle<=90) {
+          if (Angle>=0 && Angle<=90) {
           newAngle = 90 - Angle;  
+          }
+        
+          if (Angle>90 && Angle<=180) {
+          newAngle = 180 - Angle;   
+          }
+        
+          if (Angle>180 && Angle<=270) {
+          newAngle = 270 - Angle;
+          }
+          if (Angle>270 && Angle<=360) {
+          newAngle = 360 - Angle;
+          }
         }
         
-        if (Angle>90 && Angle<=180) {
-         newAngle = 180 - Angle;   
-        }
-        
-        if (Angle>180 && Angle<=270) {
-            newAngle = 270 - Angle;
-        }
-        if (Angle>270 && Angle<=360) {
-            newAngle = 360 - Angle;
-        }
         return newAngle;
     }
     
