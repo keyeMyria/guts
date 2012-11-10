@@ -35,7 +35,6 @@ public class GUTS implements Runnable {
     // Sensors
     private Gyroscope gyroscope;
     private MagneticFieldSensor magneticFieldSensor;
-    private MagneticFieldSensor antennaMockObject;
     private GPS gps;
     
     private Antenna antenna;
@@ -49,6 +48,7 @@ public class GUTS implements Runnable {
     
     private static double angel;
     private static Location locat;
+    private static Axis axis;
     
     /**
      * The main function
@@ -89,6 +89,7 @@ public class GUTS implements Runnable {
             while(true) {
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
                 locat = this.gps.fetchLocation();
+                axis = this.gyroscope.fetchPosition();
                 //angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
                 
                 try {
@@ -113,7 +114,6 @@ public class GUTS implements Runnable {
         
         this.gyroscope = new Gyroscope();
         this.magneticFieldSensor = new MagneticFieldSensor();
-        this.antennaMockObject = new MagneticFieldSensor();
         this.antenna = new Antenna();
         
         // Create Stores
@@ -121,8 +121,11 @@ public class GUTS implements Runnable {
         this.trackLog = new TrackLog();   
         
         magneticFieldSensor.addObserver(gui.getJeepTop());
+        magneticFieldSensor.addObserver(gui.getOrientationStatusBox());
         gps.addObserver(gui.getLongitutdeStatusBox());
         gps.addObserver(gui.getLatitudeStatusBox());
+        gyroscope.addObserver(gui.getJeepFront());
+        gyroscope.addObserver(gui.getJeepSide());
     }
     
     /**

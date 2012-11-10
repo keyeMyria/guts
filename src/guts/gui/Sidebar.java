@@ -4,11 +4,13 @@
  */
 package guts.gui;
 
+import guts.gui.comp.AxisVisualisation;
+import guts.gui.comp.StatusBox;
 import guts.Config;
+import guts.entities.Axis;
 import guts.entities.Location;
 import guts.gui.comp.DrawableCanvas;
 import guts.gui.comp.RotatableImage;
-import guts.sensors.GPS;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -20,7 +22,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 /**
@@ -37,38 +38,56 @@ public final class Sidebar extends JPanel {
     }
     
     private void drawLeftPanel() {
-
-        JPanel sensorDataPanel = new JPanel();
-        sensorDataPanel.setLayout(new BoxLayout(sensorDataPanel,BoxLayout.PAGE_AXIS));
-        sensorDataPanel.setBorder(BorderFactory.createTitledBorder("Sensordaten"));
-        sensorDataPanel.setPreferredSize(new Dimension(PANEL_WIDTH,240));
+        // Initializing and configuring the 'Status Panel'
+        JPanel statusPanel = new JPanel();
+        statusPanel.setLayout(new BoxLayout(statusPanel,BoxLayout.PAGE_AXIS));
+        statusPanel.setBorder(BorderFactory.createTitledBorder("Sensordaten"));
+        statusPanel.setPreferredSize(new Dimension(PANEL_WIDTH,240));
         
-        drawStatusPanel(sensorDataPanel);
+        drawStatusPanel(statusPanel);
   
-        sensorDataPanel.add(Box.createRigidArea(new Dimension(0,5)));
+        statusPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
         
-        JPanel axisVisualPanel = new JPanel();
-        axisVisualPanel.setLayout(new BorderLayout());
+        // Initializing and configuring the 'Visual Panel' (The two bubbles with the cars in'em
+        JPanel visPanel = new JPanel();
+        visPanel.setLayout(new BorderLayout());
+        visPanel.setPreferredSize(new Dimension(PANEL_WIDTH,360));
         
-        jeepSide = new VisualAxisPanel(Config.VEHICLE_SIDE,185);
+        // Creating the visualization of the front
+        jeepFront = new AxisVisualisation(Config.VEHICLE_FRONT,0) {
+            @Override
+            public void update(Observable t, Object o) {
+                image.rotateTo(Math.toRadians(((Axis)o).getRoll()));
+                text.setText(((Axis)o).getRoll());
+            }
+        };
+        visPanel.add(jeepFront);
+
+        // Creating the visualization of the side
+        jeepSide = new AxisVisualisation(Config.VEHICLE_SIDE,185) {
+            @Override
+            public void update(Observable t, Object o) {
+                image.rotateTo(Math.toRadians(((Axis)o).getPitch()));
+                text.setText(((Axis)o).getPitch());
+            }
+        };
+        visPanel.add(jeepSide);
         
-        axisVisualPanel.add(jeepSide);
-        axisVisualPanel.add(drawAxisPanel(YAWN_PANEL,185));
         
-        axisVisualPanel.setPreferredSize(new Dimension(PANEL_WIDTH,360));
         
-        this.add(sensorDataPanel);
-        this.add(axisVisualPanel);
+        // Adding the two panels to the sidebar
+        this.add(statusPanel);
+        this.add(visPanel);
     }
     
     private void drawStatusPanel(JPanel panel) {
         latitudeStatus = new StatusBox("Latitude") {
             @Override
             public void update(Observable t, Object o) {
-                if(o instanceof Location) {
-                    this.textField.setText(MessageFormat.format("{0,number,##.#####}",((Location)o).getLatitude()));
-                }
+                this.textField.setText(
+                        MessageFormat.format("{0,number,##.#####}",
+                        ((Location)o).getLatitude()));
             }
         };
         panel.add(latitudeStatus);
@@ -76,9 +95,9 @@ public final class Sidebar extends JPanel {
         longitudeStatus = new StatusBox("Longitude") {
             @Override
             public void update(Observable t, Object o) {
-                if(o instanceof Location) {
-                    this.textField.setText(MessageFormat.format("{0,number,##.#####}",((Location)o).getLongitude()));
-                }
+                this.textField.setText(
+                        MessageFormat.format("{0,number,##.#####}",
+                        ((Location)o).getLongitude()));
             }
         };
         panel.add(longitudeStatus);
@@ -90,46 +109,8 @@ public final class Sidebar extends JPanel {
         panel.add(speedStatus);
     }
     
-    private DrawableCanvas drawAxisPanel(int image, int delta) {
-        DrawableCanvas pitchPanel = new DrawableCanvas(0,delta+10,250,170);
-        pitchPanel.setLayout(new BorderLayout());        
-        
-        JLayeredPane layeredMiniMap = new JLayeredPane();
-        
-        pitchPanel.add(layeredMiniMap);
-         
-        DrawableCanvas layer1 = new DrawableCanvas(0,delta+10,250,170);
-        DrawableCanvas layer2 = new DrawableCanvas(0,delta+10,250,170);
-        DrawableCanvas layer3 = new DrawableCanvas(75,delta+135,90,20);
-        
-        RotatableImage jeepSide = null;
-        if(image == PITCH_PANEL) {
-            jeepSide = new guts.gui.comp.RotatableImage(Config.VEHICLE_SIDE,120, 70);
-        } else {
-            jeepSide = new guts.gui.comp.RotatableImage(Config.VEHICLE_FRONT, 120, 70);
-        }
-        RotatableImage background = new guts.gui.comp.RotatableImage("/img/box.png",120,80);      
-        
-        JLabel label;
-        
-        String a = String.format("%2.2f°", 0.0);
-        
-        label = new JLabel(a);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        Font newLabelFont=new Font(label.getFont().getName(),Font.BOLD,label.getFont().getSize()); 
-        label.setFont(newLabelFont);        
-        layer3.add(label);
-        
-        layeredMiniMap.add(layer1, JLayeredPane.DEFAULT_LAYER);
-        layeredMiniMap.add(layer2, JLayeredPane.POPUP_LAYER);
-        layeredMiniMap.add(layer3, JLayeredPane.DRAG_LAYER);
-        
-        layer1.add(background);
-        layer2.add(jeepSide);
-        
-        return pitchPanel;
-        
-    }
+    
+    
     
     public StatusBox getLatitudeStatusBox() {
         return latitudeStatus;
@@ -139,14 +120,30 @@ public final class Sidebar extends JPanel {
         return longitudeStatus;
     }
     
+    public AxisVisualisation getJeepSide() {
+        return jeepSide;
+    }
+    
+    public AxisVisualisation getJeepFront() {
+        return jeepFront;
+    }
+    
+    public StatusBox getOrientationStatusBox() {
+        return orientationStatus;
+    }
+    
+    public StatusBox getSpeedStatusBox() {
+        return speedStatus;
+    }
+    
     
     private StatusBox latitudeStatus;
     private StatusBox longitudeStatus;
     private StatusBox orientationStatus;
     private StatusBox speedStatus;
     
-    private VisualAxisPanel jeepSide;
-    private VisualAxisPanel jeepFront;
+    private AxisVisualisation jeepSide;
+    private AxisVisualisation jeepFront;
     
     public static final int PANEL_WIDTH = 250;
     public static final int PANEL_HEIGHT = 600;

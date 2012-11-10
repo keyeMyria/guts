@@ -21,13 +21,15 @@ public class SimMagneticFieldSensor {
         if(simLength <= 0) {
             simLength = (int)(Math.random() * (1600 / Config.REFRESHRATE)) + 1;
             direction = getNextDirection();  
+            direction = 1;
         }        
 
         double delta = getDeltaAngel();
         
      
         if(direction != 0) {
-            angel = Math.abs(angel + (direction * delta))%360;
+            angel = angel + (direction * delta);
+            angel = (angel < 0) ? (angel + 360) : (angel % 360); 
         }
               
         if(Config.DEBUG >= Config.LOG_ALL) {

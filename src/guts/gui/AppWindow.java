@@ -34,16 +34,8 @@ public final class AppWindow {
         return mapPanel;
     }
     
-    public RotatableImage getJeepTop() {
-        return this.mapPanel.getJeepTop();
-    }
-    
-    public StatusBox getLongitutdeStatusBox() {
-        return this.sidebar.getLongitutdeStatusBox();
-    }
-    
-    public StatusBox getLatitudeStatusBox() {
-        return this.sidebar.getLatitudeStatusBox();
+    public Sidebar getSidebar() {
+        return this.sidebar;
     }
     
     private void setMainCanvas(JPanel mc) {

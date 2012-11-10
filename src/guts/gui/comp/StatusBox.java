@@ -2,9 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package guts.gui;
+package guts.gui.comp;
 
-import guts.entities.Location;
 import java.text.MessageFormat;
 import java.util.Observable;
 import javax.swing.BorderFactory;
@@ -40,8 +39,7 @@ public class StatusBox extends JPanel implements java.util.Observer {
     
     @Override
     public void update(Observable t, Object o) {
-        this.textField.setText(MessageFormat.format("{0,number,##.##}",o));
-        textField.setText("" + o);
+        this.textField.setText(MessageFormat.format("{0,number,##.####}",o));
     }
     
     protected JTextField textField;

@@ -3,6 +3,8 @@
  */
 package guts.gui;
 
+import guts.gui.comp.AxisVisualisation;
+import guts.gui.comp.StatusBox;
 import guts.entities.Location;
 import guts.gui.*;
 import guts.gui.comp.RotatableImage;
@@ -45,15 +47,31 @@ public class GUI extends JFrame implements Runnable {
     }
     
     public RotatableImage getJeepTop() {
-        return this.appWindow.getJeepTop();
+        return appWindow.getMapPanel().getJeepTop();
     }
     
     public StatusBox getLongitutdeStatusBox() {
-        return this.appWindow.getLongitutdeStatusBox();
+        return appWindow.getSidebar().getLongitutdeStatusBox();
     }
     
     public StatusBox getLatitudeStatusBox() {
-        return this.appWindow.getLatitudeStatusBox();
+        return appWindow.getSidebar().getLatitudeStatusBox();
+    }
+    
+    public StatusBox getOrientationStatusBox() {
+        return appWindow.getSidebar().getOrientationStatusBox();
+    }
+    
+    public StatusBox getSpeedStatusBox() {
+        return appWindow.getSidebar().getSpeedStatusBox();
+    }
+    
+    public AxisVisualisation getJeepFront() {
+        return appWindow.getSidebar().getJeepFront();
+    }
+    
+    public AxisVisualisation getJeepSide() {
+        return appWindow.getSidebar().getJeepSide();
     }
     
     private AppWindow appWindow;  
