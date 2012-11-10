@@ -3,7 +3,7 @@
  */
 package guts.gui;
 
-import guts.gui.comp.AxisVisualisation;
+import guts.gui.comp.AxisVisualization;
 import guts.gui.comp.StatusBox;
 import guts.entities.Location;
 import guts.gui.*;
@@ -66,11 +66,11 @@ public class GUI extends JFrame implements Runnable {
         return appWindow.getSidebar().getSpeedStatusBox();
     }
     
-    public AxisVisualisation getJeepFront() {
+    public AxisVisualization getJeepFront() {
         return appWindow.getSidebar().getJeepFront();
     }
     
-    public AxisVisualisation getJeepSide() {
+    public AxisVisualization getJeepSide() {
         return appWindow.getSidebar().getJeepSide();
     }
     

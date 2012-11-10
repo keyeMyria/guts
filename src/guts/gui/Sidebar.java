@@ -4,7 +4,7 @@
  */
 package guts.gui;
 
-import guts.gui.comp.AxisVisualisation;
+import guts.gui.comp.AxisVisualization;
 import guts.gui.comp.StatusBox;
 import guts.Config;
 import guts.entities.Axis;
@@ -55,7 +55,7 @@ public final class Sidebar extends JPanel {
         visPanel.setPreferredSize(new Dimension(PANEL_WIDTH,360));
         
         // Creating the visualization of the front
-        jeepFront = new AxisVisualisation(Config.VEHICLE_FRONT,0) {
+        jeepFront = new AxisVisualization(Config.VEHICLE_FRONT,0) {
             @Override
             public void update(Observable t, Object o) {
                 image.rotateTo(Math.toRadians(((Axis)o).getRoll()));
@@ -65,7 +65,7 @@ public final class Sidebar extends JPanel {
         visPanel.add(jeepFront);
 
         // Creating the visualization of the side
-        jeepSide = new AxisVisualisation(Config.VEHICLE_SIDE,185) {
+        jeepSide = new AxisVisualization(Config.VEHICLE_SIDE,185) {
             @Override
             public void update(Observable t, Object o) {
                 image.rotateTo(Math.toRadians(((Axis)o).getPitch()));
@@ -120,11 +120,11 @@ public final class Sidebar extends JPanel {
         return longitudeStatus;
     }
     
-    public AxisVisualisation getJeepSide() {
+    public AxisVisualization getJeepSide() {
         return jeepSide;
     }
     
-    public AxisVisualisation getJeepFront() {
+    public AxisVisualization getJeepFront() {
         return jeepFront;
     }
     
@@ -142,8 +142,8 @@ public final class Sidebar extends JPanel {
     private StatusBox orientationStatus;
     private StatusBox speedStatus;
     
-    private AxisVisualisation jeepSide;
-    private AxisVisualisation jeepFront;
+    private AxisVisualization jeepSide;
+    private AxisVisualization jeepFront;
     
     public static final int PANEL_WIDTH = 250;
     public static final int PANEL_HEIGHT = 600;

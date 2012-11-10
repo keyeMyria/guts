@@ -4,11 +4,7 @@
  */
 package guts.gui.comp;
 
-import guts.gui.comp.VisualTextLabel;
 import guts.Config;
-import guts.gui.comp.DrawableCanvas;
-import guts.gui.comp.MultiLayeredPane;
-import guts.gui.comp.RotatableImage;
 import java.awt.BorderLayout;
 import java.util.Observable;
 
@@ -16,9 +12,9 @@ import java.util.Observable;
  *
  * @author Patrick Selge
  */
-public class AxisVisualisation extends DrawableCanvas implements java.util.Observer {
+public class AxisVisualization extends DrawableCanvas implements java.util.Observer {
 
-    public AxisVisualisation(String img, int delta) {
+    public AxisVisualization(String img, int delta) {
         super(0,delta+10,250,170);
         this.setLayout(new BorderLayout());
         
