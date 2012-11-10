@@ -48,7 +48,7 @@ public class GUI extends JFrame implements Runnable,MouseInputListener,ActionLis
     public void moveToWaypoint(Location locat) {
         Set<Waypoint> wp = appWindow.getMapPanel().getWaypoints();
         wp.add(new Waypoint(locat.getLatitude(), locat.getLongitude()));
-        System.out.println(locat);
+        //System.out.println(locat);
     }
     
     public RotatableImage getJeepTop() {

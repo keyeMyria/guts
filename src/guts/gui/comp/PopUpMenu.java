@@ -8,7 +8,6 @@ import guts.gui.GUI;
 import guts.gui.MapPanel;
 import guts.gui.Menubar;
 import guts.gui.entities.TowerIcon;
-import guts.gui.events.RightClickListener;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +38,7 @@ public class PopUpMenu extends JPopupMenu {
         newTower.addActionListener(controller);
     }
     
-    private String askForTowerName() {                
+    public String askForTowerName() {                
         String s = "";
         while(s.equals("")) {
             s = (String)JOptionPane.showInputDialog(

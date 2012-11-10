@@ -4,17 +4,17 @@
  */
 package guts.gui;
 
-import guts.gui.events.RightClickListener;
 import guts.Config;
 import guts.gui.comp.DrawableCanvas;
 import guts.gui.comp.OSMViewer;
 import guts.gui.comp.PopUpMenu;
 import guts.gui.comp.RotatableImage;
-import guts.gui.entities.TowerIcon;
+import guts.gui.entities.*;
 import guts.utils.*;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
+import java.awt.PopupMenu;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +29,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.MouseInputListener;
@@ -50,10 +49,10 @@ public final class MapPanel extends JLayeredPane {
     private Set<TowerIcon> towers = new HashSet<TowerIcon>();
     private Set<Breakpoint> breakpoints = new HashSet<Breakpoint>();
             
-    private WaypointPainter painter = new WaypointPainter();
+    private WaypointPainter painter = new TrackDrawer(waypoints);
     GeoPosition geopos;
     
-    private JPopupMenu popUpMenu;
+    private PopUpMenu popUpMenu;
     
     public Set<Waypoint> getWaypoints() {
         return this.waypoints;
@@ -91,30 +90,7 @@ public final class MapPanel extends JLayeredPane {
            ConnectionCheck.isOnline("http://www.heise.de")) {
             
 
-            waypoints.add(new Waypoint(52.483791,13.226141));
-            
-            painter.setWaypoints(waypoints);
-            
-            painter.setRenderer(new WaypointRenderer() {
-                @Override
-                public boolean paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint wp) {
-                    if(wp instanceof TowerIcon) {
-                        TowerIcon towerIcon = (TowerIcon) wp;
-                        try {
-                            g.drawImage(ImageIO.read(MapPanel.class.getResource("/img/antennamast.png")), null, -11,-21);
-                        } catch (Exception ex) {
-                            Logger.getLogger(MapPanel.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        g.setColor(Color.BLACK);
-                        g.drawString(towerIcon.getName(), 20, 4);
-                    } else {
-                        g.setColor(Color.BLUE);
-                        g.drawOval(0, 0, 5, 5);
-                        g.setBackground(Color.BLUE);
-                    }
-                    return true;
-                }
-            });
+            waypoints.add(new Waypoint(Config.STARTLAT, Config.STARTLON));
 
             osm.setOverlayPainter(painter);
             
@@ -175,15 +151,14 @@ public final class MapPanel extends JLayeredPane {
     
     public void showPopUpMenu(Component cmp, int x, int y) {
         popUpMenu.show((Component)osm, x, y);
+        
+        geopos = osm.convertPointToGeoPosition(new Point2D.Double(x, y));
     }
     
     public void setTower() {
-        System.out.print("New tower created");
-        waypoints.add(new TowerIcon(52.483791,13.226141, "Test"));
+        String name = popUpMenu.askForTowerName();
+        waypoints.add(new TowerIcon(geopos.getLatitude(), geopos.getLongitude(), name));
     }
-    
-    
-    
     
     
     private RotatableImage jeep;

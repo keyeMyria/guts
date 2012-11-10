@@ -75,7 +75,7 @@ public class GUTS implements Runnable {
         while(true) {
             //gui.rotateJeep(GUTS.angel);
             //gui.rotateAntenna(GUTS.angelAntenna);
-            //gui.moveToWaypoint(GUTS.locat);
+            
             
             gui.repaint();
             
@@ -91,6 +91,8 @@ public class GUTS implements Runnable {
                 locat = this.gps.fetchLocation();
                 axis = this.gyroscope.fetchPosition();
                 //angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
+                
+                gui.moveToWaypoint(GUTS.locat);
                 
                 try {
                     Thread.sleep(Config.REFRESHRATE);
