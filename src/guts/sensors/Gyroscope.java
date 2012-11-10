@@ -29,11 +29,7 @@ public class Gyroscope {
      */
     public Axis fetchPosition(){
         if (Config.SIMULATIONENABLED == true){
-            Axis a = new Axis();
-            a.setPitch(simGyroscope.getPitch());
-            a.setRoll(simGyroscope.getRoll());
-            a.setYawn(simGyroscope.getYawn());
-            return a;
+            return simGyroscope.getPosition();
         }else{
             // Implement real hardware access
             return null;

@@ -3,10 +3,13 @@
  */
 package guts;
 
+import guts.entities.Location;
 import guts.gui.*;
 
 import java.awt.*;
+import java.util.Set;
 import javax.swing.*;
+import org.jdesktop.swingx.mapviewer.Waypoint;
 
 /**
  *
@@ -42,7 +45,13 @@ public class GUI extends JFrame implements Runnable {
         mainframe.getAntenna().rotateTo(Math.toRadians(val));
     }
     
-    private Mainframe mainframe;
-  
+    public void moveToWaypoint(Location locat) {
+        Set<Waypoint> wp = mainframe.getMapPanel().getWaypoints();
+        wp.add(new Waypoint(locat.getLatitude(), locat.getLongitude()));
+        System.out.println(locat);
+    }
+    
+    
+    private Mainframe mainframe;  
     
 }

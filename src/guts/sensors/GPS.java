@@ -10,6 +10,7 @@ import guts.sim.SimGPS;
  * This class provides access to the locationdata from a GPS. It handles the
  * hardware access.
  * @author Cedric Ohle
+ * @author Patrick Selge
  */
 public class GPS {
     private int address;
@@ -23,8 +24,8 @@ public class GPS {
         this.simGPS = new SimGPS();
     }
     
-    public void setStartPoint(double longitude, double latitude) {
-        simGPS.setLocation(new Location(longitude, latitude));
+    public void setStartPoint(double latitude, double longitude) {
+        simGPS.setLocation(new Location(latitude, longitude));
     }
     
     
@@ -33,9 +34,8 @@ public class GPS {
      * @return location as a location object
      */
     public Location fetchLocation(){
-        if (Config.SIMULATIONENABLED == true){
-            Location l = new Location(this.simGPS.getLongitude(), this.simGPS.getLatitude());
-            return l;
+        if (Config.SIMULATIONENABLED){
+            return simGPS.fetchNewLocation();
         }
         else{
             // Implement real hardware access

@@ -29,6 +29,10 @@ public final class Mainframe {
         setMapPanel(new MapPanel());   
     }
     
+    public MapPanel getMapPanel() {
+        return mapPanel;
+    }
+    
     public RotatableImage getJeep() {
         return this.mapPanel.getJeep();
     }

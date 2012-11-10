@@ -48,7 +48,8 @@ public class GUTS implements Runnable {
     
     private static double angel;
     private static double angelAntenna;
-
+    private static Location locat;
+    
     /**
      * The main function
      * @param args the command line arguments
@@ -64,11 +65,14 @@ public class GUTS implements Runnable {
         t2.start();
         
         t1.start();
-        t1.join();        
+        t1.join();  
+        
+        
         
         while(true) {
             gui.rotateJeep(GUTS.angel);
             //gui.rotateAntenna(GUTS.angelAntenna);
+            gui.moveToWaypoint(GUTS.locat);
             
             gui.repaint();
             
@@ -81,6 +85,7 @@ public class GUTS implements Runnable {
     public void run() {
             while(true) {
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
+                locat = this.gps.fetchLocation();
                 //angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
                 
                 try {
@@ -101,6 +106,8 @@ public class GUTS implements Runnable {
         
         // Create Hardware
         this.gps = new GPS();
+        this.gps.setStartPoint(52.483791, 13.226141);
+        
         this.gyroscope = new Gyroscope();
         this.magneticFieldSensor = new MagneticFieldSensor();
         this.antennaMockObject = new MagneticFieldSensor();
@@ -116,22 +123,14 @@ public class GUTS implements Runnable {
      * Enable/Disable the antennacorrection mechanism. 
      */
     public void toggleAntennaCorrection(){
-        if (this.antennaCorrectionEnabled == true){
-            this.antennaCorrectionEnabled = false;
-        }else{
-            this.antennaCorrectionEnabled = true;
-        }
+        this.antennaCorrectionEnabled = !(this.antennaCorrectionEnabled);
     }
     
     /**
      * Enable/Disable the trackrecording mechanism.
      */
     public void toggleTrackRecording(){
-        if (this.storeTrackEnabled == true){
-            this.storeTrackEnabled = false;
-        }else{
-            this.storeTrackEnabled = true;
-        }
+        this.storeTrackEnabled = !(this.storeTrackEnabled);
     }
     
     /**

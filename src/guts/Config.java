@@ -19,7 +19,7 @@ public class Config {
     // global vars
     public static final boolean SIMULATIONENABLED = true;
     public static final int DEBUG = LOG_WAR;
-    public static final int REFRESHRATE = 25;
+    public static final int REFRESHRATE = 750;
     
     // vehicle vars
     public static final String VEHICLE_TOP = "/img/jeep.top.png";

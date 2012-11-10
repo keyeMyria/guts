@@ -54,6 +54,10 @@ public final class MapPanel extends JLayeredPane {
     
     private JPopupMenu popUpMenu;
     
+    public Set<Waypoint> getWaypoints() {
+        return this.waypoints;
+    }
+    
     public class TowerIcon extends Waypoint {
         private String name;
         
@@ -274,6 +278,8 @@ public final class MapPanel extends JLayeredPane {
     public RotatableImage getAntenna() {
         return this.antenna;
     }
+    
+    
     
     private RotatableImage jeep;
     private RotatableImage antenna;
