@@ -21,7 +21,6 @@ public class SimMagneticFieldSensor {
         if(simLength <= 0) {
             simLength = (int)(Math.random() * (1600 / Config.REFRESHRATE)) + 1;
             direction = getNextDirection();  
-            direction = 1;
         }        
 
         double delta = getDeltaAngel();

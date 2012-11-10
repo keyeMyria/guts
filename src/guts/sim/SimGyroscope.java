@@ -32,7 +32,7 @@ public class SimGyroscope {
     }
     
     private double getDeltaAngel() {
-        return ((int)(Math.random() * 300 + 1))/(16000.0 / Config.REFRESHRATE);
+        return ((int)(Math.random() * 3000 + 1))/(1600000.0 / Config.REFRESHRATE);
     }
     
     
