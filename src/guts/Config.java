@@ -28,4 +28,8 @@ public class Config {
     
     // other images
     public static final String BACKGROUND = "/img/box.png";
+  
+    // GEO Data
+    public static final double STARTLAT = 52.483791;
+    public static final double STARTLON = 13.226141;
 }

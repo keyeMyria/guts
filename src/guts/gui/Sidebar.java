@@ -9,20 +9,14 @@ import guts.gui.comp.StatusBox;
 import guts.Config;
 import guts.entities.Axis;
 import guts.entities.Location;
-import guts.gui.comp.DrawableCanvas;
-import guts.gui.comp.RotatableImage;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.text.MessageFormat;
 import java.util.Observable;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 /**
  *
@@ -46,35 +40,15 @@ public final class Sidebar extends JPanel {
         
         drawStatusPanel(statusPanel);
   
+        // Inserting some spacing
         statusPanel.add(Box.createRigidArea(new Dimension(0,5)));
-
         
         // Initializing and configuring the 'Visual Panel' (The two bubbles with the cars in'em
         JPanel visPanel = new JPanel();
         visPanel.setLayout(new BorderLayout());
         visPanel.setPreferredSize(new Dimension(PANEL_WIDTH,360));
         
-        // Creating the visualization of the front
-        jeepFront = new AxisVisualization(Config.VEHICLE_FRONT,0) {
-            @Override
-            public void update(Observable t, Object o) {
-                image.rotateTo(Math.toRadians(((Axis)o).getRoll()));
-                text.setText(((Axis)o).getRoll());
-            }
-        };
-        visPanel.add(jeepFront);
-
-        // Creating the visualization of the side
-        jeepSide = new AxisVisualization(Config.VEHICLE_SIDE,185) {
-            @Override
-            public void update(Observable t, Object o) {
-                image.rotateTo(Math.toRadians(((Axis)o).getPitch()));
-                text.setText(((Axis)o).getPitch());
-            }
-        };
-        visPanel.add(jeepSide);
-        
-        
+        drawVisualPanel(visPanel);
         
         // Adding the two panels to the sidebar
         this.add(statusPanel);
@@ -82,6 +56,7 @@ public final class Sidebar extends JPanel {
     }
     
     private void drawStatusPanel(JPanel panel) {
+        // Creating the 'Status Box' for the latitude
         latitudeStatus = new StatusBox("Latitude") {
             @Override
             public void update(Observable t, Object o) {
@@ -92,6 +67,7 @@ public final class Sidebar extends JPanel {
         };
         panel.add(latitudeStatus);
         
+        // Creating the 'Status Box' for the longitude
         longitudeStatus = new StatusBox("Longitude") {
             @Override
             public void update(Observable t, Object o) {
@@ -102,11 +78,35 @@ public final class Sidebar extends JPanel {
         };
         panel.add(longitudeStatus);
         
+        // Creating the 'Status Box' for the orientation
         orientationStatus = new StatusBox("Ausrichtung");
         panel.add(orientationStatus);
         
+        // Creating the 'Status Box' for the speed
         speedStatus = new StatusBox("Geschwindigkeit");
         panel.add(speedStatus);
+    }
+    
+    private void drawVisualPanel(JPanel panel) {
+        // Creating the visualization of the front
+        jeepFront = new AxisVisualization(Config.VEHICLE_FRONT,0) {
+            @Override
+            public void update(Observable t, Object o) {
+                image.rotateTo(Math.toRadians(((Axis)o).getRoll()));
+                text.setText(((Axis)o).getRoll());
+            }
+        };
+        panel.add(jeepFront);
+
+        // Creating the visualization of the side
+        jeepSide = new AxisVisualization(Config.VEHICLE_SIDE,185) {
+            @Override
+            public void update(Observable t, Object o) {
+                image.rotateTo(Math.toRadians(((Axis)o).getPitch()));
+                text.setText(((Axis)o).getPitch());
+            }
+        };
+        panel.add(jeepSide);
     }
     
     
@@ -145,9 +145,6 @@ public final class Sidebar extends JPanel {
     private AxisVisualization jeepSide;
     private AxisVisualization jeepFront;
     
-    public static final int PANEL_WIDTH = 250;
-    public static final int PANEL_HEIGHT = 600;
-    
-    public static final int PITCH_PANEL = 0;
-    public static final int YAWN_PANEL = 1;
+    private static final int PANEL_WIDTH = 250;
+    private static final int PANEL_HEIGHT = 600;
 }

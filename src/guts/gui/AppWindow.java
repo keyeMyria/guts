@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -19,15 +20,15 @@ import javax.swing.JTextField;
  */
 public final class AppWindow {
     
-    public AppWindow(Container c) {
-        container = c;
+    public AppWindow(GUI controller) {
+        container = controller.getContentPane();
         container.setBackground(Color.lightGray);
         container.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         
         setSidebar(new Sidebar());
         setMainCanvas(new JPanel());
         setMenubar(new Menubar());
-        setMapPanel(new MapPanel());   
+        setMapPanel(new MapPanel(controller)); 
     }
     
     public MapPanel getMapPanel() {
@@ -43,6 +44,8 @@ public final class AppWindow {
         mainCanvas.setLayout(new BoxLayout(mainCanvas, BoxLayout.PAGE_AXIS));
         container.add(mainCanvas);
     }
+    
+    
     
     public void setSidebar(Sidebar s) {
         container.add(sidebar = s, BorderLayout.WEST);

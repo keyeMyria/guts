@@ -6,19 +6,24 @@ package guts.gui;
 import guts.gui.comp.AxisVisualization;
 import guts.gui.comp.StatusBox;
 import guts.entities.Location;
-import guts.gui.*;
 import guts.gui.comp.RotatableImage;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.Point2D;
 import java.util.Set;
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import org.jdesktop.swingx.mapviewer.Waypoint;
 
 /**
  *
  * @author Patrick Selge
  */
-public class GUI extends JFrame implements Runnable {
+public class GUI extends JFrame implements Runnable,MouseInputListener,ActionListener {
             
     /**
      * used by GUTS for the creation of a thread
@@ -35,7 +40,7 @@ public class GUI extends JFrame implements Runnable {
         setResizable(false);
         setBackground(Color.lightGray);
         
-        appWindow = new AppWindow(this.getContentPane());
+        appWindow = new AppWindow(this);
                
         pack();
     }
@@ -75,5 +80,54 @@ public class GUI extends JFrame implements Runnable {
     }
     
     private AppWindow appWindow;  
+
+    @Override
+    public void mousePressed(MouseEvent evt) {        
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            appWindow.getMapPanel().showPopUpMenu(
+                    evt.getComponent(), 
+                    evt.getX(), 
+                    evt.getY());
+        }
+     }
+ 
+
+       
+
+    @Override
+    public void mouseClicked(MouseEvent me) {}
+
+    @Override
+    public void mouseReleased(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent me) {
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        if(ae.getSource() instanceof JMenuItem) {
+            JMenuItem jmi = (JMenuItem)ae.getSource();
+            
+            if(jmi.getName().equals("btn_new_tower")) {
+                appWindow.getMapPanel().setTower();
+            }
+        }
+
+    }
+    
     
 }
