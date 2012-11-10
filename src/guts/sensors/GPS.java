@@ -12,7 +12,7 @@ import guts.sim.SimGPS;
  * @author Cedric Ohle
  * @author Patrick Selge
  */
-public class GPS {
+public class GPS extends java.util.Observable {
     private int address;
     private SimGPS simGPS;
     
@@ -35,7 +35,11 @@ public class GPS {
      */
     public Location fetchLocation(){
         if (Config.SIMULATIONENABLED){
-            return simGPS.fetchNewLocation();
+            Location location = simGPS.fetchNewLocation();
+            setChanged();
+            notifyObservers(location);
+            
+            return location;
         }
         else{
             // Implement real hardware access

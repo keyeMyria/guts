@@ -10,6 +10,7 @@
 
 package guts;
 
+import guts.gui.GUI;
 import guts.actors.Antenna;
 
 import guts.entities.Axis;
@@ -47,7 +48,6 @@ public class GUTS implements Runnable {
     private TowerCollection towers;
     
     private static double angel;
-    private static double angelAntenna;
     private static Location locat;
     
     /**
@@ -56,23 +56,26 @@ public class GUTS implements Runnable {
      */
     public static void main(String[] args) throws InterruptedException {
         
-        guts = new GUTS();
         gui = new GUI();
         
-        Thread t1 = new Thread( gui );
-        Thread t2 = new Thread( guts );
+        Thread guiThread = new Thread( gui );
+        guiThread.start();
+        guiThread.join();  
         
-        t2.start();
+        guts = new GUTS();
         
-        t1.start();
-        t1.join();  
+        Thread gutsThread = new Thread( guts );
+        
+        gutsThread.start();
+        
+        
         
         
         
         while(true) {
-            gui.rotateJeep(GUTS.angel);
+            //gui.rotateJeep(GUTS.angel);
             //gui.rotateAntenna(GUTS.angelAntenna);
-            gui.moveToWaypoint(GUTS.locat);
+            //gui.moveToWaypoint(GUTS.locat);
             
             gui.repaint();
             
@@ -117,6 +120,9 @@ public class GUTS implements Runnable {
         this.towers = new TowerCollection();
         this.trackLog = new TrackLog();   
         
+        magneticFieldSensor.addObserver(gui.getJeepTop());
+        gps.addObserver(gui.getLongitutdeStatusBox());
+        gps.addObserver(gui.getLatitudeStatusBox());
     }
     
     /**

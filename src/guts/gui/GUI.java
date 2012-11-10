@@ -1,10 +1,11 @@
 /**
  * GUTS - GPS Utilized Tracking System
  */
-package guts;
+package guts.gui;
 
 import guts.entities.Location;
 import guts.gui.*;
+import guts.gui.comp.RotatableImage;
 
 import java.awt.*;
 import java.util.Set;
@@ -32,26 +33,29 @@ public class GUI extends JFrame implements Runnable {
         setResizable(false);
         setBackground(Color.lightGray);
         
-        mainframe = new Mainframe(this.getContentPane());
+        appWindow = new AppWindow(this.getContentPane());
                
         pack();
     }
-    
-    public void rotateJeep(double val) {
-        mainframe.getJeep().rotateTo(Math.toRadians(val));
-    }
-    
-    public void rotateAntenna(double val) {
-        mainframe.getAntenna().rotateTo(Math.toRadians(val));
-    }
-    
+        
     public void moveToWaypoint(Location locat) {
-        Set<Waypoint> wp = mainframe.getMapPanel().getWaypoints();
+        Set<Waypoint> wp = appWindow.getMapPanel().getWaypoints();
         wp.add(new Waypoint(locat.getLatitude(), locat.getLongitude()));
         System.out.println(locat);
     }
     
+    public RotatableImage getJeepTop() {
+        return this.appWindow.getJeepTop();
+    }
     
-    private Mainframe mainframe;  
+    public StatusBox getLongitutdeStatusBox() {
+        return this.appWindow.getLongitutdeStatusBox();
+    }
+    
+    public StatusBox getLatitudeStatusBox() {
+        return this.appWindow.getLatitudeStatusBox();
+    }
+    
+    private AppWindow appWindow;  
     
 }

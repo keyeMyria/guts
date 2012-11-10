@@ -5,11 +5,15 @@
 package guts.gui;
 
 import guts.Config;
+import guts.entities.Location;
 import guts.gui.comp.DrawableCanvas;
 import guts.gui.comp.RotatableImage;
+import guts.sensors.GPS;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.text.MessageFormat;
+import java.util.Observable;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -39,46 +43,51 @@ public final class Sidebar extends JPanel {
         sensorDataPanel.setBorder(BorderFactory.createTitledBorder("Sensordaten"));
         sensorDataPanel.setPreferredSize(new Dimension(PANEL_WIDTH,240));
         
-        JLabel l1 = new JLabel("Latitude");
-        l1.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
-        sensorDataPanel.add(l1);
-        JTextField latitudeTextField = new JTextField();
-        latitudeTextField.setEditable(false);
-        sensorDataPanel.add(latitudeTextField);
-
-        JLabel l2 = new JLabel("Longitude");
-        l2.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
-        sensorDataPanel.add(l2);
-        JTextField longitudeTextField = new JTextField();
-        longitudeTextField.setEditable(false);
-        sensorDataPanel.add(longitudeTextField);
-
-        JLabel l3 = new JLabel("Ausrichtung");
-        l3.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
-        sensorDataPanel.add(l3);
-        JTextField orientationTextField = new JTextField();
-        orientationTextField.setEditable(false);
-        sensorDataPanel.add(orientationTextField);
-        
-        JLabel l4 = new JLabel("Geschwindigkeit");
-        l4.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
-        sensorDataPanel.add(l4);
-        JTextField speedTextField = new JTextField();
-        speedTextField.setEditable(false);
-        sensorDataPanel.add(speedTextField);
-        
+        drawStatusPanel(sensorDataPanel);
+  
         sensorDataPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
         
         JPanel axisVisualPanel = new JPanel();
         axisVisualPanel.setLayout(new BorderLayout());
-        axisVisualPanel.add(drawAxisPanel(PITCH_PANEL,0));
+        
+        jeepSide = new VisualAxisPanel(Config.VEHICLE_SIDE,185);
+        
+        axisVisualPanel.add(jeepSide);
         axisVisualPanel.add(drawAxisPanel(YAWN_PANEL,185));
         
         axisVisualPanel.setPreferredSize(new Dimension(PANEL_WIDTH,360));
         
         this.add(sensorDataPanel);
         this.add(axisVisualPanel);
+    }
+    
+    private void drawStatusPanel(JPanel panel) {
+        latitudeStatus = new StatusBox("Latitude") {
+            @Override
+            public void update(Observable t, Object o) {
+                if(o instanceof Location) {
+                    this.textField.setText(MessageFormat.format("{0,number,##.#####}",((Location)o).getLatitude()));
+                }
+            }
+        };
+        panel.add(latitudeStatus);
+        
+        longitudeStatus = new StatusBox("Longitude") {
+            @Override
+            public void update(Observable t, Object o) {
+                if(o instanceof Location) {
+                    this.textField.setText(MessageFormat.format("{0,number,##.#####}",((Location)o).getLongitude()));
+                }
+            }
+        };
+        panel.add(longitudeStatus);
+        
+        orientationStatus = new StatusBox("Ausrichtung");
+        panel.add(orientationStatus);
+        
+        speedStatus = new StatusBox("Geschwindigkeit");
+        panel.add(speedStatus);
     }
     
     private DrawableCanvas drawAxisPanel(int image, int delta) {
@@ -122,7 +131,22 @@ public final class Sidebar extends JPanel {
         
     }
     
+    public StatusBox getLatitudeStatusBox() {
+        return latitudeStatus;
+    }
     
+    public StatusBox getLongitutdeStatusBox() {
+        return longitudeStatus;
+    }
+    
+    
+    private StatusBox latitudeStatus;
+    private StatusBox longitudeStatus;
+    private StatusBox orientationStatus;
+    private StatusBox speedStatus;
+    
+    private VisualAxisPanel jeepSide;
+    private VisualAxisPanel jeepFront;
     
     public static final int PANEL_WIDTH = 250;
     public static final int PANEL_HEIGHT = 600;

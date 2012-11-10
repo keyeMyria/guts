@@ -11,14 +11,15 @@ import java.awt.Container;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
  * @author Patrick Selge
  */
-public final class Mainframe {
+public final class AppWindow {
     
-    public Mainframe(Container c) {
+    public AppWindow(Container c) {
         container = c;
         container.setBackground(Color.lightGray);
         container.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -33,12 +34,16 @@ public final class Mainframe {
         return mapPanel;
     }
     
-    public RotatableImage getJeep() {
-        return this.mapPanel.getJeep();
+    public RotatableImage getJeepTop() {
+        return this.mapPanel.getJeepTop();
     }
     
-    public RotatableImage getAntenna() {
-        return this.mapPanel.getAntenna();
+    public StatusBox getLongitutdeStatusBox() {
+        return this.sidebar.getLongitutdeStatusBox();
+    }
+    
+    public StatusBox getLatitudeStatusBox() {
+        return this.sidebar.getLatitudeStatusBox();
     }
     
     private void setMainCanvas(JPanel mc) {

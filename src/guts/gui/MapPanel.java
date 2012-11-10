@@ -247,7 +247,7 @@ public final class MapPanel extends JLayeredPane {
     }
     
     private DrawableCanvas drawMinimap() {
-        DrawableCanvas minimap = new DrawableCanvas(481,Mainframe.FRAME_HEIGHT-Menubar.PANEL_HEIGHT-279,280,280);  
+        DrawableCanvas minimap = new DrawableCanvas(481,AppWindow.FRAME_HEIGHT-Menubar.PANEL_HEIGHT-279,280,280);  
         minimap.setOpaque(true);
         minimap.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         minimap.setBackground(new Color(0, 0, 0, 175));
@@ -271,7 +271,7 @@ public final class MapPanel extends JLayeredPane {
         return minimap;
     }
     
-    public RotatableImage getJeep() {
+    public RotatableImage getJeepTop() {
         return this.jeep;
     }
     
