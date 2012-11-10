@@ -5,6 +5,7 @@
 package guts.gui;
 
 import guts.Config;
+import guts.entities.Location;
 import guts.gui.comp.DrawableCanvas;
 import guts.gui.comp.OSMViewer;
 import guts.gui.comp.PopUpMenu;
@@ -21,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,13 +46,11 @@ import org.jdesktop.swingx.mapviewer.WaypointRenderer;
  */
 public final class MapPanel extends JLayeredPane {
     
-    private Set<Waypoint> waypoints = new HashSet<Waypoint>();
-    
-    private Set<TowerIcon> towers = new HashSet<TowerIcon>();
-    private Set<Breakpoint> breakpoints = new HashSet<Breakpoint>();
+    private LinkedHashSet<Waypoint> waypoints = new LinkedHashSet<Waypoint>();
+    private LinkedHashSet<TowerIcon> towers = new LinkedHashSet<TowerIcon>();
             
-    private WaypointPainter painter = new TrackDrawer(waypoints);
-    GeoPosition geopos;
+    private TrackDrawer painter = new TrackDrawer(waypoints, towers);
+    private GeoPosition geopos;
     
     private PopUpMenu popUpMenu;
     
@@ -90,7 +90,6 @@ public final class MapPanel extends JLayeredPane {
            ConnectionCheck.isOnline("http://www.heise.de")) {
             
 
-            waypoints.add(new Waypoint(Config.STARTLAT, Config.STARTLON));
 
             osm.setOverlayPainter(painter);
             
@@ -151,18 +150,22 @@ public final class MapPanel extends JLayeredPane {
     
     public void showPopUpMenu(Component cmp, int x, int y) {
         popUpMenu.show((Component)osm, x, y);
-        
         geopos = osm.convertPointToGeoPosition(new Point2D.Double(x, y));
     }
     
     public void setTower() {
-        String name = popUpMenu.askForTowerName();
-        waypoints.add(new TowerIcon(geopos.getLatitude(), geopos.getLongitude(), name));
+        //String name = popUpMenu.askForTowerName();
+        towers.add(new TowerIcon(geopos.getLatitude(), geopos.getLongitude(), "test"));
     }
     
     
     private RotatableImage jeep;
     private RotatableImage antenna;
     private OSMViewer osm;
+
+    public void setViewPointToLocation(Location locat) {
+        //osm.setCenterPosition(locat);
+        waypoints.add(new Waypoint(locat.getLatitude(), locat.getLongitude()));
+    }
     
 }

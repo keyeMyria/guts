@@ -73,7 +73,7 @@ public class OSMViewer extends JXMapKit {
     
     private JXMapViewer mapView;
     
-    private static final int MAX_ZOOM = 5; 
+    private static final int MAX_ZOOM = 15; 
 
     
 

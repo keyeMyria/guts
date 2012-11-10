@@ -79,7 +79,7 @@ public class GUTS implements Runnable {
             
             gui.repaint();
             
-            Thread.sleep(Config.REFRESHRATE);   
+            Thread.sleep(Config.REFRESHRATE/10);   
         }  
         
     }

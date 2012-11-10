@@ -11,6 +11,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,82 +29,71 @@ import org.jdesktop.swingx.mapviewer.WaypointRenderer;
  * @author patrick
  */
 public class TrackDrawer extends WaypointPainter {
+
+    private LinkedHashSet<Waypoint> wps;
+    private LinkedHashSet<TowerIcon> towers;
+    private WaypointRenderer wpRenderer;
     
-    public TrackDrawer(Set<Waypoint> waypoints) {
-        this.waypoints = waypoints;
-        
-        this.setRenderer(new WaypointRenderer() {
-                        
-            @Override
-            public boolean paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint wp) {
-            /*    
-                g = (Graphics2D) g.create();
-      //convert from viewport to world bitmap
-      Rectangle rect = map.getViewportBounds();
-      g.translate(-rect.x, -rect.y);
+    private Iterator it1;
+
+    public TrackDrawer(
+            LinkedHashSet<Waypoint> waypoints,
+            LinkedHashSet<TowerIcon> towers) {
+        wps = waypoints;
+        this.towers = towers;
+
+        it1 = wps.iterator();
+
+
+
+    }
+
+    @Override
+    protected void doPaint(Graphics2D g, JXMapViewer map, int width, int height) {
+        g = (Graphics2D) g.create();
+        //convert from viewport to world bitmap
+        Rectangle rect = map.getViewportBounds();
+        g.translate(-rect.x, -rect.y);
 
         //do the drawing
-        g.setColor(Color.RED);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setStroke(new BasicStroke(2));
 
         int lastX = -1;
         int lastY = -1;
-        for (Waypoint wpx : waypoints) {
-         //convert geo to world bitmap pixel
-         Point2D pt = map.getTileFactory().geoToPixel(wpx.getPosition(), map.getZoom());
-         if (lastX != -1 && lastY != -1) {
-            g.drawLine(lastX, lastY, (int) pt.getX(), (int) pt.getY());
-         }
-         lastX = (int) pt.getX();
-         lastY = (int) pt.getY();
-      }
+        try {
+            for (Waypoint wp : this.wps) {
+                g.setColor(Color.BLUE);
+                Point2D pt = map.getTileFactory().geoToPixel(wp.getPosition(), map.getZoom());
+                if (lastX != -1 && lastY != -1) {
+                    g.drawLine(lastX, lastY, (int) pt.getX(), (int) pt.getY());
+                }
+                lastX = (int) pt.getX();
+                lastY = (int) pt.getY();
+            }
+        } catch(Exception e) {
+            
+        }
 
-      g.dispose(); */
+        for (TowerIcon tw : this.towers) {
+            Point2D pt = map.getTileFactory().geoToPixel(tw.getPosition(), map.getZoom());
+
+                int x = (int)pt.getX();
+                int y = (int)pt.getY();
                 
-                
-                
-                if(wp instanceof TowerIcon) {
-                    TowerIcon towerIcon = (TowerIcon) wp;
-                    try {
-                        g.drawImage(ImageIO.read(MapPanel.class.getResource("/img/antennamast.png")), null, -11,-21);
-                    } catch (Exception ex) {
-                        Logger.getLogger(MapPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    g.setColor(Color.BLACK);
-                    g.drawString(towerIcon.getName(), 20, 4);
-                } else {
-                    g.setColor(Color.BLUE);
-                    g.drawOval(0, 0, 5, 5);
-                    g.setBackground(Color.BLUE);
+                g.setColor(Color.BLACK);
+
+                try {
+                    g.drawImage(ImageIO.read(TrackDrawer.class.getResource("/img/antennamast.png")), null, x-11, y-21);
+                } catch (Exception ex) {
+                    System.out.println("can't read the image");
                 }
                 
-                return true;
-            }
-            
-            public void paint(Graphics2D g, JXMapKit map, int w, int h) {
-      
-    }
-            
-        });
-    
-    } 
-        
-    
-        
-/*
- *         
-        
-        
-        
-        
-        
-        
+                g.drawString(tw.getName(), x+20, y+10);
+        }
 
-        
- */
-    
-    private Set<Waypoint> waypoints;
+        g.dispose();
+    }
     
 
 }
