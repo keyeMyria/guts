@@ -15,6 +15,7 @@ import java.awt.geom.Point2D;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -49,6 +50,8 @@ public class TrackDrawer extends WaypointPainter {
     @Override
     protected void doPaint(Graphics2D g, JXMapViewer map, int width, int height) {
         g = (Graphics2D) g.create();
+
+
         //convert from viewport to world bitmap
         Rectangle rect = map.getViewportBounds();
         g.translate(-rect.x, -rect.y);
@@ -59,7 +62,8 @@ public class TrackDrawer extends WaypointPainter {
 
         int lastX = -1;
         int lastY = -1;
-            /*Waypoint w = null;
+            /*
+            Waypoint w = null;
             Iterator<Waypoint> it = wps.iterator();
             while(it.hasNext()) {
                 
@@ -72,7 +76,8 @@ public class TrackDrawer extends WaypointPainter {
             }*/
             
          try {
-            for (Waypoint wp : this.wps) {
+            CopyOnWriteArrayList<Waypoint> wpsal = new CopyOnWriteArrayList<Waypoint>(this.wps);
+            for (Waypoint wp : wpsal) {
                 
                 g.setColor(Color.BLUE);
                 Point2D pt = ((Breakpoint) wp).getPoints(map.getZoom());
@@ -84,9 +89,9 @@ public class TrackDrawer extends WaypointPainter {
                 lastX = (int) pt.getX();
                 lastY = (int) pt.getY();
             }
-         } catch (Exception e) {
+         } catch (Exception e) {}
              
-         }
+         
                 
 
 
@@ -107,6 +112,7 @@ public class TrackDrawer extends WaypointPainter {
                 g.drawString(tw.getName(), x+20, y+10);
         }
 
+        
         g.dispose();
     }
     
