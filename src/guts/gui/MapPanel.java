@@ -165,7 +165,10 @@ public final class MapPanel extends JLayeredPane {
 
     public void setViewPointToLocation(Location locat) {
         //osm.setCenterPosition(locat);
-        waypoints.add(new Waypoint(locat.getLatitude(), locat.getLongitude()));
+        Waypoint wp = new Waypoint(locat.getLatitude(), locat.getLongitude());
+        waypoints.add(new Breakpoint(wp, osm.getPixelLocations(wp)));
+        
     }
+    
     
 }

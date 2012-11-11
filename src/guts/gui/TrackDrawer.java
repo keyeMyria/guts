@@ -4,6 +4,7 @@
  */
 package guts.gui;
 
+import guts.gui.entities.Breakpoint;
 import guts.gui.entities.TowerIcon;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -43,9 +44,6 @@ public class TrackDrawer extends WaypointPainter {
         this.towers = towers;
 
         it1 = wps.iterator();
-
-
-
     }
 
     @Override
@@ -61,19 +59,36 @@ public class TrackDrawer extends WaypointPainter {
 
         int lastX = -1;
         int lastY = -1;
-        try {
+            /*Waypoint w = null;
+            Iterator<Waypoint> it = wps.iterator();
+            while(it.hasNext()) {
+                
+                w = it.next();
+                if(!it.hasNext()) {
+                    g.setColor(Color.BLUE);
+                    Point2D pt = map.getTileFactory().geoToPixel(w.getPosition(), map.getZoom());
+                    g.drawLine((int)pt.getX(),(int)pt.getY(),(int)pt.getX()+5,(int)pt.getY()+5);
+                }
+            }*/
+            
+         try {
             for (Waypoint wp : this.wps) {
+                
                 g.setColor(Color.BLUE);
-                Point2D pt = map.getTileFactory().geoToPixel(wp.getPosition(), map.getZoom());
+                Point2D pt = ((Breakpoint) wp).getPoints(map.getZoom());
+                
                 if (lastX != -1 && lastY != -1) {
                     g.drawLine(lastX, lastY, (int) pt.getX(), (int) pt.getY());
                 }
+                
                 lastX = (int) pt.getX();
                 lastY = (int) pt.getY();
             }
-        } catch(Exception e) {
-            
-        }
+         } catch (Exception e) {
+             
+         }
+                
+
 
         for (TowerIcon tw : this.towers) {
             Point2D pt = map.getTileFactory().geoToPixel(tw.getPosition(), map.getZoom());

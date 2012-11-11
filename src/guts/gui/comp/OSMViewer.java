@@ -13,6 +13,7 @@ import javax.swing.event.MouseInputListener;
 import org.jdesktop.swingx.JXMapKit;
 import org.jdesktop.swingx.JXMapViewer;
 import org.jdesktop.swingx.mapviewer.GeoPosition;
+import org.jdesktop.swingx.mapviewer.Waypoint;
 import org.jdesktop.swingx.mapviewer.WaypointPainter;
 
 /**
@@ -71,9 +72,19 @@ public class OSMViewer extends JXMapKit {
         }
     }
     
+    public Point2D[] getPixelLocations(Waypoint wp) {
+        Point2D[] points = new Point2D[MAX_ZOOM];
+        for(int i = 0; i < MAX_ZOOM; i++) {
+            points[i] = mapView.getTileFactory().geoToPixel(wp.getPosition(), i+1);
+        }
+        
+        return points;
+    }
+
+    
     private JXMapViewer mapView;
     
-    private static final int MAX_ZOOM = 15; 
+    private static final int MAX_ZOOM = 5; 
 
     
 
