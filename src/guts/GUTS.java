@@ -213,40 +213,38 @@ public class GUTS implements Runnable {
     private Axis calculateCorrection(Location currentLocation, Axis currentAxis,
                 double currentAngle, Location activeTowerLocation){
         
-        double i, Angle, newAngle;
+        double i, Angle; 
+        double newAngle=0.0;
         double deltax, deltay;
         
         deltax = activeTowerLocation.getLongitude() - currentLocation.getLongitude();
         deltay = activeTowerLocation.getLatitude() - currentLocation.getLatitude();
         
        if (deltay == 0) {
-       newAngle = 450 - currentAngle;
+           if(deltax > 0){
+               newAngle=90;
+           }
+           else {
+               newAngle=270;
+           }
        }          
-       if (deltax == 0) {
-          newAngle = 360 - currentAngle;
+       else if (deltax == 0) {
+          if(deltay > 0){
+              newAngle=0;
+          }
+          else {
+              newAngle=180;
+          }
        }
-                 
+      
        else{
           i=deltay/deltax;
           Angle = Math.atan(Math.toRadians(i));
-        
-          if (Angle>=0 && Angle<=90) {
-          newAngle = 90 - Angle;  
-          }
-        
-          if (Angle>90 && Angle<=180) {
-          newAngle = 180 - Angle;   
-          }
-        
-          if (Angle>180 && Angle<=270) {
-          newAngle = 270 - Angle;
-          }
-          if (Angle>270 && Angle<=360) {
-          newAngle = 360 - Angle;
-          }
+          newAngle=Angle;
         }
         
-        return newAngle;
+       return new Axis(0,newAngle,0);
+       // TODO gyroscope werte eintragen
     }
     
     /**
