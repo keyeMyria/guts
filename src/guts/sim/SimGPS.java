@@ -28,7 +28,6 @@ public class SimGPS {
         if(Config.DEBUG >= Config.LOG_ALL) {
             System.out.println("Winkel im GPS: " + angel);
         }
-        angel = 90;
         double speed;
         if(((angel > 0) && (angel < 90)) || ((angel > 180) && (angel < 270))){
             speed = Math.abs((angel%90)/45);
