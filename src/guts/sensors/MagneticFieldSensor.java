@@ -9,7 +9,7 @@ import guts.sim.SimMagneticFieldSensor;
  * interpretating the returned values of the hardwaresensor.
  * @author Cedric Ohle
  */
-public class MagneticFieldSensor {
+public class MagneticFieldSensor extends java.util.Observable {
     private int address;
     private SimMagneticFieldSensor simMagneticFieldSensor;
     
@@ -28,7 +28,11 @@ public class MagneticFieldSensor {
      */
     public double fetchAngelToMagneticNorth(){
         if (Config.SIMULATIONENABLED) {
-            return this.simMagneticFieldSensor.getAngelToMagneticNorth();
+            double angel = this.simMagneticFieldSensor.getAngelToMagneticNorth();
+            setChanged();
+            notifyObservers(angel);
+            
+            return angel;
         } else{
             // Implement real hardware access
             return 0;

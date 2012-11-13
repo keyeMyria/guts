@@ -10,35 +10,33 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
  * @author Patrick Selge
  */
-public final class Mainframe {
+public final class AppWindow {
     
-    public Mainframe(Container c) {
-        container = c;
+    public AppWindow(GUI controller) {
+        container = controller.getContentPane();
         container.setBackground(Color.lightGray);
         container.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         
         setSidebar(new Sidebar());
         setMainCanvas(new JPanel());
         setMenubar(new Menubar());
-        setMapPanel(new MapPanel());   
+        setMapPanel(new MapPanel(controller)); 
     }
     
     public MapPanel getMapPanel() {
         return mapPanel;
     }
     
-    public RotatableImage getJeep() {
-        return this.mapPanel.getJeep();
-    }
-    
-    public RotatableImage getAntenna() {
-        return this.mapPanel.getAntenna();
+    public Sidebar getSidebar() {
+        return this.sidebar;
     }
     
     private void setMainCanvas(JPanel mc) {
@@ -46,6 +44,8 @@ public final class Mainframe {
         mainCanvas.setLayout(new BoxLayout(mainCanvas, BoxLayout.PAGE_AXIS));
         container.add(mainCanvas);
     }
+    
+    
     
     public void setSidebar(Sidebar s) {
         container.add(sidebar = s, BorderLayout.WEST);

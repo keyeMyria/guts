@@ -10,6 +10,7 @@
 
 package guts;
 
+import guts.gui.GUI;
 import guts.actors.Antenna;
 
 import guts.entities.Axis;
@@ -34,7 +35,6 @@ public class GUTS implements Runnable {
     // Sensors
     private Gyroscope gyroscope;
     private MagneticFieldSensor magneticFieldSensor;
-    private MagneticFieldSensor antennaMockObject;
     private GPS gps;
     
     private Antenna antenna;
@@ -47,8 +47,8 @@ public class GUTS implements Runnable {
     private TowerCollection towers;
     
     private static double angel;
-    private static double angelAntenna;
     private static Location locat;
+    private static Axis axis;
     
     /**
      * The main function
@@ -56,23 +56,26 @@ public class GUTS implements Runnable {
      */
     public static void main(String[] args) throws InterruptedException {
         
-        guts = new GUTS();
         gui = new GUI();
         
-        Thread t1 = new Thread( gui );
-        Thread t2 = new Thread( guts );
+        Thread guiThread = new Thread( gui );
+        guiThread.start();
+        guiThread.join();  
         
-        t2.start();
+        guts = new GUTS();
         
-        t1.start();
-        t1.join();  
+        Thread gutsThread = new Thread( guts );
+        
+        gutsThread.start();
+        
+        
         
         
         
         while(true) {
-            gui.rotateJeep(GUTS.angel);
+            //gui.rotateJeep(GUTS.angel);
             //gui.rotateAntenna(GUTS.angelAntenna);
-            gui.moveToWaypoint(GUTS.locat);
+            
             
             gui.repaint();
             
@@ -86,7 +89,10 @@ public class GUTS implements Runnable {
             while(true) {
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
                 locat = this.gps.fetchLocation();
+                axis = this.gyroscope.fetchPosition();
                 //angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
+                
+                gui.moveToWaypoint(GUTS.locat);
                 
                 try {
                     Thread.sleep(Config.REFRESHRATE);
@@ -110,13 +116,18 @@ public class GUTS implements Runnable {
         
         this.gyroscope = new Gyroscope();
         this.magneticFieldSensor = new MagneticFieldSensor();
-        this.antennaMockObject = new MagneticFieldSensor();
         this.antenna = new Antenna();
         
         // Create Stores
         this.towers = new TowerCollection();
         this.trackLog = new TrackLog();   
         
+        magneticFieldSensor.addObserver(gui.getJeepTop());
+        magneticFieldSensor.addObserver(gui.getOrientationStatusBox());
+        gps.addObserver(gui.getLongitutdeStatusBox());
+        gps.addObserver(gui.getLatitudeStatusBox());
+        gyroscope.addObserver(gui.getJeepFront());
+        gyroscope.addObserver(gui.getJeepSide());
     }
     
     /**
