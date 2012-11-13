@@ -7,6 +7,8 @@ import java.util.Random;
  * Holds all the utilities needed to do some basic maths in a simulation.
  * It provides the tools to have testable math without invoking your private
  * methods or setting seeds in different places.
+ * Be careful about speed aspects. These methods do not provide high performance
+ * calculation, but docus more on an easy to use aspect.
  * 
  * @author Patrick Selge
  * @version 1.0
@@ -36,8 +38,8 @@ public class SimUtilities {
     public double getRandomBetween(double smallest, double largest, double stepSize) {
         largest = makeGGV((largest-smallest), stepSize) + smallest;
  
-        double randomValue = Math.abs(random.nextInt()) * stepSize;
-        double result = (randomValue % (largest+stepSize-smallest)) + largest;
+        double randomValue = Math.abs(random.nextInt()) * stepSize;        
+        double result = (randomValue % (largest+stepSize-smallest)) + smallest;
         
         return round(result, this.precision);
     }

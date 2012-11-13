@@ -82,13 +82,12 @@ public class SimUtilitiesTest {
     public void testGetRandomOddIntegerBetweenOneAndTen() {
         double a = 1.0;
         double b = 10.0;
-        double stepSize = 2;
+        double stepSize = 1;
 
         double expResult = 0.0;
+        
         for(int i=0; i<50; i++) {
-        double result = simUtilitiesTest.getRandomBetween(a, b, stepSize);
-
-        System.out.println(result);
+            double result = simUtilitiesTest.getRandomBetween(a, b, stepSize);
         }
         //assertTrue((result >= a && result <= b));
         //assertTrue((result%stepSize) < stepSize);        
@@ -104,7 +103,7 @@ public class SimUtilitiesTest {
         for(int i=0; i<50; i++) {
         double result = simUtilitiesTest.getRandomBetween(a, b, stepSize);
 
-        System.out.println(result);
+        //System.out.println(result);
         }
         //assertTrue((result >= a && result <= b));
         //assertTrue((result%stepSize) < stepSize);        

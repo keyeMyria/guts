@@ -14,43 +14,35 @@ import guts.*;
 public class SimMagneticFieldSensor {
     
     public SimMagneticFieldSensor() {
-
+        this.utils = new SimUtilities();
     }
 
     public double getAngelToMagneticNorth() {
         if(simLength <= 0) {
-            simLength = (int)(Math.random() * (1600 / Config.REFRESHRATE)) + 1;
-            direction = getNextDirection(Math.random());  
+            simLength = (int)(utils.getRandomBetween(100.0,5000.0,100.0) / Config.REFRESHRATE);
+            direction = getNextDirection();  
         }        
-
-        double delta = getDeltaAngel(Math.random());
-        
      
         if(direction != 0) {
-            angel = angel + (direction * delta);
+            angel += (direction * getDeltaAngel());
             angel = (angel < 0) ? (angel + 360) : (angel % 360); 
         }
               
-        if(Config.DEBUG >= Config.LOG_ALL) {
-            System.out.println("Magnetic Field Sensor: retries:" + simLength + 
-                    " | direction:" + direction + " | orientation:" + angel + 
-                    " | delta:"+delta);
-        }
         simLength--;
         
         return angel;
     }
     
-    protected int getNextDirection(double random) {
-        int multi = (((int)Math.ceil(random * 3)));
+    protected int getNextDirection() {
+        int multi = (int) utils.getRandomBetween(1.0, 3.0, 1.0);
         
         if (multi==3) { return 1; }
         if (multi==2) { return -1; }
         return 0;
     }
     
-    protected double getDeltaAngel(double random) {
-        return ((int)(random * 300 + 1))/(16000.0 / Config.REFRESHRATE);
+    private double getDeltaAngel() {
+        return utils.getRandomBetween(0.0001 , 0.02 , 0.00001) * Config.REFRESHRATE;
     }
 
     
@@ -58,8 +50,16 @@ public class SimMagneticFieldSensor {
         return angel;
     }
     
+    @Override
+    public String toString() {
+        return ("Magnetic Field Sensor: retries:" + simLength + 
+            " | direction:" + direction + " | orientation:" + angel);
+    }
+    
     private static double angel = 0;
     private int simLength = 0;
     private int direction = 0;
+    
+    private SimUtilities utils;
     
 }

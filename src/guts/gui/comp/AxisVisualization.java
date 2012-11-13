@@ -28,7 +28,7 @@ public class AxisVisualization extends DrawableCanvas implements java.util.Obser
         text = new VisualTextLabel();
         
         // Adding the components to the layers
-        backgroundLayer.add(new RotatableImage(Config.BACKGROUND,120,80));
+        backgroundLayer.add(new RotatableImage("/img/box.png",120,80));
         imageLayer.add(image);
         textLayer.add(text);
         

@@ -27,8 +27,8 @@ public class RotatableImage extends JPanel implements java.util.Observer {
 
         try {
             img = ImageIO.read(imgResource);
-        } catch (IOException e) {
-            System.out.println("Can't open the image you defined");
+        } catch (Exception e) {
+            System.out.println("Can't open the image you defined: " + str);
             return;
         }
 
