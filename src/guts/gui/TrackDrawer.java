@@ -9,9 +9,11 @@ import guts.gui.entities.TowerIcon;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -36,15 +38,12 @@ public class TrackDrawer extends WaypointPainter {
     private LinkedHashSet<TowerIcon> towers;
     private WaypointRenderer wpRenderer;
     
-    private Iterator it1;
 
     public TrackDrawer(
-            LinkedHashSet<Waypoint> waypoints,
-            LinkedHashSet<TowerIcon> towers) {
-        wps = waypoints;
-        this.towers = towers;
-
-        it1 = wps.iterator();
+        LinkedHashSet<Waypoint> waypoints,
+        LinkedHashSet<TowerIcon> towers) {
+            this.wps = waypoints;
+            this.towers = towers;
     }
 
     @Override
@@ -62,32 +61,46 @@ public class TrackDrawer extends WaypointPainter {
 
         int lastX = -1;
         int lastY = -1;
-            /*
-            Waypoint w = null;
-            Iterator<Waypoint> it = wps.iterator();
-            while(it.hasNext()) {
-                
-                w = it.next();
-                if(!it.hasNext()) {
-                    g.setColor(Color.BLUE);
-                    Point2D pt = map.getTileFactory().geoToPixel(w.getPosition(), map.getZoom());
-                    g.drawLine((int)pt.getX(),(int)pt.getY(),(int)pt.getX()+5,(int)pt.getY()+5);
-                }
-            }*/
             
          try {
             CopyOnWriteArrayList<Waypoint> wpsal = new CopyOnWriteArrayList<Waypoint>(this.wps);
-            for (Waypoint wp : wpsal) {
+            
+            Waypoint wp;
+            
+            Iterator<Waypoint> it = wps.iterator();
+            while(it.hasNext()) {
+                wp = it.next();
                 
                 g.setColor(Color.BLUE);
                 Point2D pt = ((Breakpoint) wp).getPoints(map.getZoom());
                 
+                int x = (int) pt.getX();
+                int y = (int) pt.getY();
+                
                 if (lastX != -1 && lastY != -1) {
-                    g.drawLine(lastX, lastY, (int) pt.getX(), (int) pt.getY());
+                    g.drawLine(lastX, lastY, x, y);
                 }
                 
-                lastX = (int) pt.getX();
-                lastY = (int) pt.getY();
+                /* Paints a small version of the jeep to the most recent waypoint
+                if(!it.hasNext()) {
+                    g.setStroke(new BasicStroke(2));
+                    g.setColor(Color.RED);
+                    try {
+                        Graphics2D gx = (Graphics2D) g;
+                                                
+                        BufferedImage img = ImageIO.read(TrackDrawer.class.getResource("/img/jeep.side.mini.png"));
+                        gx.drawImage(img, null, x-img.getWidth()/2, y-img.getHeight()/2);
+                        
+                    } catch (Exception ex) {
+                        System.out.println("can't read the image");
+                    }
+                    
+                }
+                */
+                
+                
+                lastX = x;
+                lastY = y;
             }
          } catch (Exception e) {}
              

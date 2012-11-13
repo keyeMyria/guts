@@ -20,10 +20,10 @@ public class SimMagneticFieldSensor {
     public double getAngelToMagneticNorth() {
         if(simLength <= 0) {
             simLength = (int)(Math.random() * (1600 / Config.REFRESHRATE)) + 1;
-            direction = getNextDirection();  
+            direction = getNextDirection(Math.random());  
         }        
 
-        double delta = getDeltaAngel();
+        double delta = getDeltaAngel(Math.random());
         
      
         if(direction != 0) {
@@ -41,16 +41,16 @@ public class SimMagneticFieldSensor {
         return angel;
     }
     
-    private int getNextDirection() {
-        int multi = (((int)Math.ceil(Math.random() * 3)));
+    protected int getNextDirection(double random) {
+        int multi = (((int)Math.ceil(random * 3)));
         
         if (multi==3) { return 1; }
         if (multi==2) { return -1; }
         return 0;
     }
     
-    private double getDeltaAngel() {
-        return ((int)(Math.random() * 300 + 1))/(16000.0 / Config.REFRESHRATE);
+    protected double getDeltaAngel(double random) {
+        return ((int)(random * 300 + 1))/(16000.0 / Config.REFRESHRATE);
     }
 
     
