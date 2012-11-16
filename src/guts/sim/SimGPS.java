@@ -36,24 +36,24 @@ public class SimGPS {
         }
         
         
-        double longitudedelta = ((Math.random() * 300+1)/(DIVIDER/ Config.REFRESHRATE))*speed;
+        double longitudedelta = ((Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE))*speed;
         
         if(angel == 0) {
                 //TODO x=x y=y+dy
                 newLongitude = this.location.getLongitude();
-                newLatitude = this.location.getLatitude() + (Math.random() * 300+1)/(DIVIDER/ Config.REFRESHRATE);
+                newLatitude = this.location.getLatitude() + (Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE);
         } else if(angel == 90) {
                 //TODO x=dx+x y=y
-                newLongitude = this.location.getLongitude() + (Math.random() * 300+1)/(DIVIDER/ Config.REFRESHRATE);
+                newLongitude = this.location.getLongitude() + (Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE);
                 newLatitude = this.location.getLatitude() ;
         } else if(angel == 180) {
                 //TODO x=x y=y-dy
                 newLongitude = this.location.getLongitude();
-                newLatitude = this.location.getLatitude() - (Math.random() * 300+1)/(DIVIDER/ Config.REFRESHRATE);
+                newLatitude = this.location.getLatitude() - (Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE);
                 
         } else if(angel == 270) {
                 //TODO x=x-dx y=y
-                newLongitude = this.location.getLongitude() - (Math.random() * 300+1)/(DIVIDER/ Config.REFRESHRATE);
+                newLongitude = this.location.getLongitude() - (Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE);
                 newLatitude = this.location.getLatitude();
                 
         } else if(angel > 0 && angel < 90 ){
@@ -80,5 +80,6 @@ public class SimGPS {
     }
     
     private static final int DIVIDER = 1600000000;
+    private static final int FACTOR = 150;
     
 }
