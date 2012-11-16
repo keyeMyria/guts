@@ -35,6 +35,7 @@ public class GPS extends java.util.Observable {
      */
     public Location fetchLocation(){
         if (Config.SIMULATIONENABLED){
+            
             Location location = simGPS.fetchNewLocation();
             setChanged();
             notifyObservers(location);
@@ -46,4 +47,5 @@ public class GPS extends java.util.Observable {
             return null;
         }
     }
+    
 }

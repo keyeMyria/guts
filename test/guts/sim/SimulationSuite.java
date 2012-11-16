@@ -16,23 +16,7 @@ import org.junit.runners.Suite;
  * @author patrick
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({guts.sim.SimMagneticFieldSensorTest.class})
+@Suite.SuiteClasses({guts.sim.SimMagneticFieldSensorTest.class,guts.sim.SimUtilitiesTest.class})
 public class SimulationSuite {
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
     
 }

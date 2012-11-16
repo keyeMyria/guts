@@ -38,9 +38,12 @@ public class SimUtilities {
     public double getRandomBetween(double smallest, double largest, double stepSize) {
         largest = makeGGV((largest-smallest), stepSize) + smallest;
  
-        double randomValue = Math.abs(random.nextInt()) * stepSize;        
-        double result = (randomValue % (largest+stepSize-smallest)) + smallest;
-        
+        double randomValue = Math.abs(random.nextInt()) * stepSize;  
+        double tmp_result = (randomValue % (largest+stepSize-smallest));
+                
+        tmp_result = (stepSize % 1 == 0) ? tmp_result : tmp_result - stepSize;
+        double result = tmp_result + smallest;
+                
         return round(result, this.precision);
     }
      

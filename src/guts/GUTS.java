@@ -10,6 +10,7 @@
 
 package guts;
 
+import guts.calculators.SpeedCalculator;
 import guts.gui.GUI;
 import guts.actors.Antenna;
 
@@ -21,10 +22,6 @@ import guts.entities.TrackLog;
 import guts.sensors.GPS;
 import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-
 
 
 public class GUTS implements Runnable {
@@ -52,6 +49,7 @@ public class GUTS implements Runnable {
     
     /**
      * The main function
+     * 
      * @param args the command line arguments
      */
     public static void main(String[] args) throws InterruptedException {
@@ -68,9 +66,7 @@ public class GUTS implements Runnable {
         
         gutsThread.start();
         
-        
-        
-        
+
         
         while(true) {
             //gui.rotateJeep(GUTS.angel);
@@ -79,10 +75,12 @@ public class GUTS implements Runnable {
             
             gui.repaint();
             
-            Thread.sleep(Config.REFRESHRATE);   
-        }  
-        
+            try {
+                Thread.sleep(Config.REFRESHRATE);   
+            } catch (InterruptedException ex) {}  
+        }
     }
+    
     
     @Override 
     public void run() {
@@ -96,11 +94,8 @@ public class GUTS implements Runnable {
                 
                 try {
                     Thread.sleep(Config.REFRESHRATE);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(GUTS.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                } catch (InterruptedException ex) {}
         }
-        
     }
 
     /*
@@ -120,12 +115,20 @@ public class GUTS implements Runnable {
         
         // Create Stores
         this.towers = new TowerCollection();
-        this.trackLog = new TrackLog();   
+        this.trackLog = new TrackLog();  
+        
+        // Create Guts Calculators
+        this.speedCalculator = new SpeedCalculator();
         
         magneticFieldSensor.addObserver(gui.getJeepTop());
         magneticFieldSensor.addObserver(gui.getOrientationStatusBox());
+        
         gps.addObserver(gui.getLongitutdeStatusBox());
         gps.addObserver(gui.getLatitudeStatusBox());
+        gps.addObserver(speedCalculator);
+        
+        speedCalculator.addObserver(gui.getSpeedStatusBox());
+        
         gyroscope.addObserver(gui.getJeepFront());
         gyroscope.addObserver(gui.getJeepSide());
     }
@@ -165,35 +168,7 @@ public class GUTS implements Runnable {
         this.trackLog.add(currentLocation);
     }
     
-    /**
-     * Calculates and returns the current speed based on the last two datapoints.
-     * @return currentSpeed as float
-     */
-    public double calculateSpeed(){
-        Location currentLocation = this.gps.fetchLocation();
-        Location lastLocation = this.trackLog.getLast();
 
-        double difftime = currentLocation.getTimestamp().getTime() - 
-                lastLocation.getTimestamp().getTime();
-        difftime = Math.abs(difftime/1000.0/60.0/60.0);
-        
-        // Earthraidus
-        double radius = 6.371;
-
-        double lat1 = lastLocation.getLatitude()/1E6;
-        double lat2 = currentLocation.getLatitude()/1E6;
-        double lon1 = lastLocation.getLongitude()/1E6;
-        double lon2 = currentLocation.getLongitude()/1E6;
-        double dLat = Math.toRadians(lat2-lat1);
-        double dLon = Math.toRadians(lon2-lon1);
-        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-            Math.sin(dLon/2) * Math.sin(dLon/2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        double distance = radius * c;
-        
-        return distance/difftime;
-    }
     
     /**
      * Returns state of trackrecording.
@@ -215,6 +190,7 @@ public class GUTS implements Runnable {
      * Calculates the needed positioncorrections based on the given
      * current location, position and direction. New position values are
      * returned as axis object.
+     * 
      * @param currentLocation as location object
      * @param currentAxis as axis object
      * @param currentAngle as float
@@ -313,5 +289,7 @@ public class GUTS implements Runnable {
     private TowerCollection getTowers(){
         return this.towers;
     }
+    
+    private SpeedCalculator speedCalculator;
 
 }

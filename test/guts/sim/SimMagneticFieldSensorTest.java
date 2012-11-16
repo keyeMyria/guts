@@ -45,12 +45,7 @@ public class SimMagneticFieldSensorTest {
      */
     @Test
     public void testGetAngelToMagneticNorth() {
-        //System.out.println("getAngelToMagneticNorth");
-        //double expResult = 0.0;
-        //double result = simMagneticFieldSensorTest.getAngelToMagneticNorth();
-        //assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+
     }
 
     /**
