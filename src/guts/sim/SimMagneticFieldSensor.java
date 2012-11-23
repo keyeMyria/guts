@@ -13,52 +13,80 @@ import guts.*;
  */
 public class SimMagneticFieldSensor {
     
+    /**
+     * Constructer - also initializes the SimUtilities object and stores it as
+     * an class var
+     */
     public SimMagneticFieldSensor() {
-
+        this.utils = new SimUtilities();
     }
 
+    /**
+     * Recalculates the angel to north.
+     * It changes the direction every simLength turns, where simLength is a
+     * random number that depends on the refresh rate.
+     * 
+     * @return the new angel
+     */
     public double getAngelToMagneticNorth() {
+        // Every simLength turns, a new direction is generated
         if(simLength <= 0) {
-            simLength = (int)(Math.random() * (1600 / Config.REFRESHRATE)) + 1;
+            simLength = (int)(utils.getRandomBetween(100.0,5000.0,100.0) / Config.REFRESHRATE);
             direction = getNextDirection();  
         }        
-
-        double delta = getDeltaAngel();
-        
      
+        // Recalculates the angel if a change is to be expected (direction != 0)
         if(direction != 0) {
-            angel = Math.abs(angel + (direction * delta))%360;
+            angel += (direction * getDeltaAngel());
+            angel = (angel < 0) ? (angel + 360) : (angel % 360); 
         }
               
-        if(Config.DEBUG >= Config.LOG_ALL) {
-            System.out.println("Magnetic Field Sensor: retries:" + simLength + 
-                    " | direction:" + direction + " | orientation:" + angel + 
-                    " | delta:"+delta);
-        }
         simLength--;
         
         return angel;
     }
     
+    /**
+     * Generates a random integer that lies between -1 and 1
+     * 
+     * @return -1: turn Left, 0: go straight, 1: turn right
+     */
     private int getNextDirection() {
-        int multi = (((int)Math.ceil(Math.random() * 3)));
-        
-        if (multi==3) { return 1; }
-        if (multi==2) { return -1; }
-        return 0;
+        return (int) utils.getRandomBetween(-1.0, 1.0, 1.0);
     }
     
+    /**
+     * Generates a delta angel for the next step in dependence 
+     * of the refresh rate
+     * 
+     * @return The change in angel for the next rendering
+     */
     private double getDeltaAngel() {
-        return ((int)(Math.random() * 300 + 1))/(16000.0 / Config.REFRESHRATE);
+        return utils.getRandomBetween(0.0001 , 0.02 , 0.00001) * Config.REFRESHRATE;
     }
 
     
+    /**
+     * Returns the angel to the magnetic north that was calculated by
+     * getAngelToMagneticNorth
+     * 
+     * @return the current angel
+     * @see #getAngelToMagneticNorth()
+     */
     protected static double getCurrentAngel(){
         return angel;
+    }
+    
+    @Override
+    public String toString() {
+        return ("Magnetic Field Sensor: retries:" + simLength + 
+            " | direction:" + direction + " | orientation:" + angel);
     }
     
     private static double angel = 0;
     private int simLength = 0;
     private int direction = 0;
+    
+    private SimUtilities utils;
     
 }

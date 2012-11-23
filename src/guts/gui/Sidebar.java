@@ -1,132 +1,159 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package guts.gui;
 
+import guts.gui.comp.AxisVisualization;
+import guts.gui.comp.StatusBox;
 import guts.Config;
-import guts.gui.comp.DrawableCanvas;
-import guts.gui.comp.RotatableImage;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 /**
- *
+ * The Sidebar is used as an information panel
+ * where all the data get's visualized. It has 
+ * no controls but implements observers.
+ * 
  * @author Patrick Selge
+ * @version 1.0
  */
 public final class Sidebar extends JPanel {
     
+    /**
+     * Constructor - Sets all the parameters and then draws its elements
+     * to itself
+     */
     public Sidebar() {
         this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
         
-        drawLeftPanel();
+        // Adding the two panels to the sidebar
+        this.add(drawStatusPanel());
+        this.add(drawVisualPanel());
     }
     
-    private void drawLeftPanel() {
-
-        JPanel sensorDataPanel = new JPanel();
-        sensorDataPanel.setLayout(new BoxLayout(sensorDataPanel,BoxLayout.PAGE_AXIS));
-        sensorDataPanel.setBorder(BorderFactory.createTitledBorder("Sensordaten"));
-        sensorDataPanel.setPreferredSize(new Dimension(PANEL_WIDTH,240));
+    /**
+     * Initializes and configures the status panel
+     * and then calls the draw status boxes method
+     * to fill itself up with content.
+     * Also adds a spacing of '5' below itself.
+     * 
+     * @return Status Panel
+     */
+    private JPanel drawStatusPanel() {
+        // Initializing and configuring the 'Status Panel'
+        JPanel statusPanel = new JPanel();
+        statusPanel.setLayout(new BoxLayout(statusPanel,BoxLayout.PAGE_AXIS));
+        statusPanel.setBorder(BorderFactory.createTitledBorder("Sensordaten"));
+        statusPanel.setPreferredSize(new Dimension(PANEL_WIDTH,240));
         
-        JLabel l1 = new JLabel("Latitude");
-        l1.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
-        sensorDataPanel.add(l1);
-        JTextField latitudeTextField = new JTextField();
-        latitudeTextField.setEditable(false);
-        sensorDataPanel.add(latitudeTextField);
-
-        JLabel l2 = new JLabel("Longitude");
-        l2.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
-        sensorDataPanel.add(l2);
-        JTextField longitudeTextField = new JTextField();
-        longitudeTextField.setEditable(false);
-        sensorDataPanel.add(longitudeTextField);
-
-        JLabel l3 = new JLabel("Ausrichtung");
-        l3.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
-        sensorDataPanel.add(l3);
-        JTextField orientationTextField = new JTextField();
-        orientationTextField.setEditable(false);
-        sensorDataPanel.add(orientationTextField);
+        drawStatusBoxes(statusPanel);
         
-        JLabel l4 = new JLabel("Geschwindigkeit");
-        l4.setBorder(BorderFactory.createEmptyBorder(13, 0, 3, 0));
-        sensorDataPanel.add(l4);
-        JTextField speedTextField = new JTextField();
-        speedTextField.setEditable(false);
-        sensorDataPanel.add(speedTextField);
+        // Add some spacing below the 'Status Panel'
+        statusPanel.add(Box.createRigidArea(new Dimension(0,5)));
         
-        sensorDataPanel.add(Box.createRigidArea(new Dimension(0,5)));
-
-        
-        JPanel axisVisualPanel = new JPanel();
-        axisVisualPanel.setLayout(new BorderLayout());
-        axisVisualPanel.add(drawAxisPanel(PITCH_PANEL,0));
-        axisVisualPanel.add(drawAxisPanel(YAWN_PANEL,185));
-        
-        axisVisualPanel.setPreferredSize(new Dimension(PANEL_WIDTH,360));
-        
-        this.add(sensorDataPanel);
-        this.add(axisVisualPanel);
+        return statusPanel;
     }
     
-    private DrawableCanvas drawAxisPanel(int image, int delta) {
-        DrawableCanvas pitchPanel = new DrawableCanvas(0,delta+10,250,170);
-        pitchPanel.setLayout(new BorderLayout());        
+    /**
+     * Draws the status boxes and adds them to the JPanel 
+     * specified as a parameter
+     * 
+     * @param panel Panel that holds all the status boxes
+     */
+    private void drawStatusBoxes(JPanel panel) {
+        // Creating the 'Status Box' for the latitude
+        latitudeStatus = new StatusBox("Latitude", StatusBox.TYPE_LATITUDE);
+        panel.add(latitudeStatus);
         
-        JLayeredPane layeredMiniMap = new JLayeredPane();
+        // Creating the 'Status Box' for the longitude
+        longitudeStatus = new StatusBox("Longitude", StatusBox.TYPE_LONGITUDE);
+        panel.add(longitudeStatus);
         
-        pitchPanel.add(layeredMiniMap);
-         
-        DrawableCanvas layer1 = new DrawableCanvas(0,delta+10,250,170);
-        DrawableCanvas layer2 = new DrawableCanvas(0,delta+10,250,170);
-        DrawableCanvas layer3 = new DrawableCanvas(75,delta+135,90,20);
+        // Creating the 'Status Box' for the orientation
+        orientationStatus = new StatusBox("Ausrichtung");
+        panel.add(orientationStatus);
         
-        RotatableImage jeepSide = null;
-        if(image == PITCH_PANEL) {
-            jeepSide = new guts.gui.comp.RotatableImage(Config.VEHICLE_SIDE,120, 70);
-        } else {
-            jeepSide = new guts.gui.comp.RotatableImage(Config.VEHICLE_FRONT, 120, 70);
-        }
-        RotatableImage background = new guts.gui.comp.RotatableImage("/img/box.png",120,80);      
-        
-        JLabel label;
-        
-        String a = String.format("%2.2f°", 0.0);
-        
-        label = new JLabel(a);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        Font newLabelFont=new Font(label.getFont().getName(),Font.BOLD,label.getFont().getSize()); 
-        label.setFont(newLabelFont);        
-        layer3.add(label);
-        
-        layeredMiniMap.add(layer1, JLayeredPane.DEFAULT_LAYER);
-        layeredMiniMap.add(layer2, JLayeredPane.POPUP_LAYER);
-        layeredMiniMap.add(layer3, JLayeredPane.DRAG_LAYER);
-        
-        layer1.add(background);
-        layer2.add(jeepSide);
-        
-        return pitchPanel;
-        
+        // Creating the 'Status Box' for the speed
+        speedStatus = new StatusBox("Geschwindigkeit");
+        panel.add(speedStatus);
     }
     
+    /**
+     * Initializes and configures itself. Then calls the 
+     * draw axis visualization method to draw its content
+     * 
+     * @return Visual Panel
+     */
+    private JPanel drawVisualPanel() {
+        // Initializing and configuring the 'Visual Panel' 
+        JPanel visPanel = new JPanel();
+        visPanel.setLayout(new BorderLayout());
+        visPanel.setPreferredSize(new Dimension(PANEL_WIDTH,360));
+        
+        drawAxisVisualizations(visPanel);
+        
+        return visPanel;
+    }
     
+    /**
+     * Draws the Axis Visualizations
+     * 
+     * @param panel Panel the Visualizations are drawn on to
+     */
+    private void drawAxisVisualizations(JPanel panel) {
+        // Creating the visualization of the front
+        jeepFront = new AxisVisualization(
+                Config.VEHICLE_FRONT,
+                0,
+                AxisVisualization.AXIS_ROLL);
+        panel.add(jeepFront);
+
+        // Creating the visualization of the side
+        jeepSide = new AxisVisualization(
+                Config.VEHICLE_SIDE,
+                185,
+                AxisVisualization.AXIS_PITCH);
+        panel.add(jeepSide);
+    }
     
-    public static final int PANEL_WIDTH = 250;
-    public static final int PANEL_HEIGHT = 600;
+    // Getter
+    // ------
+    public StatusBox getLatitudeStatusBox() {
+        return latitudeStatus;
+    }
     
-    public static final int PITCH_PANEL = 0;
-    public static final int YAWN_PANEL = 1;
+    public StatusBox getLongitutdeStatusBox() {
+        return longitudeStatus;
+    }
+    
+    public AxisVisualization getJeepSide() {
+        return jeepSide;
+    }
+    
+    public AxisVisualization getJeepFront() {
+        return jeepFront;
+    }
+    
+    public StatusBox getOrientationStatusBox() {
+        return orientationStatus;
+    }
+    
+    public StatusBox getSpeedStatusBox() {
+        return speedStatus;
+    }
+    
+    // Attributes and Constants
+    // ------------------------
+    private StatusBox latitudeStatus;
+    private StatusBox longitudeStatus;
+    private StatusBox orientationStatus;
+    private StatusBox speedStatus;
+    
+    private AxisVisualization jeepSide;
+    private AxisVisualization jeepFront;
+    
+    private static final int PANEL_WIDTH = 250;
+    private static final int PANEL_HEIGHT = 600;
 }

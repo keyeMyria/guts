@@ -11,7 +11,7 @@ import guts.sim.SimGyroscope;
  * object and manages hardwareaccess.
  * @author Cedric Ohle
  */
-public class Gyroscope {
+public class Gyroscope extends java.util.Observable {
     private int address;
     private SimGyroscope simGyroscope;
     
@@ -29,7 +29,11 @@ public class Gyroscope {
      */
     public Axis fetchPosition(){
         if (Config.SIMULATIONENABLED == true){
-            return simGyroscope.getPosition();
+            Axis axis = simGyroscope.getPosition();
+            setChanged();
+            notifyObservers(axis);
+            
+            return axis;
         }else{
             // Implement real hardware access
             return null;

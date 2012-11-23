@@ -8,12 +8,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.URL;
+import java.util.Observable;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class RotatableImage extends JPanel {
+public class RotatableImage extends JPanel implements java.util.Observer {
     private int centerX, centerY; //Center of the Image
     private int posX, posY;
     private double angel = 0; //Angel in radians
@@ -26,13 +26,13 @@ public class RotatableImage extends JPanel {
 
         try {
             img = ImageIO.read(imgResource);
-        } catch (IOException e) {
-            System.out.println("Can't open the image you defined");
+        } catch (Exception ex) {
+            System.out.println("Can't open the image you defined: " + str);
             return;
         }
 
-        centerX = img.getWidth();
-        centerY = img.getHeight();
+        centerX = img.getWidth()/2;
+        centerY = img.getHeight()/2;
         
         this.setOpaque(false);
     }
@@ -44,11 +44,15 @@ public class RotatableImage extends JPanel {
             gx.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
             gx.rotate(angel, posX, posY);
-            gx.drawImage(img, posX-img.getWidth()/2, posY-img.getHeight()/2, null);
+            gx.drawImage(img, posX-centerX, posY-centerY, null);
     }
 
     public void rotateTo(double angel) {
         this.angel = angel;
-
+    }
+    
+    @Override
+    public void update(Observable t, Object o) {
+        rotateTo(Math.toRadians(((Double)o).doubleValue()));
     }
 }
