@@ -1,18 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package guts.gui;
 
-import guts.gui.comp.RotatableImage;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 /**
  *
@@ -20,52 +14,75 @@ import javax.swing.JTextField;
  */
 public final class AppWindow {
     
+    /**
+     * Holds the main container of the application
+     * 
+     * @param controller A reference to the GUI Controller
+     */
     public AppWindow(GUI controller) {
         container = controller.getContentPane();
         container.setBackground(Color.lightGray);
-        container.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+        container.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));        
         
-        setSidebar(new Sidebar());
-        setMainCanvas(new JPanel());
-        setMenubar(new Menubar());
-        setMapPanel(new MapPanel(controller)); 
+        // build up the sidebar
+        sidebar = new Sidebar();
+        container.add(sidebar, BorderLayout.LINE_START);
+        
+        // builds up the menubar and the map
+        topMenubar = new Menubar();
+        mapPanel = new MapPanel(controller);
+        container.add(drawMainContainer(topMenubar, mapPanel));
     }
     
+    
+    /**
+     * Adds multiple Components to a JPanel which it then returns
+     * 
+     * @param comps Component, like a JPanel
+     * @return The main container as a JPanel
+     */
+    public JPanel drawMainContainer(Component ... comps) {
+        JPanel mc = new JPanel();
+        mc.setLayout(new BoxLayout(mc, BoxLayout.Y_AXIS));
+        
+        for(Component comp: comps) {
+            mc.add(comp);
+        }
+        
+        return mc;
+    }
+    
+    /**
+     * Returns the mapPanel to reach it's components
+     * 
+     * @return the mapPanel
+     */
     public MapPanel getMapPanel() {
         return mapPanel;
     }
     
+    /**
+     * Returns the sidebar to reach it's components
+     * 
+     * @return the sidebar
+     */
     public Sidebar getSidebar() {
         return this.sidebar;
-    }
-    
-    private void setMainCanvas(JPanel mc) {
-        mainCanvas = mc;
-        mainCanvas.setLayout(new BoxLayout(mainCanvas, BoxLayout.PAGE_AXIS));
-        container.add(mainCanvas);
-    }
-    
-    
-    
-    public void setSidebar(Sidebar s) {
-        container.add(sidebar = s, BorderLayout.WEST);
-    }
-    
-    public void setMenubar(Menubar m) {
-        mainCanvas.add(menubar = m);
-    }
-    
-    public void setMapPanel(MapPanel mp) {
-        mainCanvas.add(mapPanel = mp);
     }
     
     private Container container;
     
     private Sidebar sidebar;
-    private JPanel mainCanvas;
-    private Menubar menubar;
+    private Menubar topMenubar;
     private MapPanel mapPanel;
     
+    /**
+     * The width of the application
+     */
     public static final int FRAME_WIDTH = 1000;
+    
+    /**
+     * The height of the application
+     */
     public static final int FRAME_HEIGHT = 700;
 }

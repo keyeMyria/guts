@@ -1,6 +1,6 @@
 /**
  * GUTS - GPS Utilized Tracking System
- * A tracking control device that sets the antenna
+ * A tracking control device that sets the antennajunit
  * orientation on an offroad vehicle
  * 
  * @author Patrick Selge
@@ -16,7 +16,7 @@ import guts.actors.Antenna;
 
 import guts.entities.Axis;
 import guts.entities.Location;
-import guts.entities.TowerCollection;
+import osmViewer.data.TowerCollection;
 import guts.entities.TrackLog;
 
 import guts.sensors.GPS;
@@ -155,7 +155,7 @@ public class GUTS implements Runnable {
                     this.gps.fetchLocation(),
                     this.gyroscope.fetchPosition(),
                     this.magneticFieldSensor.fetchAngelToMagneticNorth(),
-                    this.towers.get(this.activeTower).getLocation()
+                    this.towers.get(this.activeTower)
                 );
         antenna.applyNewAxis(newAxis);
     }

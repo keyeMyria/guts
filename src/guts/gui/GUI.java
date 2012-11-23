@@ -1,5 +1,10 @@
 /**
  * GUTS - GPS Utilized Tracking System
+ * GUI - Graphical User Interface
+ * 
+ * This Package includes all the Gui Components.
+ * It communicates through observers and can be
+ * called by the GUTS controller.
  */
 package guts.gui;
 
@@ -9,24 +14,18 @@ import guts.entities.Location;
 import guts.gui.comp.RotatableImage;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.geom.Point2D;
-import java.util.Set;
-import javax.swing.*;
-import javax.swing.event.MouseInputListener;
-import org.jdesktop.swingx.mapviewer.Waypoint;
+import javax.swing.*; 
 
 /**
- *
+ * The GUI Controller communicates with the GUTS Controller
+ * 
  * @author Patrick Selge
  */
-public class GUI extends JFrame implements Runnable,MouseInputListener,ActionListener {
+public class GUI extends JFrame 
+implements Runnable {
             
     /**
-     * used by GUTS for the creation of a thread
+     * Run method - is called by thread creation
      */
     @Override 
     public void run() {
@@ -35,22 +34,41 @@ public class GUI extends JFrame implements Runnable,MouseInputListener,ActionLis
         this.setVisible(true);
     }
     
-    private void drawInterface() {
+    /**
+     * Builds up the interface
+     */
+    public void drawInterface() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         setBackground(Color.lightGray);
-        
+             
         appWindow = new AppWindow(this);
                
         pack();
     }
-        
+       
+    /**
+     * Need to be rewritten as observer
+     * 
+     * @deprecated
+     * @param locat 
+     */
     public void moveToWaypoint(Location locat) {
         appWindow.getMapPanel().setViewPointToLocation(locat);
     }
-    
+
+    // Getter
+    // ------
     public RotatableImage getJeepTop() {
         return appWindow.getMapPanel().getJeepTop();
+    }
+    
+    public AxisVisualization getJeepFront() {
+        return appWindow.getSidebar().getJeepFront();
+    }
+    
+    public AxisVisualization getJeepSide() {
+        return appWindow.getSidebar().getJeepSide();
     }
     
     public StatusBox getLongitutdeStatusBox() {
@@ -68,64 +86,8 @@ public class GUI extends JFrame implements Runnable,MouseInputListener,ActionLis
     public StatusBox getSpeedStatusBox() {
         return appWindow.getSidebar().getSpeedStatusBox();
     }
-    
-    public AxisVisualization getJeepFront() {
-        return appWindow.getSidebar().getJeepFront();
-    }
-    
-    public AxisVisualization getJeepSide() {
-        return appWindow.getSidebar().getJeepSide();
-    }
-    
+
+    // Attributes and Constants
+    // ------------------------
     private AppWindow appWindow;  
-
-    @Override
-    public void mousePressed(MouseEvent evt) {        
-        if (SwingUtilities.isRightMouseButton(evt)) {
-            appWindow.getMapPanel().showPopUpMenu(
-                    evt.getComponent(), 
-                    evt.getX(), 
-                    evt.getY());
-        }
-     }
- 
-
-       
-
-    @Override
-    public void mouseClicked(MouseEvent me) {}
-
-    @Override
-    public void mouseReleased(MouseEvent me) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent me) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent me) {
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent me) {
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent me) {
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        if(ae.getSource() instanceof JMenuItem) {
-            JMenuItem jmi = (JMenuItem)ae.getSource();
-            
-            if(jmi.getName().equals("btn_new_tower")) {
-                appWindow.getMapPanel().setTower();
-            }
-        }
-
-    }
-    
-    
 }

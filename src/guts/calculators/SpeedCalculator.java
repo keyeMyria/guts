@@ -5,10 +5,16 @@ import java.util.Date;
 import java.util.Observable;
 
 /**
- *
+ * Does all the speed calculation between to Location objects.
+ * It therefor keeps an history of the last known poisition and
+ * uses the new pased object to do it's math. It then saves the 
+ * new object as the last known position, and so on...
+ * 
  * @author Patrick Selge
+ * @version 1.0
  */
-public class SpeedCalculator extends java.util.Observable implements java.util.Observer {
+public class SpeedCalculator extends java.util.Observable 
+implements java.util.Observer {
     
     /**
      * Returns the current speed in km/h
@@ -25,15 +31,23 @@ public class SpeedCalculator extends java.util.Observable implements java.util.O
             return 0.0;
         }
         
-        double time = DatesToHours(lastKnownLocation.getTimestamp(), current.getTimestamp());
-        double distance = current.distanceTo(lastKnownLocation,3);
+        double time = DatesToHours(lastKnownLocation.getTimestamp(), 
+                current.getTimestamp());
+        double distance = current.distanceTo(lastKnownLocation);
         
         return distance/time;
     }
     
-    
-    private double DatesToHours(Date current, Date last) {
-        double timeDiff = current.getTime() - last.getTime();
+    /**
+     * Transforms the time between to dates and returns 
+     * them as a double in hourse
+     * 
+     * @param t1 A timestamp or date object
+     * @param t2 A timestamp or date object
+     * @return The difference between t1 and t2 in hours
+     */
+    private double DatesToHours(Date t1, Date t2) {
+        double timeDiff = t1.getTime() - t2.getTime();
         return Math.abs(timeDiff * DIV_HOURS);
     }
     
@@ -47,7 +61,6 @@ public class SpeedCalculator extends java.util.Observable implements java.util.O
         this.lastKnownLocation = start; 
     }
     
-    
     /**
      * Reset the Speed calculator, so that calculateSpeed will
      * return 0.0 the next time it's called, because lastKnownLocation 
@@ -57,8 +70,7 @@ public class SpeedCalculator extends java.util.Observable implements java.util.O
      */
     public void reset() {
         this.lastKnownLocation = null;
-    }
-    
+    }  
     
     /**
      * Calculates the speed and sets the location to the
@@ -70,7 +82,7 @@ public class SpeedCalculator extends java.util.Observable implements java.util.O
      */
     @Override
     public void update(Observable t, Object o) {
-        if(c++ % 15 == 0) {
+        if(c++ % REFRESH_RATE == 0) {
             this.speed = calculateSpeed((Location) o);
             this.lastKnownLocation = ((Location) o);
 
@@ -95,5 +107,6 @@ public class SpeedCalculator extends java.util.Observable implements java.util.O
     // A temporary counter variable. May change in next version. Do
     // not rely on.
     private int c = 0;
+    private static final int REFRESH_RATE = 15;
 
 }

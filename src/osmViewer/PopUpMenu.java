@@ -2,12 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package guts.gui.comp;
+package osmViewer;
 
-import guts.gui.GUI;
 import guts.gui.MapPanel;
 import guts.gui.Menubar;
-import guts.gui.entities.TowerIcon;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +15,7 @@ import java.util.Set;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.event.MouseInputListener;
 import org.jdesktop.swingx.mapviewer.GeoPosition;
 
 /**
@@ -25,7 +24,7 @@ import org.jdesktop.swingx.mapviewer.GeoPosition;
  */
 public class PopUpMenu extends JPopupMenu {
     
-    public PopUpMenu(GUI controller) {
+    public PopUpMenu(ActionListener listener) {
         
         JMenuItem newTower = new JMenuItem("Neuer Sendemast");
         newTower.setName("btn_new_tower");
@@ -35,7 +34,8 @@ public class PopUpMenu extends JPopupMenu {
         disableSimulation.setEnabled(false);
         this.add(disableSimulation);
         
-        newTower.addActionListener(controller);
+        
+        newTower.addActionListener(listener);
     }
     
     public String askForTowerName() {                

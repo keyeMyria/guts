@@ -39,21 +39,6 @@ public class SpeedCalculatorTest {
     }
 
     /**
-     * Test of calculateSpeed method, of class SpeedCalculator.
-     */
-    @Test
-    public void testCalculateSpeed() {
-        System.out.println("calculateSpeed");
-        Location current = null;
-        SpeedCalculator instance = new SpeedCalculator();
-        double expResult = 0.0;
-        double result = instance.calculateSpeed(current);
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of reset method, of class SpeedCalculator.
      */
     @Test
