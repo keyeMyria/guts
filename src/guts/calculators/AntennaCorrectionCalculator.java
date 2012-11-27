@@ -7,17 +7,32 @@ package guts.calculators;
 import guts.entities.Axis;
 import guts.entities.Location;
 
+
+/**
+     * Calculates the needed positioncorrections based on the given
+     * current location, position and direction. New position values are
+     * returned as axis object.
+     * 
+     * @param currentLocation as location object
+     * @param currentAxis as axis object
+     * @param currentAngle as float
+     * @param activeTowerLocation as Location object
+     * @return newAxis as axis object
+     */
+
 /**
  *
- * @author Samsung
+ * @author Fethiye Güney
  */
-public class AntennaCorrectionCalculator(Location currentLocation, 
+public class AntennaCorrectionCalculator {
+    
+    public Axis calculateCorrection(Location currentLocation, 
         Axis currentAxis, double currentAngle, Location activeTowerLocation){ 
     
 
     
     double i, Angle; 
-    double newAngle=0.0;
+    double newAngle;
     double deltax, deltay;
         
   deltax = activeTowerLocation.getLongitude() - currentLocation.getLongitude();
@@ -48,3 +63,4 @@ public class AntennaCorrectionCalculator(Location currentLocation,
         
        return new Axis(0,newAngle,0);
     }
+}
