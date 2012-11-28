@@ -21,7 +21,9 @@ import guts.entities.Location;
      */
 
 /**
- *
+ * This class fetches the values of the current position 
+ * of the Antenna (Pitch,Yaw,Roll), 
+ * and returns the new calculated values​​, to correct the alignment of it.
  * @author Fethiye Güney
  */
 public class AntennaCorrectionCalculator {
@@ -29,11 +31,7 @@ public class AntennaCorrectionCalculator {
     public Axis calculateCorrection(Location currentLocation, 
         Axis currentAxis, double currentAngle, Location activeTowerLocation){ 
     
-
-    
-    double i, Angle; 
-    double newAngle;
-    double deltax, deltay;
+    double i, Angle, newAngle, deltax, deltay, Pitch, newPitch, Roll, newRoll;
         
   deltax = activeTowerLocation.getLongitude() - currentLocation.getLongitude();
   deltay = activeTowerLocation.getLatitude() - currentLocation.getLatitude();
@@ -61,6 +59,11 @@ public class AntennaCorrectionCalculator {
           newAngle=Angle;
         }
         
-       return new Axis(0,newAngle,0);
+       Roll=currentAxis.getRoll();
+       newRoll=Roll * (-1);
+       Pitch=currentAxis.getPitch();
+       newPitch=Pitch * (-1);
+       
+       return new Axis(newPitch,newAngle,newRoll);
     }
 }
