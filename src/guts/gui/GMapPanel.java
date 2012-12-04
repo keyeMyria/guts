@@ -23,13 +23,13 @@ import javax.swing.border.BevelBorder;
  *
  * @author Patrick Selge
  */
-public class MapPanel extends JLayeredPane {
+public class GMapPanel extends JLayeredPane {
 
     public Set<Waypoint> getWaypoints() {
         return this.waypoints;
     }
 
-    public MapPanel(GUI controller) {        
+    public GMapPanel(GUI controller) {        
         osm = new OSMViewer();
         drawMapPanel();
     }
