@@ -13,7 +13,6 @@ import osmViewer.OSMViewer;
 import guts.gui.comp.RotatableImage;
 import guts.utils.*;
 import java.awt.Color;
-import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JLayeredPane;
@@ -24,7 +23,7 @@ import javax.swing.border.BevelBorder;
  *
  * @author Patrick Selge
  */
-public final class MapPanel extends JLayeredPane {
+public class MapPanel extends JLayeredPane {
 
     public Set<Waypoint> getWaypoints() {
         return this.waypoints;
