@@ -1,10 +1,11 @@
 /**
  * GUTS - GPS Utilized Tracking System
- * A tracking control device that sets the antennajunit
+ * A tracking control device that sets the antennaunit
  * orientation on an offroad vehicle
  * 
  * @author Patrick Selge
  * @author Cedric Ohle
+ * @author Fethiye Güney
  * @version 0.1
  */
 
