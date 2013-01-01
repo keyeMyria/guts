@@ -29,7 +29,7 @@ import guts.entities.Location;
 public class AntennaCorrectionCalculator {
     
     public Axis calculateCorrection(Location currentLocation, Axis currentAxis, 
-            double currentAngle, Location activeTowerLocation, double getCurrentAngel){ 
+            double currentAngle, Location activeTowerLocation){ 
     
     double i, newAngle, deltax, deltay, pitch, newPitch, roll, newRoll;
         
@@ -58,7 +58,7 @@ public class AntennaCorrectionCalculator {
           newAngle = Math.atan(Math.toRadians(i));
         }
         
-       newAngle = (360 - getCurrentAngel + newAngle) % 360;
+       newAngle = (360 - currentAngle + newAngle) % 360;
        
        roll=currentAxis.getRoll();
        newRoll=roll * (-1);
