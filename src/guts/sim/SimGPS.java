@@ -17,6 +17,9 @@ public class SimGPS extends java.util.Observable {
     private Location location;
     private double newLongitude;
     private double newLatitude;
+    private double angel;
+    private double longitudedelta;
+    private double speed;
     private static final int DIVIDER = 1600000000;
     private static final int FACTOR = 150;
     
@@ -24,15 +27,27 @@ public class SimGPS extends java.util.Observable {
         this.location = startLocation;
     }
     
+    public Location getLocation() {
+        return this.location;
+    }
+    
     public Location fetchNewLocation(){
 
-        double angel = SimMagneticFieldSensor.getCurrentAngel();
-        if(Config.DEBUG >= Config.LOG_ALL) {
-            System.out.println("Winkel des Kompass im GPS: " + angel);
-        }
+        angel = SimMagneticFieldSensor.getCurrentAngel();
         
-        // TODO: Rework this
-        double speed;
+        calculateSpeed();
+        
+        calculateNewLocation();
+        
+        checkAndCorrectOverflowLatitude();
+        checkAndCorrectOverflowLongitude();
+
+        this.location = new Location(newLatitude, newLongitude);
+        return this.location;
+    }
+    
+    private void calculateSpeed(){
+        // TODO: Rework this to be more like a actual gaspedal
         if(((angel > 0) && (angel < 90)) || ((angel > 180) && (angel < 270))){
             speed = Math.abs((angel%90)/45);
         } else{
@@ -40,8 +55,10 @@ public class SimGPS extends java.util.Observable {
         }
         
         // Neues delta für Longitude
-        double longitudedelta = ((Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE))*speed;
-        
+        longitudedelta = ((Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE))*speed;
+    }
+
+    private void calculateNewLocation(){
         // Neue Position errechnen
         // Sonderfälle der Achsen
         if(angel == 0) {
@@ -70,16 +87,6 @@ public class SimGPS extends java.util.Observable {
             newLongitude = this.location.getLongitude() - longitudedelta;
             newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(angel%90))*longitudedelta);
         }
-        
-        checkAndCorrectOverflowLatitude();
-        checkAndCorrectOverflowLongitude();
-
-        this.location = new Location(newLatitude, newLongitude);
-        return this.location;
-    }
-    
-    public Location getLocation() {
-        return this.location;
     }
     
     private void checkAndCorrectOverflowLatitude(){
