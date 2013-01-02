@@ -12,9 +12,11 @@ import guts.entities.Location;
  * @author Cedric Ohle
  * @author Patrick Selge
  */
-public class SimGPS {
+public class SimGPS extends java.util.Observable {
     
     private Location location;
+    private double newLongitude;
+    private double newLatitude;
     private static final int DIVIDER = 1600000000;
     private static final int FACTOR = 150;
     
@@ -23,8 +25,7 @@ public class SimGPS {
     }
     
     public Location fetchNewLocation(){
-        double newLongitude;
-        double newLatitude;
+
         double angel = SimMagneticFieldSensor.getCurrentAngel();
         if(Config.DEBUG >= Config.LOG_ALL) {
             System.out.println("Winkel des Kompass im GPS: " + angel);
@@ -70,9 +71,10 @@ public class SimGPS {
             newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(angel%90))*longitudedelta);
         }
         
+        checkAndCorrectOverflowLatitude();
+        checkAndCorrectOverflowLongitude();
+
         this.location = new Location(newLatitude, newLongitude);
-        checkAndCorrectOverflows();
-            
         return this.location;
     }
     
@@ -80,33 +82,32 @@ public class SimGPS {
         return this.location;
     }
     
-    private void checkAndCorrectOverflows(){
-        checkAndCorrectOverflowLatitude();
-        checkAndCorrectOverflowLongitude();
-        
-    }
-    
     private void checkAndCorrectOverflowLatitude(){
-        //TODO Compass muss bei diesem Überlauf mitkorrigiert werden
-        //     Invertierung der Achsen
         if(location.getLatitude() > 90){
            newLatitude = -90 + (location.getLatitude() - 90);
            if(location.getLongitude() >= 0){
                newLongitude = location.getLongitude() - 180;
            }
-           if(newLongitude < 0){
+           else{
                newLongitude = location.getLongitude() + 180;
            }
+           // Compass needs to invert axis
+           setChanged();
+           notifyObservers(location);
         }
         if(location.getLatitude() < -90){
            newLatitude = 90 - (location.getLatitude() + 90);
            if(location.getLongitude() >= 0){
                newLongitude = location.getLongitude() - 180;
            }
-           if(location.getLongitude() < 0){
+           else{
                newLongitude = location.getLongitude() + 180;
            }
+           // Compass needs to invert axis
+           setChanged();
+           notifyObservers(location);
         }
+        
     }
     
     private void checkAndCorrectOverflowLongitude(){

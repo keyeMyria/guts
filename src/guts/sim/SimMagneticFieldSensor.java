@@ -5,13 +5,14 @@
 package guts.sim;
 
 import guts.*;
+import java.util.Observable;
 
 /**
  *
  * @author Cedric Ohle
  * @author Patrick Selge
  */
-public class SimMagneticFieldSensor {
+public class SimMagneticFieldSensor implements java.util.Observer{
     
     /**
      * Constructer - also initializes the SimUtilities object and stores it as
@@ -81,6 +82,16 @@ public class SimMagneticFieldSensor {
     public String toString() {
         return ("Magnetic Field Sensor: retries:" + simLength + 
             " | direction:" + direction + " | orientation:" + angel);
+    }
+    
+
+    @Override
+    public void update(Observable o, Object o1) {
+        invertAxis();
+    }
+
+    private void invertAxis() {
+        angel = (angel+180) % 360;
     }
     
     private static double angel = 0;
