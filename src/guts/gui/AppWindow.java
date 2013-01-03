@@ -30,7 +30,7 @@ public final class AppWindow {
         
         // builds up the menubar and the map
         topMenubar = new Menubar();
-        mapPanel = new MapPanel(controller);
+        mapPanel = new GMapPanel(controller);
         container.add(drawMainContainer(topMenubar, mapPanel));
     }
     
@@ -41,12 +41,12 @@ public final class AppWindow {
      * @param comps Component, like a JPanel
      * @return The main container as a JPanel
      */
-    public JPanel drawMainContainer(Component ... comps) {
+    public JPanel drawMainContainer(Object ... comps) {
         JPanel mc = new JPanel();
         mc.setLayout(new BoxLayout(mc, BoxLayout.Y_AXIS));
         
-        for(Component comp: comps) {
-            mc.add(comp);
+        for(Object comp: comps) {
+            mc.add((Component) comp);
         }
         
         return mc;
@@ -57,7 +57,7 @@ public final class AppWindow {
      * 
      * @return the mapPanel
      */
-    public MapPanel getMapPanel() {
+    public GMapPanel getMapPanel() {
         return mapPanel;
     }
     
@@ -74,7 +74,7 @@ public final class AppWindow {
     
     private Sidebar sidebar;
     private Menubar topMenubar;
-    private MapPanel mapPanel;
+    private GMapPanel mapPanel;
     
     /**
      * The width of the application

@@ -11,7 +11,7 @@
 
 package guts;
 
-import guts.calculators.SpeedCalculator;
+import guts.calculators.*;
 import guts.gui.GUI;
 import guts.actors.Antenna;
 
@@ -120,6 +120,7 @@ public class GUTS implements Runnable {
         
         // Create Guts Calculators
         this.speedCalculator = new SpeedCalculator();
+        this.antennaCorrectionCalculator = new AntennaCorrectionCalculator();
         
         magneticFieldSensor.addObserver(gui.getJeepTop());
         magneticFieldSensor.addObserver(gui.getOrientationStatusBox());
@@ -152,7 +153,7 @@ public class GUTS implements Runnable {
      * Corrects the antenna position.
      */
     public void correctAntennaPostion(){
-        Axis newAxis = calculateCorrection(
+        Axis newAxis = antennaCorrectionCalculator.calculateCorrection(
                     this.gps.fetchLocation(),
                     this.gyroscope.fetchPosition(),
                     this.magneticFieldSensor.fetchAngelToMagneticNorth(),
@@ -185,54 +186,6 @@ public class GUTS implements Runnable {
      */
     public boolean getAntennaCorrectionStatus(){
         return this.antennaCorrectionEnabled;
-    }
-    
-    /**
-     * Calculates the needed positioncorrections based on the given
-     * current location, position and direction. New position values are
-     * returned as axis object.
-     * 
-     * @param currentLocation as location object
-     * @param currentAxis as axis object
-     * @param currentAngle as float
-     * @param activeTowerLocation as Location object
-     * @return newAxis as axis object
-     */
-    private Axis calculateCorrection(Location currentLocation, Axis currentAxis,
-                double currentAngle, Location activeTowerLocation){
-        
-        double i, Angle; 
-        double newAngle=0.0;
-        double deltax, deltay;
-        
-        deltax = activeTowerLocation.getLongitude() - currentLocation.getLongitude();
-        deltay = activeTowerLocation.getLatitude() - currentLocation.getLatitude();
-        
-       if (deltay == 0) {
-           if(deltax > 0){
-               newAngle=90;
-           }
-           else {
-               newAngle=270;
-           }
-       }          
-       else if (deltax == 0) {
-          if(deltay > 0){
-              newAngle=0;
-          }
-          else {
-              newAngle=180;
-          }
-       }
-      
-       else{
-          i=deltay/deltax;
-          Angle = Math.atan(Math.toRadians(i));
-          newAngle=Angle;
-        }
-        
-       return new Axis(0,newAngle,0);
-       // TODO gyroscope werte eintragen
     }
     
     /**
@@ -292,5 +245,7 @@ public class GUTS implements Runnable {
     }
     
     private SpeedCalculator speedCalculator;
+    private AntennaCorrectionCalculator antennaCorrectionCalculator;
+
 
 }
