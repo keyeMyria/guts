@@ -120,20 +120,24 @@ public class SimGPS extends java.util.Observable {
         switch((int) angel){ 
             case 0:
                 sLocation.setLongitude(this.location.getLongitude());
-                sLocation.setLatitude(this.location.getLatitude() + (Math.random() * FACTOR+1)/proportionFactor);
+                sLocation.setLatitude(this.location.getLatitude() + calculateAxisLocationDelta());
                 break;
             case 90:
-                sLocation.setLongitude(this.location.getLongitude() + (Math.random() * FACTOR+1)/proportionFactor);
+                sLocation.setLongitude(this.location.getLongitude() + calculateAxisLocationDelta());
                 sLocation.setLatitude(this.location.getLatitude());
                 break;
             case 180:
                 sLocation.setLongitude(this.location.getLongitude());
-                sLocation.setLatitude(this.location.getLatitude() - (Math.random() * FACTOR+1)/proportionFactor); 
+                sLocation.setLatitude(this.location.getLatitude() - calculateAxisLocationDelta()); 
                 break;
             default:
-                sLocation.setLongitude(this.location.getLongitude() - (Math.random() * FACTOR+1)/proportionFactor);
+                sLocation.setLongitude(this.location.getLongitude() - calculateAxisLocationDelta());
                 sLocation.setLatitude(this.location.getLatitude());  
         }
+    }
+    
+    private double calculateAxisLocationDelta(){
+        return (Math.random() * FACTOR+1)/proportionFactor;
     }
     
     private void calculateQuadrantLocations(double angel, double longitudedelta) {
