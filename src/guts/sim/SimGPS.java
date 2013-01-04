@@ -22,6 +22,7 @@ public class SimGPS extends java.util.Observable {
     
     public SimGPS(){
         this.utils = new SimUtilities();
+        this.speed = 0;
     }
     
     /**
@@ -30,7 +31,6 @@ public class SimGPS extends java.util.Observable {
      */
     public void setLocation(Location startLocation){
         this.location = startLocation;
-        this.speed = 0;
     }
     
     /**
