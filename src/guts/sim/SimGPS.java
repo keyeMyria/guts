@@ -2,6 +2,7 @@ package guts.sim;
 
 import guts.Config;
 import guts.entities.Location;
+import guts.sim.data.SimulatedLocation;
 
 /**
  * This class represents the simulated GPS.
@@ -47,14 +48,14 @@ public class SimGPS extends java.util.Observable {
 
         double angel = SimMagneticFieldSensor.getCurrentAngel();
         
+        SimulatedLocation sLocation = calculateNewLocation(angel);
         
-        calculateNewLocation(angel);
-        
-        checkAndCorrectOverflowLatitude();
-        checkAndCorrectOverflowLongitude();
+        if(sLocation.checkAndCorrectOverflowLatitude()) {
+           setChanged();
+           notifyObservers();
+        }
 
-        this.location = new Location(newLatitude, newLongitude);
-        return this.location;
+        return sLocation.to_Location();
     }
     
     /**
@@ -95,33 +96,38 @@ public class SimGPS extends java.util.Observable {
      * Differentiates between axis and quadrant locations
      * @param angel The angel on the coordinate system 
      */
-    private void calculateNewLocation(double angel){
+    private SimulatedLocation calculateNewLocation(double angel){
+        // create new locationObject
+        SimulatedLocation sLocation = new SimulatedLocation(0, 0);
+        
         // Neue Position errechnen
         // Sonderfälle der Achsen
         if(angel % 90 == 0) {
-            calculateAxisLocations(angel);
+            calculateAxisLocations(angel, sLocation);
         } else {
             calculateQuadrantLocations(angel, calculateSpeed(angel));
         }
+        
+        return sLocation;
     }
     
-    private void calculateAxisLocations(double angel) {
+    private void calculateAxisLocations(double angel, SimulatedLocation sLocation) {
         switch((int) angel){ 
             case 0:
-                newLongitude = this.location.getLongitude();
-                newLatitude = this.location.getLatitude() + (Math.random() * FACTOR+1)/proportionFactor;
+                sLocation.setLongitude(this.location.getLongitude());
+                sLocation.setLatitude(this.location.getLatitude() + (Math.random() * FACTOR+1)/proportionFactor);
                 break;
             case 90:
-                newLongitude = this.location.getLongitude() + (Math.random() * FACTOR+1)/proportionFactor;
-                newLatitude = this.location.getLatitude();
+                sLocation.setLongitude(this.location.getLongitude() + (Math.random() * FACTOR+1)/proportionFactor);
+                sLocation.setLatitude(this.location.getLatitude());
                 break;
             case 180:
-                newLongitude = this.location.getLongitude();
-                newLatitude = this.location.getLatitude() - (Math.random() * FACTOR+1)/proportionFactor; 
+                sLocation.setLongitude(this.location.getLongitude());
+                sLocation.setLatitude(this.location.getLatitude() - (Math.random() * FACTOR+1)/proportionFactor); 
                 break;
             default:
-                newLongitude = this.location.getLongitude() - (Math.random() * FACTOR+1)/proportionFactor;
-                newLatitude = this.location.getLatitude();  
+                sLocation.setLongitude(this.location.getLongitude() - (Math.random() * FACTOR+1)/proportionFactor);
+                sLocation.setLatitude(this.location.getLatitude());  
         }
     }
     
@@ -141,47 +147,5 @@ public class SimGPS extends java.util.Observable {
         }
     }
     
-    /**
-     * Checks the latitude for any overflows and corrects them.
-     */
-    private void checkAndCorrectOverflowLatitude(){
-        if(location.getLatitude() > 90){
-           newLatitude = -90 + (location.getLatitude() - 90);
-           if(location.getLongitude() >= 0){
-               newLongitude = location.getLongitude() - 180;
-           }
-           else{
-               newLongitude = location.getLongitude() + 180;
-           }
-           // Compass needs to invert axis
-           setChanged();
-           notifyObservers();
-        }
-        if(location.getLatitude() < -90){
-           newLatitude = 90 - (location.getLatitude() + 90);
-           if(location.getLongitude() >= 0){
-               newLongitude = location.getLongitude() - 180;
-           }
-           else{
-               newLongitude = location.getLongitude() + 180;
-           }
-           // Compass needs to invert axis
-           setChanged();
-           notifyObservers();
-        }
-        
-    }
     
-    /**
-     * Checks the longitude for any overflows and corrects them.
-     */
-    private void checkAndCorrectOverflowLongitude(){
-        // Überlauf auf den Breitengraden
-        if(location.getLongitude() > 180){
-           newLongitude = -180 + (location.getLongitude() - 180); 
-        }
-        if(location.getLongitude() < -180){
-           newLongitude = 180 - (location.getLongitude() + 180); 
-        }
-    }
 }
