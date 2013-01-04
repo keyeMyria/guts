@@ -14,8 +14,6 @@ public class SimGPS extends java.util.Observable {
     private Location location;
     private double newLongitude;
     private double newLatitude;
-    private double angel;
-    private double locationCompensationFactor;
     private double speed = 0;
     private static final int DIVIDER = 1600000000;
     private static final int FACTOR = 150;
@@ -49,7 +47,6 @@ public class SimGPS extends java.util.Observable {
 
         double angel = SimMagneticFieldSensor.getCurrentAngel();
         
-        calculateSpeed(angel);
         
         calculateNewLocation(angel);
         
@@ -68,7 +65,8 @@ public class SimGPS extends java.util.Observable {
      */
     private double calculateSpeed(double angel){
         double speeddifference;
-        
+        double locationCompensationFactor;
+
         if(((angel > 0) && (angel < 90)) || ((angel > 180) && (angel < 270))){
             locationCompensationFactor = Math.abs((angel%90)/45);
         } else{
@@ -103,7 +101,7 @@ public class SimGPS extends java.util.Observable {
         if(angel % 90 == 0) {
             calculateAxisLocations(angel);
         } else {
-            calculateQuadrantLocations(angel);
+            calculateQuadrantLocations(angel, calculateSpeed(angel));
         }
     }
     
@@ -127,7 +125,7 @@ public class SimGPS extends java.util.Observable {
         }
     }
     
-    private void calculateQuadrantLocations(double angel) {
+    private void calculateQuadrantLocations(double angel, double longitudedelta) {
         if(angel > 0 && angel < 90 ){
             newLongitude = this.location.getLongitude() + longitudedelta;
             newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(90-angel))*longitudedelta);
