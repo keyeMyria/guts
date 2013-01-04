@@ -24,14 +24,26 @@ public class SimGPS extends java.util.Observable {
     private static final int FACTOR = 150;
     private static final int proportionFactor = DIVIDER/ Config.REFRESHRATE;
     
+    /**
+     * Sets the startlocation for the simulated GPS
+     * @param startLocation
+     */
     public void setLocation(Location startLocation){
         this.location = startLocation;
     }
     
+    /**
+     * Returns the current location in the simulated GPS
+     * @return current location
+     */
     public Location getLocation() {
         return this.location;
     }
     
+    /**
+     * Calculates a new location based on the compass data.
+     * @return the new location
+     */
     public Location fetchNewLocation(){
 
         angel = SimMagneticFieldSensor.getCurrentAngel();
@@ -46,7 +58,10 @@ public class SimGPS extends java.util.Observable {
         this.location = new Location(newLatitude, newLongitude);
         return this.location;
     }
-    
+    /**
+     * Calculates the speedfactor and sets a new longitudedelta for further
+     * calculations.
+     */
     private void calculateSpeed(){
         // TODO: Rework this to be more like a actual gaspedal
         if(((angel > 0) && (angel < 90)) || ((angel > 180) && (angel < 270))){
@@ -58,7 +73,10 @@ public class SimGPS extends java.util.Observable {
         // Neues delta für Longitude
         longitudedelta = ((Math.random() * FACTOR+1)/proportionFactor)*speed;
     }
-
+    
+    /**
+     * Calculates the new locations based on the longitudedelta.
+     */
     private void calculateNewLocation(){
         // Neue Position errechnen
         // Sonderfälle der Achsen
@@ -90,6 +108,9 @@ public class SimGPS extends java.util.Observable {
         }
     }
     
+    /**
+     * Checks the latitude for any overflows and corrects them.
+     */
     private void checkAndCorrectOverflowLatitude(){
         if(location.getLatitude() > 90){
            newLatitude = -90 + (location.getLatitude() - 90);
@@ -118,6 +139,9 @@ public class SimGPS extends java.util.Observable {
         
     }
     
+    /**
+     * Checks the longitude for any overflows and corrects them.
+     */
     private void checkAndCorrectOverflowLongitude(){
         // Überlauf auf den Breitengraden
         if(location.getLongitude() > 180){
