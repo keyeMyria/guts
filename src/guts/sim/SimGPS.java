@@ -12,44 +12,87 @@ import guts.entities.Location;
  * @author Cedric Ohle
  * @author Patrick Selge
  */
-public class SimGPS {
+public class SimGPS extends java.util.Observable {
     
     private Location location;
+    private double newLongitude;
+    private double newLatitude;
+    private double angel;
+    private double longitudedelta;
+    private double speed;
+    private static final int DIVIDER = 1600000000;
+    private static final int FACTOR = 150;
+    private static final int proportionFactor = DIVIDER/ Config.REFRESHRATE;
     
+    /**
+     * Sets the startlocation for the simulated GPS
+     * @param startLocation
+     */
     public void setLocation(Location startLocation){
         this.location = startLocation;
     }
     
+    /**
+     * Returns the current location in the simulated GPS
+     * @return current location
+     */
+    public Location getLocation() {
+        return this.location;
+    }
+    
+    /**
+     * Calculates a new location based on the compass data.
+     * @return the new location
+     */
     public Location fetchNewLocation(){
-        //Todo: Max 180 abfangen, bei Long und lat
-        double newLongitude;
-        double newLatitude;
-        double angel = SimMagneticFieldSensor.getCurrentAngel();
-        if(Config.DEBUG >= Config.LOG_ALL) {
-            System.out.println("Winkel im GPS: " + angel);
-        }
-        double speed;
+
+        angel = SimMagneticFieldSensor.getCurrentAngel();
+        
+        calculateSpeed();
+        
+        calculateNewLocation();
+        
+        checkAndCorrectOverflowLatitude();
+        checkAndCorrectOverflowLongitude();
+
+        this.location = new Location(newLatitude, newLongitude);
+        return this.location;
+    }
+    /**
+     * Calculates the speedfactor and sets a new longitudedelta for further
+     * calculations.
+     */
+    private void calculateSpeed(){
+        // TODO: Rework this to be more like a actual gaspedal
         if(((angel > 0) && (angel < 90)) || ((angel > 180) && (angel < 270))){
             speed = Math.abs((angel%90)/45);
         } else{
             speed = Math.abs(((angel%90)-90)/45);
         }
         
-        
-        double longitudedelta = ((Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE))*speed;
-        
+        // Neues delta für Longitude
+        longitudedelta = ((Math.random() * FACTOR+1)/proportionFactor)*speed;
+    }
+    
+    /**
+     * Calculates the new locations based on the longitudedelta.
+     */
+    private void calculateNewLocation(){
+        // Neue Position errechnen
+        // Sonderfälle der Achsen
         if(angel == 0) {
                 newLongitude = this.location.getLongitude();
-                newLatitude = this.location.getLatitude() + (Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE);
+                newLatitude = this.location.getLatitude() + (Math.random() * FACTOR+1)/proportionFactor;
         } else if(angel == 90) {
-                newLongitude = this.location.getLongitude() + (Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE);
+                newLongitude = this.location.getLongitude() + (Math.random() * FACTOR+1)/proportionFactor;
                 newLatitude = this.location.getLatitude() ;
         } else if(angel == 180) {
                 newLongitude = this.location.getLongitude();
-                newLatitude = this.location.getLatitude() - (Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE);           
+                newLatitude = this.location.getLatitude() - (Math.random() * FACTOR+1)/proportionFactor;           
         } else if(angel == 270) {
-                newLongitude = this.location.getLongitude() - (Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE);
-                newLatitude = this.location.getLatitude();         
+                newLongitude = this.location.getLongitude() - (Math.random() * FACTOR+1)/proportionFactor;
+                newLatitude = this.location.getLatitude();  
+        // Restliche Flächen der Quadranten
         } else if(angel > 0 && angel < 90 ){
             newLongitude = this.location.getLongitude() + longitudedelta;
             newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(90-angel))*longitudedelta);
@@ -63,16 +106,49 @@ public class SimGPS {
             newLongitude = this.location.getLongitude() - longitudedelta;
             newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(angel%90))*longitudedelta);
         }
-
-        this.location = new Location(newLatitude, newLongitude);
-        return this.location;
     }
     
-    public Location getLocation() {
-        return this.location;
+    /**
+     * Checks the latitude for any overflows and corrects them.
+     */
+    private void checkAndCorrectOverflowLatitude(){
+        if(location.getLatitude() > 90){
+           newLatitude = -90 + (location.getLatitude() - 90);
+           if(location.getLongitude() >= 0){
+               newLongitude = location.getLongitude() - 180;
+           }
+           else{
+               newLongitude = location.getLongitude() + 180;
+           }
+           // Compass needs to invert axis
+           setChanged();
+           notifyObservers(location);
+        }
+        if(location.getLatitude() < -90){
+           newLatitude = 90 - (location.getLatitude() + 90);
+           if(location.getLongitude() >= 0){
+               newLongitude = location.getLongitude() - 180;
+           }
+           else{
+               newLongitude = location.getLongitude() + 180;
+           }
+           // Compass needs to invert axis
+           setChanged();
+           notifyObservers(location);
+        }
+        
     }
     
-    private static final int DIVIDER = 1600000000;
-    private static final int FACTOR = 150;
-    
+    /**
+     * Checks the longitude for any overflows and corrects them.
+     */
+    private void checkAndCorrectOverflowLongitude(){
+        // Überlauf auf den Breitengraden
+        if(location.getLongitude() > 180){
+           newLongitude = -180 + (location.getLongitude() - 180); 
+        }
+        if(location.getLongitude() < -180){
+           newLongitude = 180 - (location.getLongitude() + 180); 
+        }
+    }
 }
