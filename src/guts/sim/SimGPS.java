@@ -71,7 +71,7 @@ public class SimGPS extends java.util.Observable {
      * @return longitudedelta
      */
     private double calculateLatitudeDelta(double angel){
-        return ((calculateSpeed() * FACTOR+1)/proportionFactor)*calculateLocationCompensationFactor(angel);
+        return ((calculateSpeed() * FACTOR)/proportionFactor)*calculateLocationCompensationFactor(angel);
     }
     
     /**
@@ -139,7 +139,7 @@ public class SimGPS extends java.util.Observable {
     }
     
     private double calculateAxisLocationDelta(){
-        return (Math.random() * FACTOR+1)/proportionFactor;
+        return (Math.random() * FACTOR)/proportionFactor;
     }
     
     private void calculateQuadrantLocations(double angel, double longitudedelta) {
