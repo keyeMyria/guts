@@ -133,7 +133,7 @@ public class SimGPS extends java.util.Observable {
            }
            // Compass needs to invert axis
            setChanged();
-           notifyObservers(location);
+           notifyObservers();
         }
         if(location.getLatitude() < -90){
            newLatitude = 90 - (location.getLatitude() + 90);
@@ -145,7 +145,7 @@ public class SimGPS extends java.util.Observable {
            }
            // Compass needs to invert axis
            setChanged();
-           notifyObservers(location);
+           notifyObservers();
         }
         
     }
