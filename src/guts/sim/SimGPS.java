@@ -47,11 +47,11 @@ public class SimGPS extends java.util.Observable {
      */
     public Location fetchNewLocation(){
 
-        angel = SimMagneticFieldSensor.getCurrentAngel();
+        double angel = SimMagneticFieldSensor.getCurrentAngel();
         
         calculateSpeed(angel);
         
-        calculateNewLocation();
+        calculateNewLocation(angel);
         
         checkAndCorrectOverflowLatitude();
         checkAndCorrectOverflowLongitude();
@@ -94,25 +94,41 @@ public class SimGPS extends java.util.Observable {
     }
     
     /**
-     * Calculates the new locations based on the longitudedelta.
+     * Differentiates between axis and quadrant locations
+     * @param angel The angel on the coordinate system 
      */
-    private void calculateNewLocation(){
+    private void calculateNewLocation(double angel){
         // Neue Position errechnen
         // Sonderfälle der Achsen
-        if(angel == 0) {
+        if(angel % 90 == 0) {
+            calculateAxisLocations(angel);
+        } else {
+            calculateQuadrantLocations(angel);
+        }
+    }
+    
+    private void calculateAxisLocations(double angel) {
+        switch((int) angel){ 
+            case 0:
                 newLongitude = this.location.getLongitude();
                 newLatitude = this.location.getLatitude() + (Math.random() * FACTOR+1)/proportionFactor;
-        } else if(angel == 90) {
+                break;
+            case 90:
                 newLongitude = this.location.getLongitude() + (Math.random() * FACTOR+1)/proportionFactor;
-                newLatitude = this.location.getLatitude() ;
-        } else if(angel == 180) {
+                newLatitude = this.location.getLatitude();
+                break;
+            case 180:
                 newLongitude = this.location.getLongitude();
-                newLatitude = this.location.getLatitude() - (Math.random() * FACTOR+1)/proportionFactor;           
-        } else if(angel == 270) {
+                newLatitude = this.location.getLatitude() - (Math.random() * FACTOR+1)/proportionFactor; 
+                break;
+            default:
                 newLongitude = this.location.getLongitude() - (Math.random() * FACTOR+1)/proportionFactor;
                 newLatitude = this.location.getLatitude();  
-        // Restliche Flächen der Quadranten
-        } else if(angel > 0 && angel < 90 ){
+        }
+    }
+    
+    private void calculateQuadrantLocations(double angel) {
+        if(angel > 0 && angel < 90 ){
             newLongitude = this.location.getLongitude() + longitudedelta;
             newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(90-angel))*longitudedelta);
         } else if(angel > 90 && angel < 180){
