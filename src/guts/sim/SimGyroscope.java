@@ -19,8 +19,14 @@ public class SimGyroscope {
     private int pitchSimLength = 0;
     private int pitchDirection = 0;
     
-    public SimGyroscope(){
+    private static SimGyroscope instance = new SimGyroscope();
+    
+    private SimGyroscope(){
         this.axis = new Axis(0,0,0);
+    }
+    
+    public static SimGyroscope getInstance() {
+        return instance;
     }
     
     private int getNextDirection() {
