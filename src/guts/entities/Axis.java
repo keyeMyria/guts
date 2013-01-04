@@ -7,55 +7,70 @@ package guts.entities;
  * @author Cedric Ohle
  */
 public class Axis {
-    private float pitch;
-    private float yawn;
-    private float roll;
+    private double pitch;
+    private double yawn;
+    private double roll;
     
-    /**
-     * Sets the pitchangle
-     * @param pitch as float
-     */
-    public void setPitch(float pitch){
+    public Axis(){
+        
+    }
+    
+    public Axis(double pitch, double yawn, double roll){
         this.pitch = pitch;
-    }
-    
-    /**
-     * Sets the yawnangle
-     * @param yawn as float
-     */
-    public void setYawn(float yawn){
         this.yawn = yawn;
-    }
-    
-    /**
-     * Sets the rollangle
-     * @param roll as float
-     */
-    public void setRoll(float roll){
         this.roll = roll;
     }
     
     /**
-     * Returns the pitchangle
-     * @return the pitchangle as float
+     * Sets the pitch angle
+     * @param pitch as float
      */
-    public float getPitch(){
+    public void setPitch(double pitch){
+        this.pitch = pitch;
+    }
+    
+    /**
+     * Sets the yawn angle
+     * @param yawn as float
+     */
+    public void setYawn(double yawn){
+        this.yawn = yawn;
+    }
+    
+    /**
+     * Sets the roll angle
+     * @param roll as float
+     */
+    public void setRoll(double roll){
+        this.roll = roll;
+    }
+    
+    /**
+     * Returns the pitch angle
+     * @return the pitch angle as float
+     */
+    public double getPitch(){
         return this.pitch;
     }
     
     /**
-     * Returns the yawnangle
-     * @return the yawnangle as float
+     * Returns the yawn angle
+     * @return the yawn angle as float
      */
-    public float getYawn(){
+    public double getYawn(){
         return this.yawn;
     }
     
     /**
-     * Returns the rollangle
-     * @return the rollangle as float
+     * Returns the roll angle
+     * @return the roll angle as float
      */
-    public float getRoll(){
+    public double getRoll(){
         return this.roll;
+    }
+    
+    @Override
+    public String toString(){
+        return ("Roll: " + this.roll + " Pitch: " + this.pitch + " Yawn: " + this.yawn);
     }
 }

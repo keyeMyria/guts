@@ -2,22 +2,42 @@
 
 package guts.sensors;
 
+import guts.Config;
 import guts.entities.Axis;
+import guts.sim.SimGyroscope;
 
 /**
  * This class represents the gyroscope. It allows access to the position of the
  * object and manages hardwareaccess.
  * @author Cedric Ohle
  */
-public class Gyroscope {
+public class Gyroscope extends java.util.Observable {
     private int address;
+    private SimGyroscope simGyroscope;
+    
+    public Gyroscope(int address){
+        this.address = address;
+    }
+    
+    public Gyroscope(){
+        this.simGyroscope = new SimGyroscope();
+    }
     
     /**
      * This function returns the current position as a axis object.
      * @return currentAxis as axis object
      */
     public Axis fetchPosition(){
-        //todo: needs driver access and implementation
-        return null;
+        if (Config.SIMULATIONENABLED == true){
+            Axis axis = simGyroscope.getPosition();
+            setChanged();
+            notifyObservers(axis);
+            
+            return axis;
+        }else{
+            // Implement real hardware access
+            return null;
+        }
+        
     }
 }

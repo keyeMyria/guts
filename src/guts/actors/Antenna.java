@@ -1,6 +1,8 @@
 
 package guts.actors;
 
+import guts.entities.Axis;
+
 /**
  * This class represents the antenna. It has three engines to allow to be
  * positionend.
@@ -59,4 +61,15 @@ public class Antenna {
     private LatchEngine getRollEngine(){
         return this.rollEngine;
     }
+    
+    /**
+     * This function allows to set a new position.
+     * @param newAxis as Axis object
+     */
+    public void applyNewAxis(Axis newAxis){
+        this.rollEngine.moveToAngle(newAxis.getRoll());
+        this.pitchEngine.moveToAngle(newAxis.getPitch());
+        this.yawEngine.moveToAngle(newAxis.getYawn());
+    }
 }
+    

@@ -6,14 +6,14 @@ package guts.actors;
  * @author Cedric Ohle
  */
 class LatchEngine extends Engine{
-    private float leftMax;
-    private float rightMax;
+    private double leftMax;
+    private double rightMax;
     
     /**
      * Sets the left movement maximum
      * @param leftMax as float
      */
-    public void setLeftMax(float leftMax){
+    public void setLeftMax(double leftMax){
         this.leftMax = leftMax;
     }
     
@@ -21,7 +21,7 @@ class LatchEngine extends Engine{
      * Sets the right movement maximum
      * @param rightMax as float
      */
-    public void setRightMax(float rightMax){
+    public void setRightMax(double rightMax){
         this.rightMax = rightMax;
     }
     
@@ -29,7 +29,7 @@ class LatchEngine extends Engine{
      * Gets the left movement maximum
      * @returns leftMax as float
      */
-    public float getLeftMax(){
+    public double getLeftMax(){
         return this.leftMax;
     }
     
@@ -37,7 +37,18 @@ class LatchEngine extends Engine{
      * Gets the right movement maximum
      * @returns rightMax as float
      */
-    public float getRightMax(){
+    public double getRightMax(){
         return this.rightMax;
+    }
+    
+    /**
+     * Allows setting of a new angle to get to.
+     * Calculates the needed direction and distance to drive the servoengine and
+     * moves it if the movement borders are exceeded the servo is moved to the border.
+     * @params angle the new angle as float
+     */
+    @Override
+    public void moveToAngle(double angle){
+        //todo: needs implementation
     }
 }
