@@ -4,7 +4,7 @@
  */
 package osmViewer;
 
-import guts.gui.MapPanel;
+import guts.gui.GMapPanel;
 import guts.gui.Menubar;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
