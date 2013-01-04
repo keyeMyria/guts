@@ -82,7 +82,8 @@ public class SimGPS extends java.util.Observable {
         speed = (utils.getRandomBetween(-1,1,0.01) + speed);
         if (speed < 0){
             // We can't drive backwards
-            return 0;
+            speed = 0;
+            return speed;
         }else{
             // Create upper speedlimit
             return speed % 2;
