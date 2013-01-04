@@ -15,7 +15,7 @@ public class SimGPS extends java.util.Observable {
     private Location location;
     private double newLongitude;
     private double newLatitude;
-    private double speed = 0;
+    private double speed;
     private static final int DIVIDER = 1600000000;
     private static final int FACTOR = 150;
     private static final int proportionFactor = DIVIDER/ Config.REFRESHRATE;
@@ -30,6 +30,7 @@ public class SimGPS extends java.util.Observable {
      */
     public void setLocation(Location startLocation){
         this.location = startLocation;
+        this.speed = 0;
     }
     
     /**
@@ -59,37 +60,41 @@ public class SimGPS extends java.util.Observable {
     }
     
     /**
-     * Calculates the speedfactor and sets a new longitudedelta for further
-     * calculations.
+     * Calculates the new longitudedelta for further calculations.
      * @param angel
      * @return longitudedelta
      */
-    private double calculateSpeed(double angel){
-        double speeddifference;
-        double locationCompensationFactor;
-
-        if(((angel > 0) && (angel < 90)) || ((angel > 180) && (angel < 270))){
-            locationCompensationFactor = Math.abs((angel%90)/45);
-        } else{
-            locationCompensationFactor = Math.abs(((angel%90)-90)/45);
-        }
-        
-        if(utils.getRandomBetween(1,2,1) == 1){
-            speeddifference = -(Math.random());
-        }else{
-            speeddifference = Math.random();
-        }
-        
-        speed = (speeddifference + speed);
-        
+    private double calculateLatitudeDelta(double angel){
+        return ((calculateSpeed() * FACTOR+1)/proportionFactor)*calculateLocationCompensationFactor(angel);
+    }
+    
+    /**
+     * Calculates the new Speed.
+     * @return speedfactor
+     */
+    private double calculateSpeed(){
+        speed = (utils.getRandomBetween(-1,1,0.01) + speed);
         if (speed < 0){
-            speed = 0;
+            // We can't drive backwards
+            return 0;
         }else{
-            speed = speed % 2;
+            // Create upper speedlimit
+            return speed % 2;
         }
-        
-        // Neues delta für Longitude
-        return ((speed * FACTOR+1)/proportionFactor)*locationCompensationFactor;
+    }
+    
+    /**
+     * Calculates the compensationfactor for the locationdelta
+     * based on the current angel of the car
+     * @param angel
+     * @return compensationfactor
+     */
+    private double calculateLocationCompensationFactor(double angel){
+        if(((angel > 0) && (angel < 90)) || ((angel > 180) && (angel < 270))){
+            return Math.abs((angel%90)/45);
+        } else{
+            return Math.abs(((angel%90)-90)/45);
+        }
     }
     
     /**
@@ -105,7 +110,7 @@ public class SimGPS extends java.util.Observable {
         if(angel % 90 == 0) {
             calculateAxisLocations(angel, sLocation);
         } else {
-            calculateQuadrantLocations(angel, calculateSpeed(angel));
+            calculateQuadrantLocations(angel, calculateLatitudeDelta(angel));
         }
         
         return sLocation;
