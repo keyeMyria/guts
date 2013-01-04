@@ -24,6 +24,10 @@ public class SimUtilities {
         this.random = new Random();
     }
     
+    public static int getSign(double value) {
+        return (value >= 0) ? 1 : -1;
+    }
+    
     /**
      * Returns a random number that lies between smallest and largest 
      * and is also a multiple of stepSize. The result is correct to 

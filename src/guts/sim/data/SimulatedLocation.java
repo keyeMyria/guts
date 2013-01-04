@@ -5,6 +5,7 @@
 package guts.sim.data;
 
 import guts.entities.Location;
+import guts.sim.SimUtilities;
 
 /**
  *
@@ -25,17 +26,11 @@ public class SimulatedLocation {
      * Checks the latitude for any overflows and corrects them.
      */
     public boolean checkAndCorrectOverflowLatitude(){
-        if(latitude > 90){
-           latitude = -90 + (latitude - 90);
-           longitude += (longitude >= 0) ? -180 : 180;
+        if (Math.abs(latitude) > 90) {
+           int sign = SimUtilities.getSign(latitude);
+           latitude = (sign * -90) +  sign * (latitude - (sign * 90));
+           longitude += SimUtilities.getSign(longitude) * -180;
            
-           return true;
-        }
-        
-        if(latitude < -90){
-           latitude = 90 - (latitude + 90);
-           longitude += (longitude >= 0) ? -180 : 180;
-
            return true;
         }
         
@@ -45,14 +40,15 @@ public class SimulatedLocation {
     /**
      * Checks the longitude for any overflows and corrects them.
      */
-    private void checkAndCorrectOverflowLongitude(){
-        // Überlauf auf den Breitengraden
-        if(location.getLongitude() > 180){
-           newLongitude = -180 + (location.getLongitude() - 180); 
+    private boolean checkAndCorrectOverflowLongitude(){
+        if (Math.abs(longitude) > 180) {
+            int sign = SimUtilities.getSign(longitude);
+            longitude = (sign * -180) + sign * (longitude - (sign * 180));
+            
+            return true;
         }
-        if(location.getLongitude() < -180){
-           newLongitude = 180 - (location.getLongitude() + 180); 
-        }
+        
+        return false;
     }
     
     /* Getter and Setter */
