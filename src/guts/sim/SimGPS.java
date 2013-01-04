@@ -12,9 +12,7 @@ import guts.sim.data.SimulatedLocation;
 public class SimGPS extends java.util.Observable {
     
     private SimUtilities utils;
-    private Location location;
-    private double newLongitude;
-    private double newLatitude;
+    private SimulatedLocation sLocation;
     private double speed;
     private static final int DIVIDER = 1600000000;
     private static final int FACTOR = 150;
@@ -24,6 +22,9 @@ public class SimGPS extends java.util.Observable {
     private SimGPS(){
         this.utils = new SimUtilities();
         this.speed = 0;
+        
+        // create new locationObject
+        sLocation = new SimulatedLocation(0, 0);
     }
     
     public static SimGPS getInstance() {
@@ -35,7 +36,7 @@ public class SimGPS extends java.util.Observable {
      * @param startLocation
      */
     public void setLocation(Location startLocation){
-        this.location = startLocation;
+        sLocation.from_Location(startLocation);
     }
     
     /**
@@ -43,7 +44,7 @@ public class SimGPS extends java.util.Observable {
      * @return current location
      */
     public Location getLocation() {
-        return this.location;
+        return sLocation.to_Location();
     }
     
     /**
@@ -54,7 +55,7 @@ public class SimGPS extends java.util.Observable {
 
         double angel = SimMagneticFieldSensor.getCurrentAngel();
         
-        SimulatedLocation sLocation = calculateNewLocation(angel);
+        calculateNewLocation(angel);
         
         if(sLocation.checkAndCorrectOverflows()) {
            setChanged();
@@ -106,38 +107,33 @@ public class SimGPS extends java.util.Observable {
      * Differentiates between axis and quadrant locations
      * @param angel The angel on the coordinate system 
      */
-    private SimulatedLocation calculateNewLocation(double angel){
-        // create new locationObject
-        SimulatedLocation sLocation = new SimulatedLocation(0, 0);
-        
+    private void calculateNewLocation(double angel){        
         // Neue Position errechnen
         // Sonderfälle der Achsen
         if(angel % 90 == 0) {
-            calculateAxisLocations(angel, sLocation);
+            calculateAxisLocations(angel);
         } else {
             calculateQuadrantLocations(angel, calculateLatitudeDelta(angel));
-        }
-        
-        return sLocation;
+        }        
     }
     
-    private void calculateAxisLocations(double angel, SimulatedLocation sLocation) {
+    private void calculateAxisLocations(double angel) {
         switch((int) angel){ 
             case 0:
-                sLocation.setLongitude(this.location.getLongitude());
-                sLocation.setLatitude(this.location.getLatitude() + calculateAxisLocationDelta());
+                sLocation.setLongitude(sLocation.getLongitude());
+                sLocation.setLatitude(sLocation.getLatitude() + calculateAxisLocationDelta());
                 break;
             case 90:
-                sLocation.setLongitude(this.location.getLongitude() + calculateAxisLocationDelta());
-                sLocation.setLatitude(this.location.getLatitude());
+                sLocation.setLongitude(sLocation.getLongitude() + calculateAxisLocationDelta());
+                sLocation.setLatitude(sLocation.getLatitude());
                 break;
             case 180:
-                sLocation.setLongitude(this.location.getLongitude());
-                sLocation.setLatitude(this.location.getLatitude() - calculateAxisLocationDelta()); 
+                sLocation.setLongitude(sLocation.getLongitude());
+                sLocation.setLatitude(sLocation.getLatitude() - calculateAxisLocationDelta()); 
                 break;
             default:
-                sLocation.setLongitude(this.location.getLongitude() - calculateAxisLocationDelta());
-                sLocation.setLatitude(this.location.getLatitude());  
+                sLocation.setLongitude(sLocation.getLongitude() - calculateAxisLocationDelta());
+                sLocation.setLatitude(sLocation.getLatitude());  
         }
     }
     
@@ -147,17 +143,17 @@ public class SimGPS extends java.util.Observable {
     
     private void calculateQuadrantLocations(double angel, double longitudedelta) {
         if(angel > 0 && angel < 90 ){
-            newLongitude = this.location.getLongitude() + longitudedelta;
-            newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(90-angel))*longitudedelta);
+            sLocation.setLongitude(sLocation.getLongitude() + longitudedelta);
+            sLocation.setLatitude(sLocation.getLatitude() + (Math.tan(Math.toRadians(90-angel))*longitudedelta));
         } else if(angel > 90 && angel < 180){
-            newLongitude = this.location.getLongitude() + longitudedelta;
-            newLatitude = this.location.getLatitude() - (Math.tan(Math.toRadians(angel%90))*longitudedelta);
+            sLocation.setLongitude(sLocation.getLongitude() + longitudedelta);
+            sLocation.setLatitude(sLocation.getLatitude() - (Math.tan(Math.toRadians(angel%90))*longitudedelta));
         } else if(angel > 180 && angel < 270){
-            newLongitude = this.location.getLongitude() - longitudedelta;
-            newLatitude = this.location.getLatitude() - (Math.tan(Math.toRadians(270-angel))*longitudedelta);
+            sLocation.setLongitude(sLocation.getLongitude() - longitudedelta);
+            sLocation.setLatitude(sLocation.getLatitude() - (Math.tan(Math.toRadians(270-angel))*longitudedelta));
         } else {
-            newLongitude = this.location.getLongitude() - longitudedelta;
-            newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(angel%90))*longitudedelta);
+            sLocation.setLongitude(sLocation.getLongitude() - longitudedelta);
+            sLocation.setLatitude(sLocation.getLatitude() + (Math.tan(Math.toRadians(angel%90))*longitudedelta));
         }
     }
     

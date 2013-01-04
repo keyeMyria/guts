@@ -22,6 +22,11 @@ public class SimulatedLocation {
         return new Location(latitude, longitude);
     }
     
+    public void from_Location(Location location) {
+        this.latitude = location.getLatitude();
+        this.longitude = location.getLongitude();
+    }
+    
     public boolean checkAndCorrectOverflows() {
         return (checkAndCorrectOverflowLatitude() || 
                 checkAndCorrectOverflowLongitude());
