@@ -74,7 +74,7 @@ public class SimGPS extends java.util.Observable {
     }
     
     /**
-     * Calculates the new Speed.
+     * Calculates the new speed.
      * @return speedfactor
      */
     private double calculateSpeed(){
