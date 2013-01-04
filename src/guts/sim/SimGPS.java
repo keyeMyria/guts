@@ -1,14 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package guts.sim;
 
 import guts.Config;
 import guts.entities.Location;
 
 /**
- *
+ * This class represents the simulated GPS.
  * @author Cedric Ohle
  * @author Patrick Selge
  */

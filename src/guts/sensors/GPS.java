@@ -1,5 +1,3 @@
-
-
 package guts.sensors;
 
 import guts.Config;
@@ -8,7 +6,7 @@ import guts.sim.SimGPS;
 
 /**
  * This class provides access to the locationdata from a GPS. It handles the
- * hardware access.
+ * hardware access or if enabled access to the simulated GPS.
  * @author Cedric Ohle
  * @author Patrick Selge
  */
