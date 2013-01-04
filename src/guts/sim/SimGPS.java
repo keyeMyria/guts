@@ -22,6 +22,7 @@ public class SimGPS extends java.util.Observable {
     private double speed;
     private static final int DIVIDER = 1600000000;
     private static final int FACTOR = 150;
+    private static final int proportionFactor = DIVIDER/ Config.REFRESHRATE;
     
     public void setLocation(Location startLocation){
         this.location = startLocation;
@@ -55,7 +56,7 @@ public class SimGPS extends java.util.Observable {
         }
         
         // Neues delta für Longitude
-        longitudedelta = ((Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE))*speed;
+        longitudedelta = ((Math.random() * FACTOR+1)/proportionFactor)*speed;
     }
 
     private void calculateNewLocation(){
@@ -63,15 +64,15 @@ public class SimGPS extends java.util.Observable {
         // Sonderfälle der Achsen
         if(angel == 0) {
                 newLongitude = this.location.getLongitude();
-                newLatitude = this.location.getLatitude() + (Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE);
+                newLatitude = this.location.getLatitude() + (Math.random() * FACTOR+1)/proportionFactor;
         } else if(angel == 90) {
-                newLongitude = this.location.getLongitude() + (Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE);
+                newLongitude = this.location.getLongitude() + (Math.random() * FACTOR+1)/proportionFactor;
                 newLatitude = this.location.getLatitude() ;
         } else if(angel == 180) {
                 newLongitude = this.location.getLongitude();
-                newLatitude = this.location.getLatitude() - (Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE);           
+                newLatitude = this.location.getLatitude() - (Math.random() * FACTOR+1)/proportionFactor;           
         } else if(angel == 270) {
-                newLongitude = this.location.getLongitude() - (Math.random() * FACTOR+1)/(DIVIDER/ Config.REFRESHRATE);
+                newLongitude = this.location.getLongitude() - (Math.random() * FACTOR+1)/proportionFactor;
                 newLatitude = this.location.getLatitude();  
         // Restliche Flächen der Quadranten
         } else if(angel > 0 && angel < 90 ){

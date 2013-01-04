@@ -82,8 +82,7 @@ public class SimMagneticFieldSensor implements java.util.Observer{
     public String toString() {
         return ("Magnetic Field Sensor: retries:" + simLength + 
             " | direction:" + direction + " | orientation:" + angel);
-    }
-    
+    } 
 
     @Override
     public void update(Observable o, Object o1) {
