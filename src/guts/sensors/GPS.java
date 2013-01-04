@@ -19,7 +19,7 @@ public class GPS extends java.util.Observable {
     }
     
     public GPS(){
-        this.simGPS = new SimGPS();
+        this.simGPS = SimGPS.getInstance();
     }
     
     public void setStartPoint(double latitude, double longitude) {

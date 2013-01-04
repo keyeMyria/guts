@@ -19,10 +19,15 @@ public class SimGPS extends java.util.Observable {
     private static final int DIVIDER = 1600000000;
     private static final int FACTOR = 150;
     private static final int proportionFactor = DIVIDER/ Config.REFRESHRATE;
+    private static SimGPS instance = new SimGPS();
     
-    public SimGPS(){
+    private SimGPS(){
         this.utils = new SimUtilities();
         this.speed = 0;
+    }
+    
+    public static SimGPS getInstance() {
+        return instance;
     }
     
     /**

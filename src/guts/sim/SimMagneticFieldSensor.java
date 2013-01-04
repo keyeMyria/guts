@@ -18,8 +18,12 @@ public class SimMagneticFieldSensor implements java.util.Observer{
      * Constructer - also initializes the SimUtilities object and stores it as
      * an class var
      */
-    public SimMagneticFieldSensor() {
+    private SimMagneticFieldSensor() {
         this.utils = new SimUtilities();
+    }
+    
+    public static SimMagneticFieldSensor getInstance() {
+        return instance;
     }
 
     /**
@@ -98,5 +102,7 @@ public class SimMagneticFieldSensor implements java.util.Observer{
     private int direction = 0;
     
     private SimUtilities utils;
+    
+    private static SimMagneticFieldSensor instance = new SimMagneticFieldSensor();
     
 }
