@@ -10,15 +10,20 @@ import guts.entities.Location;
  */
 public class SimGPS extends java.util.Observable {
     
+    private SimUtilities utils;
     private Location location;
     private double newLongitude;
     private double newLatitude;
     private double angel;
-    private double longitudedelta;
-    private double speed;
+    private double locationCompensationFactor;
+    private double speed = 0;
     private static final int DIVIDER = 1600000000;
     private static final int FACTOR = 150;
     private static final int proportionFactor = DIVIDER/ Config.REFRESHRATE;
+    
+    public SimGPS(){
+        this.utils = new SimUtilities();
+    }
     
     /**
      * Sets the startlocation for the simulated GPS
@@ -44,7 +49,7 @@ public class SimGPS extends java.util.Observable {
 
         angel = SimMagneticFieldSensor.getCurrentAngel();
         
-        calculateSpeed();
+        calculateSpeed(angel);
         
         calculateNewLocation();
         
@@ -54,20 +59,38 @@ public class SimGPS extends java.util.Observable {
         this.location = new Location(newLatitude, newLongitude);
         return this.location;
     }
+    
     /**
      * Calculates the speedfactor and sets a new longitudedelta for further
      * calculations.
+     * @param angel
+     * @return longitudedelta
      */
-    private void calculateSpeed(){
-        // TODO: Rework this to be more like a actual gaspedal
+    private double calculateSpeed(double angel){
+        double speeddifference;
+        
         if(((angel > 0) && (angel < 90)) || ((angel > 180) && (angel < 270))){
-            speed = Math.abs((angel%90)/45);
+            locationCompensationFactor = Math.abs((angel%90)/45);
         } else{
-            speed = Math.abs(((angel%90)-90)/45);
+            locationCompensationFactor = Math.abs(((angel%90)-90)/45);
+        }
+        
+        if(utils.getRandomBetween(1,2,1) == 1){
+            speeddifference = -(Math.random());
+        }else{
+            speeddifference = Math.random();
+        }
+        
+        speed = (speeddifference + speed);
+        
+        if (speed < 0){
+            speed = 0;
+        }else{
+            speed = speed % 2;
         }
         
         // Neues delta für Longitude
-        longitudedelta = ((Math.random() * FACTOR+1)/proportionFactor)*speed;
+        return ((speed * FACTOR+1)/proportionFactor)*locationCompensationFactor;
     }
     
     /**
