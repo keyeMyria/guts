@@ -22,10 +22,15 @@ public class SimulatedLocation {
         return new Location(latitude, longitude);
     }
     
+    public boolean checkAndCorrectOverflows() {
+        return (checkAndCorrectOverflowLatitude() || 
+                checkAndCorrectOverflowLongitude());
+    }
+    
     /**
      * Checks the latitude for any overflows and corrects them.
      */
-    public boolean checkAndCorrectOverflowLatitude(){
+    private boolean checkAndCorrectOverflowLatitude(){
         if (Math.abs(latitude) > 90) {
            int sign = SimUtilities.getSign(latitude);
            latitude = (sign * -90) +  sign * (latitude - (sign * 90));

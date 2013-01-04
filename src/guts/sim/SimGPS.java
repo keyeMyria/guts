@@ -51,7 +51,7 @@ public class SimGPS extends java.util.Observable {
         
         SimulatedLocation sLocation = calculateNewLocation(angel);
         
-        if(sLocation.checkAndCorrectOverflowLatitude()) {
+        if(sLocation.checkAndCorrectOverflows()) {
            setChanged();
            notifyObservers();
         }
