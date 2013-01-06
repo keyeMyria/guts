@@ -18,6 +18,7 @@ import guts.entities.Axis;
 import guts.entities.Location;
 import osmViewer.data.TowerCollection;
 import guts.entities.TrackLog;
+import guts.gui.GUI;
 
 import guts.sensors.GPS;
 import guts.sensors.Gyroscope;
@@ -46,6 +47,8 @@ public class GUTScontrol implements Runnable {
     
     private SpeedCalculator speedCalculator;
     private AntennaCorrectionCalculator antennaCorrectionCalculator;
+    
+    private static GUI gui;
       
     
     @Override 
@@ -56,20 +59,20 @@ public class GUTScontrol implements Runnable {
                 axis = this.gyroscope.fetchPosition();
                 //angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
                 
-                GUTSEntry.gui.moveToWaypoint(GUTScontrol.locat);
+                gui.moveToWaypoint(GUTScontrol.locat);
 
                 try {
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {}
                 // Tell GUI to repaint the new values
-                GUTSEntry.gui.repaint();
+                gui.repaint();
         }
     }
 
     /*
      * Override default constructor for default values.
      */
-    public GUTScontrol() {
+    public GUTScontrol() throws InterruptedException {
         this.antennaCorrectionEnabled = false;
         this.storeTrackEnabled = false;
         
@@ -89,17 +92,24 @@ public class GUTScontrol implements Runnable {
         this.speedCalculator = new SpeedCalculator();
         this.antennaCorrectionCalculator = new AntennaCorrectionCalculator();
         
-        magneticFieldSensor.addObserver(GUTSEntry.gui.getJeepTop());
-        magneticFieldSensor.addObserver(GUTSEntry.gui.getOrientationStatusBox());
+        gui = new GUI();        
+        Thread guiThread = new Thread( gui );
+        guiThread.start();
+        guiThread.join();
         
-        gps.addObserver(GUTSEntry.gui.getLongitutdeStatusBox());
-        gps.addObserver(GUTSEntry.gui.getLatitudeStatusBox());
+        magneticFieldSensor.addObserver(gui.getJeepTop());
+        magneticFieldSensor.addObserver(gui.getOrientationStatusBox());
+        
+        gps.addObserver(gui.getLongitutdeStatusBox());
+        gps.addObserver(gui.getLatitudeStatusBox());
         gps.addObserver(speedCalculator);
         
-        speedCalculator.addObserver(GUTSEntry.gui.getSpeedStatusBox());
+        speedCalculator.addObserver(gui.getSpeedStatusBox());
         
-        gyroscope.addObserver(GUTSEntry.gui.getJeepFront());
-        gyroscope.addObserver(GUTSEntry.gui.getJeepSide());
+        gyroscope.addObserver(gui.getJeepFront());
+        gyroscope.addObserver(gui.getJeepSide());
+        
+
     }
     
     /**
