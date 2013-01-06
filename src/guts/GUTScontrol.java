@@ -1,5 +1,5 @@
 /**
- * GUTS - GPS Utilized Tracking System
+ * GUTScontrol - GPS Utilized Tracking System
  * A tracking control device that sets the antennaunit
  * orientation on an offroad vehicle
  * 
@@ -12,7 +12,6 @@
 package guts;
 
 import guts.calculators.*;
-import guts.gui.GUI;
 import guts.actors.Antenna;
 
 import guts.entities.Axis;
@@ -25,10 +24,7 @@ import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
 
 
-public class GUTS implements Runnable {
-
-    public static GUI gui;
-    public static GUTS guts;
+public class GUTScontrol implements Runnable {
     
     // Sensors
     private Gyroscope gyroscope;
@@ -48,40 +44,9 @@ public class GUTS implements Runnable {
     private static Location locat;
     private static Axis axis;
     
-    /**
-     * The main function
-     * 
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws InterruptedException {
-        
-        gui = new GUI();
-        
-        Thread guiThread = new Thread( gui );
-        guiThread.start();
-        guiThread.join();  
-        
-        guts = new GUTS();
-        
-        Thread gutsThread = new Thread( guts );
-        
-        gutsThread.start();
-        
-
-        
-        while(true) {
-            //gui.rotateJeep(GUTS.angel);
-            //gui.rotateAntenna(GUTS.angelAntenna);
-            
-            
-            gui.repaint();
-            
-            try {
-                Thread.sleep(Config.REFRESHRATE);   
-            } catch (InterruptedException ex) {}  
-        }
-    }
-    
+    private SpeedCalculator speedCalculator;
+    private AntennaCorrectionCalculator antennaCorrectionCalculator;
+      
     
     @Override 
     public void run() {
@@ -91,18 +56,20 @@ public class GUTS implements Runnable {
                 axis = this.gyroscope.fetchPosition();
                 //angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
                 
-                gui.moveToWaypoint(GUTS.locat);
-                
+                GUTSEntry.gui.moveToWaypoint(GUTScontrol.locat);
+
                 try {
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {}
+                // Tell GUI to repaint the new values
+                GUTSEntry.gui.repaint();
         }
     }
 
     /*
      * Override default constructor for default values.
      */
-    public GUTS() {
+    public GUTScontrol() {
         this.antennaCorrectionEnabled = false;
         this.storeTrackEnabled = false;
         
@@ -122,17 +89,17 @@ public class GUTS implements Runnable {
         this.speedCalculator = new SpeedCalculator();
         this.antennaCorrectionCalculator = new AntennaCorrectionCalculator();
         
-        magneticFieldSensor.addObserver(gui.getJeepTop());
-        magneticFieldSensor.addObserver(gui.getOrientationStatusBox());
+        magneticFieldSensor.addObserver(GUTSEntry.gui.getJeepTop());
+        magneticFieldSensor.addObserver(GUTSEntry.gui.getOrientationStatusBox());
         
-        gps.addObserver(gui.getLongitutdeStatusBox());
-        gps.addObserver(gui.getLatitudeStatusBox());
+        gps.addObserver(GUTSEntry.gui.getLongitutdeStatusBox());
+        gps.addObserver(GUTSEntry.gui.getLatitudeStatusBox());
         gps.addObserver(speedCalculator);
         
-        speedCalculator.addObserver(gui.getSpeedStatusBox());
+        speedCalculator.addObserver(GUTSEntry.gui.getSpeedStatusBox());
         
-        gyroscope.addObserver(gui.getJeepFront());
-        gyroscope.addObserver(gui.getJeepSide());
+        gyroscope.addObserver(GUTSEntry.gui.getJeepFront());
+        gyroscope.addObserver(GUTSEntry.gui.getJeepSide());
     }
     
     /**
@@ -244,8 +211,7 @@ public class GUTS implements Runnable {
         return this.towers;
     }
     
-    private SpeedCalculator speedCalculator;
-    private AntennaCorrectionCalculator antennaCorrectionCalculator;
+
 
 
 }
