@@ -10,3 +10,4 @@ build/*
 # Package Files #
 *.war
 *.ear
+/nbproject/private/profiler/configurations.xml
