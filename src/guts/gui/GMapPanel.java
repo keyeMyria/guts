@@ -31,6 +31,7 @@ public class GMapPanel extends JLayeredPane {
 
     public GMapPanel(GUI controller) {        
         osm = new OSMViewer();
+        osm.setTowerSelectMenu(controller.getTopMenuBar().getTowerSelection());
         drawMapPanel();
     }
     
@@ -40,11 +41,7 @@ public class GMapPanel extends JLayeredPane {
         JPanel mapKit;
         
         // checks if the computer can reach one of the specified urls
-        if(ConnectionCheck.isOnline("http://www.google.com") ||
-           ConnectionCheck.isOnline("http://www.heise.de")) {
-            
-
-
+        if(ConnectionCheck.isOnline("http://www.google.com")) {
             osm.setOverlayPainter(painter);
             
             //MouseInputListener rcl = new RightClickListener();
@@ -56,18 +53,13 @@ public class GMapPanel extends JLayeredPane {
             mapKit.setBackground(Color.DARK_GRAY);
         }
 
-            mapKit.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-            mapKit.setBounds(0, 0, 752, 602);
-                   
-            
-            
-            this.add(mapKit, JLayeredPane.DEFAULT_LAYER);
-        
+        mapKit.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+        mapKit.setBounds(0, 0, 752, 602);
+                
+        this.add(mapKit, JLayeredPane.DEFAULT_LAYER);
         
         Minimap minimap = drawMinimap();
-        
         this.add(minimap, JLayeredPane.POPUP_LAYER);
-        
     }
     
     /**
@@ -109,11 +101,6 @@ public class GMapPanel extends JLayeredPane {
         return this.antenna;
     }
     
-    
-    
-    
-    
-    
     private RotatableImage jeep;
     private RotatableImage antenna;
     private OSMViewer osm;
@@ -121,8 +108,5 @@ public class GMapPanel extends JLayeredPane {
     private WaypointSet waypoints = new WaypointSet();
             
     private TrackDrawer painter = new TrackDrawer(waypoints);
-
-    
-    
-    
+  
 }

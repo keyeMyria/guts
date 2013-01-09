@@ -78,6 +78,10 @@ public class GUI extends JFrame {
     public StatusBox getSpeedStatusBox() {
         return appWindow.getSidebar().getSpeedStatusBox();
     }
+    
+    public Menubar getTopMenuBar() {
+        return appWindow.getTopMenubar();
+    }
 
     // Attributes and Constants
     // ------------------------

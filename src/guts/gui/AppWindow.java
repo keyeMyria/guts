@@ -70,6 +70,10 @@ public final class AppWindow {
         return this.sidebar;
     }
     
+    public Menubar getTopMenubar() {
+        return this.topMenubar;
+    }
+    
     private Container container;
     
     private Sidebar sidebar;

@@ -17,6 +17,7 @@ import java.awt.event.MouseWheelListener;
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.LinkedHashSet;
+import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
@@ -65,6 +66,8 @@ public final class OSMViewer extends JXMapKit {
     public void setTower() {
         String towerName = popUpMenu.askForTowerName();
         towers.add(new Tower(geopos.getLatitude(), geopos.getLongitude(), towerName));
+        towerSelection.addItem(towerName);
+        
     }
     
     public void setOverlayPainter(TrackDrawer painter) {
@@ -75,7 +78,6 @@ public final class OSMViewer extends JXMapKit {
     public Rectangle getViewportBounds() {
         return mapView.getViewportBounds();
     }
-
 
     public Point2D[] getPixelMapOfLocation(Location location) {
         Point2D[] points = new Point2D[MAX_ZOOM];
@@ -93,26 +95,21 @@ public final class OSMViewer extends JXMapKit {
         mapView.addMouseListener((MouseInputListener) listener);
     }
     
-    
     public void showPopUpMenu(Component cmp, int x, int y) {
         popUpMenu.show((Component)this, x, y);
         geopos = mapView.convertPointToGeoPosition(new Point2D.Double(x, y));
     }
-    
-        
-    
 
+    public void setTowerSelectMenu(JComboBox towerSelection) {
+        this.towerSelection = towerSelection;
+    }
     
     private JXMapViewer mapView;
     
     private static final int MAX_ZOOM = 5; 
     private GeoPosition geopos;
     private PopUpMenu popUpMenu;
+    private JComboBox towerSelection;
     
     private LinkedHashSet<Tower> towers = new LinkedHashSet<Tower>();
-
-    
-    
-    
-
 }
