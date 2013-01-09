@@ -63,8 +63,8 @@ public final class OSMViewer extends JXMapKit {
     }
     
     public void setTower() {
-        //String name = popUpMenu.askForTowerName();
-        towers.add(new Tower(geopos.getLatitude(), geopos.getLongitude(), "test"));
+        String towerName = popUpMenu.askForTowerName();
+        towers.add(new Tower(geopos.getLatitude(), geopos.getLongitude(), towerName));
     }
     
     public void setOverlayPainter(TrackDrawer painter) {
