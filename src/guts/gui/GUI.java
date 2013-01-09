@@ -21,19 +21,10 @@ import javax.swing.*;
  * 
  * @author Patrick Selge
  */
-public class GUI extends JFrame 
-implements Runnable {
+public class GUI extends JFrame {
             
-    /**
-     * Run method - is called by thread creation
-     */
-    @Override 
-    public void run() {
-        drawInterface();
 
-        this.setVisible(true);
-    }
-    
+
     /**
      * Builds up the interface
      */
@@ -45,6 +36,7 @@ implements Runnable {
         appWindow = new AppWindow(this);
                
         pack();
+        this.setVisible(true);
     }
        
     /**

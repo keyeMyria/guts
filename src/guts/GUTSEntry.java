@@ -22,9 +22,14 @@ public class GUTSEntry {
      */
     public static void main(String[] args) throws InterruptedException {
         
+        //guiThread.start();
         guts = new GUTScontrol();
         Thread gutsThread = new Thread( guts );
         gutsThread.start();
- 
+
+        
+        
     }
+    
+    
 }

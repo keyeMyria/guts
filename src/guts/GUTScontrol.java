@@ -60,12 +60,12 @@ public class GUTScontrol implements Runnable {
                 //angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
                 
                 gui.moveToWaypoint(GUTScontrol.locat);
-
+                gui.repaint();
+                
                 try {
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {}
                 // Tell GUI to repaint the new values
-                gui.repaint();
         }
     }
 
@@ -73,6 +73,9 @@ public class GUTScontrol implements Runnable {
      * Override default constructor for default values.
      */
     public GUTScontrol() throws InterruptedException {
+        this.gui = new GUI();        
+        gui.drawInterface();
+        
         this.antennaCorrectionEnabled = false;
         this.storeTrackEnabled = false;
         
@@ -92,10 +95,7 @@ public class GUTScontrol implements Runnable {
         this.speedCalculator = new SpeedCalculator();
         this.antennaCorrectionCalculator = new AntennaCorrectionCalculator();
         
-        gui = new GUI();        
-        Thread guiThread = new Thread( gui );
-        guiThread.start();
-        guiThread.join();
+        
         
         magneticFieldSensor.addObserver(gui.getJeepTop());
         magneticFieldSensor.addObserver(gui.getOrientationStatusBox());
