@@ -15,19 +15,19 @@ public class Config {
     public static final int LOG_WAR = 2;
     public static final int LOG_ERR = 1;
     public static final int LOG_NON = 0;
-    
+        
     // global vars
     public static final boolean SIMULATIONENABLED = true;
     public static final int DEBUG = LOG_WAR;
-    public static final int REFRESHRATE = 1000/12;
+    public static final int REFRESHRATE = 100; // time in miliseconds
     
     // vehicle vars
     public static final String VEHICLE_TOP = "/img/jeep.top.png";
     public static final String VEHICLE_SIDE = "/img/jeep.side.png";
-    public static final String VEHICLE_FRONT = "/img/jeep.front.png";
+    public static final String VEHICLE_FRONT = "/img/jeep_front.png";
     
     // other images
-    public static final String BACKGROUND = "/img/box.png";
+    public static final String IMG_BACKGROUND = "/img/box.png";
   
     // GEO Data
     public static final double STARTLAT = 52.483791;

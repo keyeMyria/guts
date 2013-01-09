@@ -14,7 +14,7 @@ public class MagneticFieldSensor extends java.util.Observable {
     private SimMagneticFieldSensor simMagneticFieldSensor;
     
     public MagneticFieldSensor(){
-        this.simMagneticFieldSensor = new SimMagneticFieldSensor();
+        this.simMagneticFieldSensor = SimMagneticFieldSensor.getInstance();
     }
     
     public MagneticFieldSensor(int address){

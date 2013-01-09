@@ -8,7 +8,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import javax.imageio.ImageIO;
@@ -27,8 +26,8 @@ public class RotatableImage extends JPanel implements java.util.Observer {
 
         try {
             img = ImageIO.read(imgResource);
-        } catch (IOException e) {
-            System.out.println("Can't open the image you defined");
+        } catch (Exception ex) {
+            System.out.println("Can't open the image you defined: " + str);
             return;
         }
 

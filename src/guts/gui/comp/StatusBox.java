@@ -4,6 +4,7 @@
  */
 package guts.gui.comp;
 
+import guts.entities.Location;
 import java.text.MessageFormat;
 import java.util.Observable;
 import javax.swing.BorderFactory;
@@ -19,7 +20,14 @@ import javax.swing.JTextField;
 public class StatusBox extends JPanel implements java.util.Observer {
 
     public StatusBox(String label) {
+        this(label, TYPE_DEFAULT);
+    }
+    
+    public StatusBox(String label, int type) {
         this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
+        
+        // Setting which type of value to visualize
+        this.valueType = type;
         
         // Creates the label
         JLabel lab = new JLabel(label);
@@ -39,8 +47,26 @@ public class StatusBox extends JPanel implements java.util.Observer {
     
     @Override
     public void update(Observable t, Object o) {
-        this.textField.setText(MessageFormat.format("{0,number,##.####}",o));
+        double value = getValue(o);
+        
+        this.textField.setText(MessageFormat.format("{0,number,##.#####}",value));
+    }
+    
+    private double getValue(Object o) {
+        switch(this.valueType) {
+            case TYPE_LONGITUDE:
+                return ((Location) o).getLongitude();
+            case TYPE_LATITUDE:
+                return ((Location) o).getLatitude();
+        }
+        
+        return ((Double) o).doubleValue();
     }
     
     protected JTextField textField;
+    private int valueType;
+    
+    public static final int TYPE_DEFAULT = 0;
+    public static final int TYPE_LONGITUDE = 1;
+    public static final int TYPE_LATITUDE = 2;
 }

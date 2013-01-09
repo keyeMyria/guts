@@ -1,81 +1,74 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package guts.gui;
 
 import guts.gui.comp.AxisVisualization;
 import guts.gui.comp.StatusBox;
 import guts.Config;
-import guts.entities.Axis;
-import guts.entities.Location;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.text.MessageFormat;
-import java.util.Observable;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 /**
- *
+ * The Sidebar is used as an information panel
+ * where all the data get's visualized. It has 
+ * no controls but implements observers.
+ * 
  * @author Patrick Selge
+ * @version 1.0
  */
 public final class Sidebar extends JPanel {
     
+    /**
+     * Constructor - Sets all the parameters and then draws its elements
+     * to itself
+     */
     public Sidebar() {
         this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
         
-        drawLeftPanel();
+        // Adding the two panels to the sidebar
+        this.add(drawStatusPanel());
+        this.add(drawVisualPanel());
     }
     
-    private void drawLeftPanel() {
+    /**
+     * Initializes and configures the status panel
+     * and then calls the draw status boxes method
+     * to fill itself up with content.
+     * Also adds a spacing of '5' below itself.
+     * 
+     * @return Status Panel
+     */
+    private JPanel drawStatusPanel() {
         // Initializing and configuring the 'Status Panel'
         JPanel statusPanel = new JPanel();
         statusPanel.setLayout(new BoxLayout(statusPanel,BoxLayout.PAGE_AXIS));
         statusPanel.setBorder(BorderFactory.createTitledBorder("Sensordaten"));
         statusPanel.setPreferredSize(new Dimension(PANEL_WIDTH,240));
         
-        drawStatusPanel(statusPanel);
-  
-        // Inserting some spacing
+        drawStatusBoxes(statusPanel);
+        
+        // Add some spacing below the 'Status Panel'
         statusPanel.add(Box.createRigidArea(new Dimension(0,5)));
         
-        // Initializing and configuring the 'Visual Panel' (The two bubbles with the cars in'em
-        JPanel visPanel = new JPanel();
-        visPanel.setLayout(new BorderLayout());
-        visPanel.setPreferredSize(new Dimension(PANEL_WIDTH,360));
-        
-        drawVisualPanel(visPanel);
-        
-        // Adding the two panels to the sidebar
-        this.add(statusPanel);
-        this.add(visPanel);
+        return statusPanel;
     }
     
-    private void drawStatusPanel(JPanel panel) {
+    /**
+     * Draws the status boxes and adds them to the JPanel 
+     * specified as a parameter
+     * 
+     * @param panel Panel that holds all the status boxes
+     */
+    private void drawStatusBoxes(JPanel panel) {
         // Creating the 'Status Box' for the latitude
-        latitudeStatus = new StatusBox("Latitude") {
-            @Override
-            public void update(Observable t, Object o) {
-                this.textField.setText(
-                        MessageFormat.format("{0,number,##.#####}",
-                        ((Location)o).getLatitude()));
-            }
-        };
+        latitudeStatus = new StatusBox("Latitude", StatusBox.TYPE_LATITUDE);
         panel.add(latitudeStatus);
         
         // Creating the 'Status Box' for the longitude
-        longitudeStatus = new StatusBox("Longitude") {
-            @Override
-            public void update(Observable t, Object o) {
-                this.textField.setText(
-                        MessageFormat.format("{0,number,##.#####}",
-                        ((Location)o).getLongitude()));
-            }
-        };
+        longitudeStatus = new StatusBox("Longitude", StatusBox.TYPE_LONGITUDE);
         panel.add(longitudeStatus);
         
         // Creating the 'Status Box' for the orientation
@@ -87,31 +80,46 @@ public final class Sidebar extends JPanel {
         panel.add(speedStatus);
     }
     
-    private void drawVisualPanel(JPanel panel) {
+    /**
+     * Initializes and configures itself. Then calls the 
+     * draw axis visualization method to draw its content
+     * 
+     * @return Visual Panel
+     */
+    private JPanel drawVisualPanel() {
+        // Initializing and configuring the 'Visual Panel' 
+        JPanel visPanel = new JPanel();
+        visPanel.setLayout(new BorderLayout());
+        visPanel.setPreferredSize(new Dimension(PANEL_WIDTH,360));
+        
+        drawAxisVisualizations(visPanel);
+        
+        return visPanel;
+    }
+    
+    /**
+     * Draws the Axis Visualizations
+     * 
+     * @param panel Panel the Visualizations are drawn on to
+     */
+    private void drawAxisVisualizations(JPanel panel) {
         // Creating the visualization of the front
-        jeepFront = new AxisVisualization(Config.VEHICLE_FRONT,0) {
-            @Override
-            public void update(Observable t, Object o) {
-                image.rotateTo(Math.toRadians(((Axis)o).getRoll()));
-                text.setText(((Axis)o).getRoll());
-            }
-        };
+        jeepFront = new AxisVisualization(
+                Config.VEHICLE_FRONT,
+                0,
+                AxisVisualization.AXIS_ROLL);
         panel.add(jeepFront);
 
         // Creating the visualization of the side
-        jeepSide = new AxisVisualization(Config.VEHICLE_SIDE,185) {
-            @Override
-            public void update(Observable t, Object o) {
-                image.rotateTo(Math.toRadians(((Axis)o).getPitch()));
-                text.setText(((Axis)o).getPitch());
-            }
-        };
+        jeepSide = new AxisVisualization(
+                Config.VEHICLE_SIDE,
+                185,
+                AxisVisualization.AXIS_PITCH);
         panel.add(jeepSide);
     }
     
-    
-    
-    
+    // Getter
+    // ------
     public StatusBox getLatitudeStatusBox() {
         return latitudeStatus;
     }
@@ -136,7 +144,8 @@ public final class Sidebar extends JPanel {
         return speedStatus;
     }
     
-    
+    // Attributes and Constants
+    // ------------------------
     private StatusBox latitudeStatus;
     private StatusBox longitudeStatus;
     private StatusBox orientationStatus;

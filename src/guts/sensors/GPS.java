@@ -1,5 +1,3 @@
-
-
 package guts.sensors;
 
 import guts.Config;
@@ -8,7 +6,7 @@ import guts.sim.SimGPS;
 
 /**
  * This class provides access to the locationdata from a GPS. It handles the
- * hardware access.
+ * hardware access or if enabled access to the simulated GPS.
  * @author Cedric Ohle
  * @author Patrick Selge
  */
@@ -21,7 +19,7 @@ public class GPS extends java.util.Observable {
     }
     
     public GPS(){
-        this.simGPS = new SimGPS();
+        this.simGPS = SimGPS.getInstance();
     }
     
     public void setStartPoint(double latitude, double longitude) {
@@ -35,6 +33,7 @@ public class GPS extends java.util.Observable {
      */
     public Location fetchLocation(){
         if (Config.SIMULATIONENABLED){
+            
             Location location = simGPS.fetchNewLocation();
             setChanged();
             notifyObservers(location);
@@ -46,4 +45,5 @@ public class GPS extends java.util.Observable {
             return null;
         }
     }
+    
 }

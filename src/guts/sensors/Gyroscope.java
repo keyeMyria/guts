@@ -20,7 +20,7 @@ public class Gyroscope extends java.util.Observable {
     }
     
     public Gyroscope(){
-        this.simGyroscope = new SimGyroscope();
+        this.simGyroscope = SimGyroscope.getInstance();
     }
     
     /**

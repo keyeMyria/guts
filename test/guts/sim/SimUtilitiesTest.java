@@ -28,7 +28,7 @@ public class SimUtilitiesTest {
         double expResult = 0.01;
         double result = SimUtilities.round(a, 2);
         
-        assertEquals(result, expResult, 0.0);
+        assertEquals(expResult, result, 0.0);
     }
     
     @Test
@@ -38,7 +38,7 @@ public class SimUtilitiesTest {
         double expResult = 0.0001;
         double result = SimUtilities.round(a, 4);
         
-        assertEquals(result, expResult, 0.0);
+        assertEquals(expResult, result, 0.0);
     }
     
     @Test
@@ -49,7 +49,7 @@ public class SimUtilitiesTest {
         double expResult = 1.8;
         double result = SimUtilities.makeGGV((a),b);
         
-        assertEquals(result, expResult, 1E-6);
+        assertEquals(expResult, result, 1E-6);
     }
     
     @Test
@@ -60,7 +60,7 @@ public class SimUtilitiesTest {
         double expResult = 0.0;
         double result = SimUtilities.makeGGV((a),b);
         
-        assertEquals(result, expResult, 1E-6);
+        assertEquals(expResult, result, 1E-6);
     }
     
     @Test
@@ -71,27 +71,26 @@ public class SimUtilitiesTest {
         double expResult = 1.3;
         double result = SimUtilities.makeGGV((a),b);
         
-        assertEquals(result, expResult, 1E-6);
+        assertEquals(expResult, result, 1E-6);
     }
 
-    
-    /**
-     * Test of getRandomBetween method, of class SimUtilities.
-     */
     @Test
     public void testGetRandomOddIntegerBetweenOneAndTen() {
         double a = 1.0;
         double b = 10.0;
         double stepSize = 2;
 
-        double expResult = 0.0;
+        int expResult = 50;        
+        int result = 0;
+        
         for(int i=0; i<50; i++) {
-        double result = simUtilitiesTest.getRandomBetween(a, b, stepSize);
-
-        System.out.println(result);
+            double tmp_result = simUtilitiesTest.getRandomBetween(a, b, stepSize);
+            if( (tmp_result >= 1) && (tmp_result <= 9) && 
+                ((tmp_result % 2) == 1)) {
+                result++; // inc result if tmp_result is geq 1, leq 9 and odd
+            }
         }
-        //assertTrue((result >= a && result <= b));
-        //assertTrue((result%stepSize) < stepSize);        
+        assertEquals(expResult, result, 0.0);
     }
     
     @Test
@@ -100,14 +99,22 @@ public class SimUtilitiesTest {
         double b = 2.0;
         double stepSize = 0.2;
 
-        double expResult = 0.0;
+        int expResult = 50;        
+        int result = 0;
+        
         for(int i=0; i<50; i++) {
-        double result = simUtilitiesTest.getRandomBetween(a, b, stepSize);
+            double tmp_result = simUtilitiesTest.getRandomBetween(a, b, stepSize);
+            double x = (SimUtilities.round((tmp_result % 0.2),2));
+            
+            System.out.println(tmp_result);
 
-        System.out.println(result);
+            
+            if( (tmp_result >= 1) && (tmp_result <= 2) && 
+                ((x == 0.0) || (x == 0.2))) {
+                result++; // inc result if tmp_result is geq 1, leq 2 and a multiple of 0.2
+            }
         }
-        //assertTrue((result >= a && result <= b));
-        //assertTrue((result%stepSize) < stepSize);        
+        assertEquals(expResult, result, 0.0);     
     }
     
     private SimUtilities simUtilitiesTest;

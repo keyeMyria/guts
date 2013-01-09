@@ -1,5 +1,5 @@
 
-package guts.entities;
+package osmViewer.data;
 
 import java.util.ArrayList;
 
