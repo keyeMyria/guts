@@ -60,7 +60,10 @@ public class GUTScontrol implements Runnable {
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
                 locat = this.gps.fetchLocation();
                 axis = this.gyroscope.fetchPosition();
-                //angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
+                
+                if(this.antennaCorrectionEnabled){
+                    correctAntennaPostion();
+                }
                 
                 gui.moveToWaypoint(GUTScontrol.locat);
                 gui.repaint();
