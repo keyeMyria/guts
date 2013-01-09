@@ -44,7 +44,7 @@ class LatchEngine extends Engine{
     /**
      * Allows setting of a new angle to get to.
      * Calculates the needed direction and distance to drive the servoengine and
-     * moves it if the movement borders are exceeded the servo is moved to the border.
+     * moves it. If the movement borders are exceeded the servo is moved to the border.
      * @params angle the new angle as float
      */
     @Override
