@@ -68,7 +68,7 @@ public class GUTScontrol implements Runnable {
                 try {
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {}
-                // Tell GUI to repaint the new values
+                
                 if(Config.SIMULATIONENABLED){
                     //GUTSEntry.simlock.unlock();
                 }
