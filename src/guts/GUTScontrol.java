@@ -137,9 +137,9 @@ public class GUTScontrol implements Runnable {
      */
     public void correctAntennaPostion(){
         Axis newAxis = antennaCorrectionCalculator.calculateCorrection(
-                    this.gps.fetchLocation(),
-                    this.gyroscope.fetchPosition(),
-                    this.magneticFieldSensor.fetchAngelToMagneticNorth(),
+                    this.locat,
+                    this.axis,
+                    this.angel,
                     this.towers.get(this.activeTower)
                 );
         antenna.applyNewAxis(newAxis);
