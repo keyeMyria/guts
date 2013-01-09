@@ -71,7 +71,7 @@ public class SimGPS extends java.util.Observable {
      * @return longitudedelta
      */
     private double calculateLatitudeDelta(double angel){
-        return ((calculateSpeed() * FACTOR+1)/proportionFactor)*calculateLocationCompensationFactor(angel);
+        return ((calculateSpeed() * FACTOR)/proportionFactor)*calculateLocationCompensationFactor(angel);
     }
     
     /**
@@ -82,7 +82,8 @@ public class SimGPS extends java.util.Observable {
         speed = (utils.getRandomBetween(-1,1,0.01) + speed);
         if (speed < 0){
             // We can't drive backwards
-            return 0;
+            speed = 0;
+            return speed;
         }else{
             // Create upper speedlimit
             return speed % 2;
@@ -138,7 +139,7 @@ public class SimGPS extends java.util.Observable {
     }
     
     private double calculateAxisLocationDelta(){
-        return (Math.random() * FACTOR+1)/proportionFactor;
+        return (Math.random() * FACTOR)/proportionFactor;
     }
     
     private void calculateQuadrantLocations(double angel, double longitudedelta) {

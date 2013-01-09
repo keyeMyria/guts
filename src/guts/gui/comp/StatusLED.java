@@ -4,7 +4,7 @@
  */
 package guts.gui.comp;
 
-import guts.GUTS;
+import guts.GUTScontrol;
 import java.net.URL;
 import javax.swing.*;
 
@@ -23,8 +23,8 @@ public class StatusLED extends JLabel {
     }
         
     private void cacheImages() {
-        URL ledResourceGreen = GUTS.class.getResource("/img/green_led.png");
-        URL ledResourceRed = GUTS.class.getResource("/img/red_led.png");
+        URL ledResourceGreen = GUTScontrol.class.getResource("/img/green_led.png");
+        URL ledResourceRed = GUTScontrol.class.getResource("/img/red_led.png");
         
         greenLED = new ImageIcon(ledResourceGreen);
         redLED = new ImageIcon(ledResourceRed);
