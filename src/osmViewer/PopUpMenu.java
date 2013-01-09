@@ -20,7 +20,7 @@ import org.jdesktop.swingx.mapviewer.GeoPosition;
 
 /**
  *
- * @author patrick
+ * @author Patrick Selge
  */
 public class PopUpMenu extends JPopupMenu {
     
@@ -42,9 +42,9 @@ public class PopUpMenu extends JPopupMenu {
         String s = "";
         while(s.equals("")) {
             s = (String)JOptionPane.showInputDialog(
-                        this,
-                        "Wie soll der Tower heißen?",
-                        "");
+                this,
+                "Wie soll der Tower heißen?",
+                "");
         }
         return s;
     }
