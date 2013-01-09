@@ -54,6 +54,9 @@ public class GUTScontrol implements Runnable {
     @Override 
     public void run() {
             while(true) {
+                if(Config.SIMULATIONENABLED){
+                    //GUTSEntry.guilock.lock();
+                }
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
                 locat = this.gps.fetchLocation();
                 axis = this.gyroscope.fetchPosition();
@@ -66,6 +69,9 @@ public class GUTScontrol implements Runnable {
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {}
                 // Tell GUI to repaint the new values
+                if(Config.SIMULATIONENABLED){
+                    //GUTSEntry.simlock.unlock();
+                }
         }
     }
 

@@ -4,7 +4,8 @@
  */
 package guts;
 
-import guts.gui.GUI;
+import guts.sim.Simulation;
+import java.util.concurrent.locks.*;
 
 
 /**
@@ -13,6 +14,9 @@ import guts.gui.GUI;
  */
 public class GUTSEntry {
     private static GUTScontrol guts;
+    private static Simulation sim;
+    //public static Lock guilock = new ReentrantLock();
+    //public static Lock simlock = new ReentrantLock();
     
     
     /**
@@ -22,10 +26,16 @@ public class GUTSEntry {
      */
     public static void main(String[] args) throws InterruptedException {
         
-        //guiThread.start();
+        if(Config.SIMULATIONENABLED){
+           sim = new Simulation();
+            Thread simThread = new Thread( sim );
+            simThread.start(); 
+        }
+
         guts = new GUTScontrol();
         Thread gutsThread = new Thread( guts );
         gutsThread.start();
+        
 
         
         

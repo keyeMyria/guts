@@ -1,11 +1,14 @@
 
 package guts.sim;
 
+import guts.Config;
+import guts.GUTSEntry;
+
 /**
  *
  * @author Cedric Ohle
  */
-public class simulation {
+public class Simulation implements Runnable{
     
     /* todo:
      * Gebraucht werden: Compass, GPS, Gyro
@@ -37,8 +40,28 @@ public class simulation {
      * 
      */
     
-    public simulation(){
-        
+    SimMagneticFieldSensor simCompass;
+    SimGPS simGPS;
+    SimGyroscope simGyro;
+    
+    public Simulation(){
+        this.simCompass=SimMagneticFieldSensor.getInstance();
+        this.simGPS=SimGPS.getInstance();
+        this.simGyro=SimGyroscope.getInstance();
+    }
+
+    @Override
+    public void run() {
+        while(true){
+            //GUTSEntry.simlock.lock();
+            simCompass.calculateAngelToMagneticNorth();
+            simGPS.fetchNewLocation();
+            simGyro.calculatePosition();
+            try {
+                    Thread.sleep(Config.REFRESHRATE);
+                } catch (InterruptedException ex) {}
+            //GUTSEntry.guilock.unlock();
+        }
     }
     
 }
