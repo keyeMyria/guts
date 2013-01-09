@@ -172,38 +172,6 @@ public class GUTScontrol implements Runnable {
     }
     
     /**
-     * Returns the gyroscope.
-     * @return A gyroscope object
-     */
-    private Gyroscope getGyroscope(){
-        return this.gyroscope;
-    }
-    
-    /**
-     * Returns the gps.
-     * @return A gps object
-     */
-    private GPS getGPS(){
-        return this.gps;
-    }
-    
-    /**
-     * Returns the mageneticfieldsensor.
-     * @return A magneticFieldSensor object
-     */
-    private MagneticFieldSensor getMagneticFieldSensor(){
-        return this.magneticFieldSensor;
-    }
-    
-    /**
-     * Returns the antenna.
-     * @return An antenna object
-     */
-    private Antenna getAntenna(){
-        return this.antenna;
-    }
-    
-    /**
      * Allows setting of the tower to be used as target of the antenna.
      * @param towerID of the targettower as int
      */
