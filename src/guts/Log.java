@@ -30,8 +30,12 @@ public class Log {
     
     private final FileWriter fw;
     
+    // Singleton Pattern implementieren
     public Log() throws IOException {
         Date now = new Date(System.currentTimeMillis());
+        // Möglichkeit implementieren neue Dateien anlegen zu können
+        // und die Dateien nach Notify Level zu benennen
+        // Mehr Dateien sollte ebenfalls geöffnet werden können
         File f = new File(now.toString() + ".log");
         
         
@@ -46,24 +50,25 @@ public class Log {
             
       }
        
-
+       // Muss appenden können, falls !f.exists == false (else Strang) erreicht
       fw = new FileWriter(f);
 
     }
     
-    public void writeToLog(String s) {
+    // Benötigt ein notify Level zum anzeigen von -> Warning, Error, Info etc.
+    // Exception Meldungen müssen angepasst werden
+    public void writeToLog(String notify, String s) {
         try {
-            fw.append(s);
+            fw.append(notify + ": " + s);
         } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(Logger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    // ALLE Dateien schließen
     public void closeAll() {
         try {
             fw.close();
         } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(Logger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
