@@ -30,7 +30,9 @@ public final class AppWindow {
         
         // builds up the menubar and the map
         topMenubar = new Menubar();
+        System.out.println("This is before the catastroph");
         mapPanel = new GMapPanel(controller);
+        System.out.println("Here I am");
         container.add(drawMainContainer(topMenubar, mapPanel));
     }
     

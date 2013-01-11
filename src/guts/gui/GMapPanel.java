@@ -31,7 +31,6 @@ public class GMapPanel extends JLayeredPane {
 
     public GMapPanel(GUI controller) {        
         osm = new OSMViewer();
-        osm.setTowerSelectMenu(controller.getTopMenuBar().getTowerSelection());
         drawMapPanel();
     }
     
