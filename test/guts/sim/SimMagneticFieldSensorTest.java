@@ -33,7 +33,7 @@ public class SimMagneticFieldSensorTest {
     
     @Before
     public void setUp() {
-        simMagneticFieldSensorTest = new SimMagneticFieldSensor();
+        simMagneticFieldSensorTest = SimMagneticFieldSensor.getInstance();
     }
     
     @After

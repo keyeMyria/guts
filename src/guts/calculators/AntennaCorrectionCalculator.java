@@ -30,7 +30,10 @@ public class AntennaCorrectionCalculator {
     
     public Axis calculateCorrection(Location currentLocation, Axis currentAxis, 
             double currentAngle, Location activeTowerLocation){ 
-        
+
+    
+    double i, newAngle, deltax, deltay, pitch, newPitch, roll, newRoll;
+
     calculateAngel(currentLocation, currentAxis, currentAngle, activeTowerLocation);
     calculateAxis(currentLocation, currentAxis, currentAngle);
 
@@ -73,13 +76,14 @@ public double calculateAngel(Location currentLocation, Axis currentAxis,
         }
         
        newAngle = (360 - currentAngle + newAngle) % 360;
+
        return newAngle;
 }
 
     public Axis calculateAxis(Location currentLocation, Axis currentAxis, double newAngle){
         
        double pitch, newPitch, roll, newRoll;
-       
+
        roll=currentAxis.getRoll();
        newRoll=roll * (-1);
        pitch=currentAxis.getPitch();

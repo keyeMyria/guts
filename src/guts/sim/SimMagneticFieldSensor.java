@@ -5,20 +5,25 @@
 package guts.sim;
 
 import guts.*;
+import java.util.Observable;
 
 /**
  *
  * @author Cedric Ohle
  * @author Patrick Selge
  */
-public class SimMagneticFieldSensor {
+public class SimMagneticFieldSensor implements java.util.Observer{
     
     /**
      * Constructer - also initializes the SimUtilities object and stores it as
      * an class var
      */
-    public SimMagneticFieldSensor() {
+    private SimMagneticFieldSensor() {
         this.utils = new SimUtilities();
+    }
+    
+    public static SimMagneticFieldSensor getInstance() {
+        return instance;
     }
 
     /**
@@ -28,10 +33,10 @@ public class SimMagneticFieldSensor {
      * 
      * @return the new angel
      */
-    public double getAngelToMagneticNorth() {
+    public double calculateAngelToMagneticNorth() {
         // Every simLength turns, a new direction is generated
         if(simLength <= 0) {
-            simLength = (int)(utils.getRandomBetween(100.0,5000.0,100.0) / Config.REFRESHRATE);
+            simLength = (int)(utils.getRandomBetween(100.0,5000.0,100.0) / Config.SIMREFRESHRATE);
             direction = getNextDirection();  
         }        
      
@@ -62,7 +67,7 @@ public class SimMagneticFieldSensor {
      * @return The change in angel for the next rendering
      */
     private double getDeltaAngel() {
-        return utils.getRandomBetween(0.0001 , 0.02 , 0.00001) * Config.REFRESHRATE;
+        return utils.getRandomBetween(0.0001 , 0.02 , 0.00001) * Config.SIMREFRESHRATE;
     }
 
     
@@ -73,7 +78,7 @@ public class SimMagneticFieldSensor {
      * @return the current angel
      * @see #getAngelToMagneticNorth()
      */
-    protected static double getCurrentAngel(){
+    public static double getCurrentAngel(){
         return angel;
     }
     
@@ -81,6 +86,15 @@ public class SimMagneticFieldSensor {
     public String toString() {
         return ("Magnetic Field Sensor: retries:" + simLength + 
             " | direction:" + direction + " | orientation:" + angel);
+    } 
+
+    @Override
+    public void update(Observable o, Object o1) {
+        invertAxis();
+    }
+
+    private void invertAxis() {
+        angel = (angel+180) % 360;
     }
     
     private static double angel = 0;
@@ -88,5 +102,7 @@ public class SimMagneticFieldSensor {
     private int direction = 0;
     
     private SimUtilities utils;
+    
+    private static SimMagneticFieldSensor instance = new SimMagneticFieldSensor();
     
 }

@@ -5,9 +5,19 @@ package guts.actors;
  * This class represents a special form of a engine with a limited movementradius.
  * @author Cedric Ohle
  */
-class LatchEngine extends Engine{
+public class LatchEngine extends Engine{
     private double leftMax;
     private double rightMax;
+
+    LatchEngine(int EngineAddress) {
+        //TODO: add limits
+        super(EngineAddress);
+    }
+
+    LatchEngine() {
+        //TODO: add limits
+        super();
+    }
     
     /**
      * Sets the left movement maximum
@@ -44,7 +54,7 @@ class LatchEngine extends Engine{
     /**
      * Allows setting of a new angle to get to.
      * Calculates the needed direction and distance to drive the servoengine and
-     * moves it if the movement borders are exceeded the servo is moved to the border.
+     * moves it. If the movement borders are exceeded the servo is moved to the border.
      * @params angle the new angle as float
      */
     @Override
