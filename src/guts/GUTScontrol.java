@@ -23,6 +23,9 @@ import guts.gui.GUI;
 import guts.sensors.GPS;
 import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class GUTScontrol implements Runnable {
@@ -49,6 +52,7 @@ public class GUTScontrol implements Runnable {
     private AntennaCorrectionCalculator antennaCorrectionCalculator;
     
     private static GUI gui;
+    private static Log logger;
       
     
     @Override 
@@ -64,6 +68,9 @@ public class GUTScontrol implements Runnable {
                 if(this.antennaCorrectionEnabled){
                     correctAntennaPostion();
                 }
+                
+                System.out.println("Antenna correction active");
+                Log.writeToLog(Log.ok_level, "Antenna position corrected");
                 
                 gui.moveToWaypoint(GUTScontrol.locat);
                 gui.repaint();
@@ -81,7 +88,7 @@ public class GUTScontrol implements Runnable {
     /*
      * Override default constructor for default values.
      */
-    public GUTScontrol() throws InterruptedException {
+    public GUTScontrol() throws InterruptedException {        
         this.gui = new GUI();        
         gui.drawInterface();
         
@@ -117,10 +124,8 @@ public class GUTScontrol implements Runnable {
         
         gyroscope.addObserver(gui.getJeepFront());
         gyroscope.addObserver(gui.getJeepSide());
-        
-
     }
-    
+   
     /**
      * Enable/Disable the antennacorrection mechanism. 
      */

@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.security.Timestamp;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 
 /**
@@ -16,28 +17,16 @@ import java.util.logging.Level;
  * @author Patrick Selge
  */
 public class Log {
-    public static void main(String[] args) {
-        try {
-            Log logger = new Log();
-            logger.writeToLog("Hallo Welt");
-            logger.writeToLog("Hallo Welt");
-            logger.writeToLog("Hallo Welt");
-            logger.closeAll();
-        } catch (IOException ex) { }
-        
-        
-    }
     
-    private final FileWriter fw;
+    private static FileWriter fw;
     
     // Singleton Pattern implementieren
-    public Log() throws IOException {
+    private static void openFile() throws IOException {
         Date now = new Date(System.currentTimeMillis());
         // Möglichkeit implementieren neue Dateien anlegen zu können
         // und die Dateien nach Notify Level zu benennen
         // Mehr Dateien sollte ebenfalls geöffnet werden können
         File f = new File(now.toString() + ".log");
-        
         
         
        if ( !f.exists() ) {
@@ -51,25 +40,47 @@ public class Log {
       }
        
        // Muss appenden können, falls !f.exists == false (else Strang) erreicht
-      fw = new FileWriter(f);
+      fw = new FileWriter(f, true);
 
     }
     
     // Benötigt ein notify Level zum anzeigen von -> Warning, Error, Info etc.
     // Exception Meldungen müssen angepasst werden
-    public void writeToLog(String notify, String s) {
+    public static void writeToLog(int notify, String s) {
         try {
-            fw.append(notify + ": " + s);
-        } catch (IOException ex) {
-        }
+            openFile();
+            
+            switch(notify) {
+                case ok_level:
+                    fw.write("[OK]: " + s + "\n");
+                    break;
+                case notify_level:
+                    fw.write("[Notify]: " + s);
+                    break;
+                case warn_level:
+                    fw.write("[Warn]: " + s);
+                    break;
+                case error_level:
+                    fw.write("[ERROR]: " + s);
+                    break;
+                default:
+                    fw.write("[UNKNOWN]: " + s);
+            }
+            
+            closeFile();
+        } catch (IOException ex) {}
     }
     
     // ALLE Dateien schließen
-    public void closeAll() {
+    private static void closeFile() {
         try {
             fw.close();
-        } catch (IOException ex) {
-        }
+        } catch (IOException ex) {}
     }
+    
+    public static final int error_level = 1;
+    public static final int warn_level = 2;
+    public static final int notify_level = 3;
+    public static final int ok_level = 4;
 }
 
