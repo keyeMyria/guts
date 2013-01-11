@@ -21,7 +21,7 @@ public class AntennaCorrectionCalculatorTest {
      public ExpectedException exception = ExpectedException.none();
 
      // testet, ob currentAngle innerhalb 0 und 359 liegt 
-     // da diese Werte ungültig sind
+     // da die Werte, die außerhalb liegen, ungültig sind
      @Test
      public void testCurrentAngleOutOfBounds() 
      {
