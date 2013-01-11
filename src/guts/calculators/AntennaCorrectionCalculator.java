@@ -7,19 +7,6 @@ package guts.calculators;
 import guts.entities.Axis;
 import guts.entities.Location;
 
-
-/**
-     * Calculates the needed positioncorrections based on the given
-     * current location, position and direction. New position values are
-     * returned as axis object.
-     * 
-     * @param currentLocation as location object
-     * @param currentAxis as axis object
-     * @param currentAngle as float
-     * @param activeTowerLocation as Location object
-     * @return newAxis as axis object
-     */
-
 /**
  * This class fetches the values of the current position 
  * of the Antenna (Pitch,Yaw,Roll), 
