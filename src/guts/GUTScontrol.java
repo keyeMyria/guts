@@ -69,8 +69,7 @@ public class GUTScontrol implements Runnable {
                     correctAntennaPostion();
                 }
                 
-                System.out.println("Antenna correction active");
-                Log.writeToLog(Log.ok_level, "Antenna position corrected");
+                //Log.writeToLog(Log.ok_level, "Antenna position corrected");
                 
                 gui.moveToWaypoint(GUTScontrol.locat);
                 gui.repaint();
