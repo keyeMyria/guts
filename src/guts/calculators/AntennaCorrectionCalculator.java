@@ -22,9 +22,7 @@ public class AntennaCorrectionCalculator {
     double i, newAngle, deltax, deltay, pitch, newPitch, roll, newRoll;
 
     calculateAngel(currentLocation, currentAxis, currentAngle, activeTowerLocation);
-    calculateAxis(currentLocation, currentAxis, currentAngle);
-
-    return new Axis();
+    return calculateAxis(currentLocation, currentAxis, currentAngle);
 
     }
 
@@ -37,9 +35,14 @@ public double calculateAngel(Location currentLocation, Axis currentAxis,
     
   double i, newAngle, deltax, deltay;
   
+  // deltax und deltay berechnet sich aus der Differenz vom Standpunkt des 
+  // gewählten Towers und vom Standpunkt der aktuellen Position des Wagens
   deltax = activeTowerLocation.getLongitude() - currentLocation.getLongitude();
   deltay = activeTowerLocation.getLatitude() - currentLocation.getLatitude();
         
+  //wenn kein deltay, dann prüfen ob deltax im pos. bereich liegt (genau auf der achse) 
+  // wenn ja dann newangle 0
+  // wenn nicht dann zurückgegebener Winkel dementsprechend,damit es im pos bereich liegt
        if (deltay == 0) {
            if(deltax > 0){
                newAngle=90;
@@ -48,6 +51,8 @@ public double calculateAngel(Location currentLocation, Axis currentAxis,
                newAngle=270;
            }
        }          
+       //genau wie oben, falls kein deltax, deltay überprüfen (was wieder genau auf der achse liegt, 
+       //im welchem bereich das liegt 
        else if (deltax == 0) {
           if(deltay > 0){
               newAngle=0;
@@ -57,11 +62,17 @@ public double calculateAngel(Location currentLocation, Axis currentAxis,
           }
        }
       
+       //wenn keines dieser fälle eintritt also nicht genau auf der achse und nicht im neg bereich
+       // dann werden diese werte genommen und der arcus tangens wird berechnet
        else{
           i=deltay/deltax;
           newAngle = Math.atan(Math.toRadians(i));
         }
         
+       //der endgültige newAngle ergibt sich dann aus der Differenz aus dem gesamten Winkelbereich
+       // und der Summe des momentanen Winkels der Antennenausrichtung und des eben berechneten 
+       // Winkels newAngle. Damit wir korrekte Werte haben, die im gültigen Bereich (360) liegen
+       // wird der modulo gebildet
        newAngle = (360 - currentAngle + newAngle) % 360;
 
        return newAngle;
@@ -71,6 +82,7 @@ public double calculateAngel(Location currentLocation, Axis currentAxis,
         
        double pitch, newPitch, roll, newRoll;
 
+       
        roll=currentAxis.getRoll();
        newRoll=roll * (-1);
        pitch=currentAxis.getPitch();
