@@ -13,6 +13,18 @@ public class Antenna {
     private LatchEngine pitchEngine;
     private LatchEngine rollEngine;
     
+    public Antenna(int yawEngineAddress, int pitchEngineAddress , int rollEngineAddress){
+        this.pitchEngine = new LatchEngine(pitchEngineAddress);
+        this.rollEngine = new LatchEngine(rollEngineAddress);
+        this.yawEngine = new Engine(yawEngineAddress);
+        
+    }
+    
+    public Antenna(){
+        this.pitchEngine = new LatchEngine();
+        this.rollEngine = new LatchEngine();
+        this.yawEngine = new Engine();
+    }
     
     /**
      * Sets the yawengine
@@ -38,29 +50,6 @@ public class Antenna {
         this.rollEngine = rollEngine;
     }
     
-    /**
-     * Returns the yawEngine
-     * @returns yawEngine as latchengine object
-     */
-    private Engine getYawEngine(){
-        return this.yawEngine;
-    }
-    
-    /**
-     * Returns the pitchEngine
-     * @returns pitchEngine as latchengine object
-     */
-    private LatchEngine getPitchEngine(){
-        return this.pitchEngine;
-    }
-    
-    /**
-     * Returns the rollEngine
-     * @returns rollEngine as latchengine object
-     */
-    private LatchEngine getRollEngine(){
-        return this.rollEngine;
-    }
     
     /**
      * This function allows to set a new position.

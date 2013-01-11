@@ -1,5 +1,5 @@
 /**
- * GUTS - GPS Utilized Tracking System
+ * GUTScontrol - GPS Utilized Tracking System
  * A tracking control device that sets the antennaunit
  * orientation on an offroad vehicle
  * 
@@ -12,23 +12,20 @@
 package guts;
 
 import guts.calculators.*;
-import guts.gui.GUI;
 import guts.actors.Antenna;
 
 import guts.entities.Axis;
 import guts.entities.Location;
 import osmViewer.data.TowerCollection;
 import guts.entities.TrackLog;
+import guts.gui.GUI;
 
 import guts.sensors.GPS;
 import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
 
 
-public class GUTS implements Runnable {
-
-    public static GUI gui;
-    public static GUTS guts;
+public class GUTScontrol implements Runnable {
     
     // Sensors
     private Gyroscope gyroscope;
@@ -48,61 +45,46 @@ public class GUTS implements Runnable {
     private static Location locat;
     private static Axis axis;
     
-    /**
-     * The main function
-     * 
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws InterruptedException {
-        
-        gui = new GUI();
-        
-        Thread guiThread = new Thread( gui );
-        guiThread.start();
-        guiThread.join();  
-        
-        guts = new GUTS();
-        
-        Thread gutsThread = new Thread( guts );
-        
-        gutsThread.start();
-        
-
-        
-        while(true) {
-            //gui.rotateJeep(GUTS.angel);
-            //gui.rotateAntenna(GUTS.angelAntenna);
-            
-            
-            gui.repaint();
-            
-            try {
-                Thread.sleep(Config.REFRESHRATE);   
-            } catch (InterruptedException ex) {}  
-        }
-    }
+    private SpeedCalculator speedCalculator;
+    private AntennaCorrectionCalculator antennaCorrectionCalculator;
     
+    private static GUI gui;
+      
     
     @Override 
     public void run() {
             while(true) {
+                if(Config.SIMULATIONENABLED){
+                    //GUTSEntry.guilock.lock();
+                }
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
                 locat = this.gps.fetchLocation();
                 axis = this.gyroscope.fetchPosition();
-                //angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
                 
-                gui.moveToWaypoint(GUTS.locat);
+                if(this.antennaCorrectionEnabled){
+                    correctAntennaPostion();
+                }
+                
+                gui.moveToWaypoint(GUTScontrol.locat);
+                gui.repaint();
                 
                 try {
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {}
+                
+                if(Config.SIMULATIONENABLED){
+                    //GUTSEntry.simlock.unlock();
+                }
         }
     }
 
     /*
      * Override default constructor for default values.
      */
-    public GUTS() {
+    public GUTScontrol() throws InterruptedException {
+        this.gui = new GUI();        
+        gui.drawInterface();
+        
         this.antennaCorrectionEnabled = false;
         this.storeTrackEnabled = false;
         
@@ -122,6 +104,8 @@ public class GUTS implements Runnable {
         this.speedCalculator = new SpeedCalculator();
         this.antennaCorrectionCalculator = new AntennaCorrectionCalculator();
         
+        
+        
         magneticFieldSensor.addObserver(gui.getJeepTop());
         magneticFieldSensor.addObserver(gui.getOrientationStatusBox());
         
@@ -133,6 +117,8 @@ public class GUTS implements Runnable {
         
         gyroscope.addObserver(gui.getJeepFront());
         gyroscope.addObserver(gui.getJeepSide());
+        
+
     }
     
     /**
@@ -154,9 +140,9 @@ public class GUTS implements Runnable {
      */
     public void correctAntennaPostion(){
         Axis newAxis = antennaCorrectionCalculator.calculateCorrection(
-                    this.gps.fetchLocation(),
-                    this.gyroscope.fetchPosition(),
-                    this.magneticFieldSensor.fetchAngelToMagneticNorth(),
+                    this.locat,
+                    this.axis,
+                    this.angel,
                     this.towers.get(this.activeTower)
                 );
         antenna.applyNewAxis(newAxis);
@@ -189,38 +175,6 @@ public class GUTS implements Runnable {
     }
     
     /**
-     * Returns the gyroscope.
-     * @return A gyroscope object
-     */
-    private Gyroscope getGyroscope(){
-        return this.gyroscope;
-    }
-    
-    /**
-     * Returns the gps.
-     * @return A gps object
-     */
-    private GPS getGPS(){
-        return this.gps;
-    }
-    
-    /**
-     * Returns the mageneticfieldsensor.
-     * @return A magneticFieldSensor object
-     */
-    private MagneticFieldSensor getMagneticFieldSensor(){
-        return this.magneticFieldSensor;
-    }
-    
-    /**
-     * Returns the antenna.
-     * @return An antenna object
-     */
-    private Antenna getAntenna(){
-        return this.antenna;
-    }
-    
-    /**
      * Allows setting of the tower to be used as target of the antenna.
      * @param towerID of the targettower as int
      */
@@ -244,8 +198,7 @@ public class GUTS implements Runnable {
         return this.towers;
     }
     
-    private SpeedCalculator speedCalculator;
-    private AntennaCorrectionCalculator antennaCorrectionCalculator;
+
 
 
 }

@@ -1,35 +1,42 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package guts.sim;
 
 import guts.Config;
 import guts.entities.Location;
+import guts.sim.data.SimulatedLocation;
 
 /**
- *
+ * This class represents the simulated GPS.
  * @author Cedric Ohle
  * @author Patrick Selge
  */
 public class SimGPS extends java.util.Observable {
     
-    private Location location;
-    private double newLongitude;
-    private double newLatitude;
-    private double angel;
-    private double longitudedelta;
+    private SimUtilities utils;
+    private SimulatedLocation sLocation;
     private double speed;
     private static final int DIVIDER = 1600000000;
     private static final int FACTOR = 150;
-    private static final int proportionFactor = DIVIDER/ Config.REFRESHRATE;
+    private static final int proportionFactor = DIVIDER/ Config.SIMREFRESHRATE;
+    private static SimGPS instance = new SimGPS();
+    
+    private SimGPS(){
+        this.utils = new SimUtilities();
+        this.speed = 0;
+        
+        // create new locationObject
+        sLocation = new SimulatedLocation(0, 0);
+    }
+    
+    public static SimGPS getInstance() {
+        return instance;
+    }
     
     /**
      * Sets the startlocation for the simulated GPS
      * @param startLocation
      */
     public void setLocation(Location startLocation){
-        this.location = startLocation;
+        sLocation.from_Location(startLocation);
     }
     
     /**
@@ -37,7 +44,7 @@ public class SimGPS extends java.util.Observable {
      * @return current location
      */
     public Location getLocation() {
-        return this.location;
+        return sLocation.to_Location();
     }
     
     /**
@@ -46,109 +53,110 @@ public class SimGPS extends java.util.Observable {
      */
     public Location fetchNewLocation(){
 
-        angel = SimMagneticFieldSensor.getCurrentAngel();
+        double angel = SimMagneticFieldSensor.getCurrentAngel();
         
-        calculateSpeed();
+        calculateNewLocation(angel);
         
-        calculateNewLocation();
-        
-        checkAndCorrectOverflowLatitude();
-        checkAndCorrectOverflowLongitude();
-
-        this.location = new Location(newLatitude, newLongitude);
-        return this.location;
-    }
-    /**
-     * Calculates the speedfactor and sets a new longitudedelta for further
-     * calculations.
-     */
-    private void calculateSpeed(){
-        // TODO: Rework this to be more like a actual gaspedal
-        if(((angel > 0) && (angel < 90)) || ((angel > 180) && (angel < 270))){
-            speed = Math.abs((angel%90)/45);
-        } else{
-            speed = Math.abs(((angel%90)-90)/45);
+        if(sLocation.checkAndCorrectOverflows()) {
+           setChanged();
+           notifyObservers();
         }
-        
-        // Neues delta für Longitude
-        longitudedelta = ((Math.random() * FACTOR+1)/proportionFactor)*speed;
+
+        return sLocation.to_Location();
     }
     
     /**
-     * Calculates the new locations based on the longitudedelta.
+     * Calculates the new longitudedelta for further calculations.
+     * @param angel
+     * @return longitudedelta
      */
-    private void calculateNewLocation(){
+    private double calculateLatitudeDelta(double angel){
+        return ((calculateSpeed() * FACTOR)/proportionFactor)*calculateLocationCompensationFactor(angel);
+    }
+    
+    /**
+     * Calculates the new speed.
+     * @return speedfactor
+     */
+    private double calculateSpeed(){
+        speed = (utils.getRandomBetween(-1,1,0.01) + speed);
+        if (speed < 0){
+            // We can't drive backwards
+            speed = 0;
+            return speed;
+        }else{
+            // Create upper speedlimit
+            return speed % 2;
+        }
+    }
+    
+    /**
+     * Calculates the compensationfactor for the locationdelta
+     * based on the current angel of the car
+     * @param angel
+     * @return compensationfactor
+     */
+    private double calculateLocationCompensationFactor(double angel){
+        if(((angel > 0) && (angel < 90)) || ((angel > 180) && (angel < 270))){
+            return Math.abs((angel%90)/45);
+        } else{
+            return Math.abs(((angel%90)-90)/45);
+        }
+    }
+    
+    /**
+     * Differentiates between axis and quadrant locations
+     * @param angel The angel on the coordinate system 
+     */
+    private void calculateNewLocation(double angel){        
         // Neue Position errechnen
         // Sonderfälle der Achsen
-        if(angel == 0) {
-                newLongitude = this.location.getLongitude();
-                newLatitude = this.location.getLatitude() + (Math.random() * FACTOR+1)/proportionFactor;
-        } else if(angel == 90) {
-                newLongitude = this.location.getLongitude() + (Math.random() * FACTOR+1)/proportionFactor;
-                newLatitude = this.location.getLatitude() ;
-        } else if(angel == 180) {
-                newLongitude = this.location.getLongitude();
-                newLatitude = this.location.getLatitude() - (Math.random() * FACTOR+1)/proportionFactor;           
-        } else if(angel == 270) {
-                newLongitude = this.location.getLongitude() - (Math.random() * FACTOR+1)/proportionFactor;
-                newLatitude = this.location.getLatitude();  
-        // Restliche Flächen der Quadranten
-        } else if(angel > 0 && angel < 90 ){
-            newLongitude = this.location.getLongitude() + longitudedelta;
-            newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(90-angel))*longitudedelta);
-        } else if(angel > 90 && angel < 180){
-            newLongitude = this.location.getLongitude() + longitudedelta;
-            newLatitude = this.location.getLatitude() - (Math.tan(Math.toRadians(angel%90))*longitudedelta);
-        } else if(angel > 180 && angel < 270){
-            newLongitude = this.location.getLongitude() - longitudedelta;
-            newLatitude = this.location.getLatitude() - (Math.tan(Math.toRadians(270-angel))*longitudedelta);
+        if(angel % 90 == 0) {
+            calculateAxisLocations(angel);
         } else {
-            newLongitude = this.location.getLongitude() - longitudedelta;
-            newLatitude = this.location.getLatitude() + (Math.tan(Math.toRadians(angel%90))*longitudedelta);
+            calculateQuadrantLocations(angel, calculateLatitudeDelta(angel));
+        }        
+    }
+    
+    private void calculateAxisLocations(double angel) {
+        switch((int) angel){ 
+            case 0:
+                sLocation.setLongitude(sLocation.getLongitude());
+                sLocation.setLatitude(sLocation.getLatitude() + calculateAxisLocationDelta());
+                break;
+            case 90:
+                sLocation.setLongitude(sLocation.getLongitude() + calculateAxisLocationDelta());
+                sLocation.setLatitude(sLocation.getLatitude());
+                break;
+            case 180:
+                sLocation.setLongitude(sLocation.getLongitude());
+                sLocation.setLatitude(sLocation.getLatitude() - calculateAxisLocationDelta()); 
+                break;
+            default:
+                sLocation.setLongitude(sLocation.getLongitude() - calculateAxisLocationDelta());
+                sLocation.setLatitude(sLocation.getLatitude());  
         }
     }
     
-    /**
-     * Checks the latitude for any overflows and corrects them.
-     */
-    private void checkAndCorrectOverflowLatitude(){
-        if(location.getLatitude() > 90){
-           newLatitude = -90 + (location.getLatitude() - 90);
-           if(location.getLongitude() >= 0){
-               newLongitude = location.getLongitude() - 180;
-           }
-           else{
-               newLongitude = location.getLongitude() + 180;
-           }
-           // Compass needs to invert axis
-           setChanged();
-           notifyObservers(location);
-        }
-        if(location.getLatitude() < -90){
-           newLatitude = 90 - (location.getLatitude() + 90);
-           if(location.getLongitude() >= 0){
-               newLongitude = location.getLongitude() - 180;
-           }
-           else{
-               newLongitude = location.getLongitude() + 180;
-           }
-           // Compass needs to invert axis
-           setChanged();
-           notifyObservers(location);
-        }
-        
+    private double calculateAxisLocationDelta(){
+        return (Math.random() * FACTOR)/proportionFactor;
     }
     
-    /**
-     * Checks the longitude for any overflows and corrects them.
-     */
-    private void checkAndCorrectOverflowLongitude(){
-        // Überlauf auf den Breitengraden
-        if(location.getLongitude() > 180){
-           newLongitude = -180 + (location.getLongitude() - 180); 
-        }
-        if(location.getLongitude() < -180){
-           newLongitude = 180 - (location.getLongitude() + 180); 
+    private void calculateQuadrantLocations(double angel, double longitudedelta) {
+        if(angel > 0 && angel < 90 ){
+            sLocation.setLongitude(sLocation.getLongitude() + longitudedelta);
+            sLocation.setLatitude(sLocation.getLatitude() + (Math.tan(Math.toRadians(90-angel))*longitudedelta));
+        } else if(angel > 90 && angel < 180){
+            sLocation.setLongitude(sLocation.getLongitude() + longitudedelta);
+            sLocation.setLatitude(sLocation.getLatitude() - (Math.tan(Math.toRadians(angel%90))*longitudedelta));
+        } else if(angel > 180 && angel < 270){
+            sLocation.setLongitude(sLocation.getLongitude() - longitudedelta);
+            sLocation.setLatitude(sLocation.getLatitude() - (Math.tan(Math.toRadians(270-angel))*longitudedelta));
+        } else {
+            sLocation.setLongitude(sLocation.getLongitude() - longitudedelta);
+            sLocation.setLatitude(sLocation.getLatitude() + (Math.tan(Math.toRadians(angel%90))*longitudedelta));
         }
     }
+    
+    
 }

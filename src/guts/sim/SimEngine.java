@@ -2,12 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package simulation;
+package guts.sim;
 
 /**
  *
  * @author Cedric Ohle
  */
-class simGPS {
+public class SimEngine {
+
+    public SimEngine() {
+    }
     
 }
