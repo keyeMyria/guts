@@ -1,6 +1,8 @@
 
 package guts.actors;
 
+import guts.sim.SimEngine;
+
 /**
  * This class represents an servoengine with a sensor to get the current angle.
  * It allows communication with the hardwareengine.
@@ -8,6 +10,15 @@ package guts.actors;
  */
 class Engine {
     private int address;
+    private SimEngine simEngine;
+
+    Engine(int yawEngineAddress) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    Engine(){
+        this.simEngine = new SimEngine();
+    }
     
     /**
      * Allows setting of a new angle to get to.

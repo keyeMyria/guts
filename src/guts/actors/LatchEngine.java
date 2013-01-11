@@ -5,9 +5,19 @@ package guts.actors;
  * This class represents a special form of a engine with a limited movementradius.
  * @author Cedric Ohle
  */
-class LatchEngine extends Engine{
+public class LatchEngine extends Engine{
     private double leftMax;
     private double rightMax;
+
+    LatchEngine(int EngineAddress) {
+        //TODO: add limits
+        super(EngineAddress);
+    }
+
+    LatchEngine() {
+        //TODO: add limits
+        super();
+    }
     
     /**
      * Sets the left movement maximum
