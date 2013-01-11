@@ -40,7 +40,11 @@ public class AntennaCorrectionCalculator {
 
 public double calculateAngel(Location currentLocation, Axis currentAxis, 
             double currentAngle, Location activeTowerLocation){
-
+  
+    if (currentAngle < 0 || currentAngle >= 360){
+        throw new IllegalArgumentException("currentAngle must be between 0 and 359");
+    }
+    
   double i, newAngle, deltax, deltay;
   
   deltax = activeTowerLocation.getLongitude() - currentLocation.getLongitude();
@@ -50,7 +54,7 @@ public double calculateAngel(Location currentLocation, Axis currentAxis,
            if(deltax > 0){
                newAngle=90;
            }
-           else {
+           else{
                newAngle=270;
            }
        }          
