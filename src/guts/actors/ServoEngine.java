@@ -36,7 +36,7 @@ class ServoEngine {
      */
     public double fetchAngle(){
         //todo: needs driver access and implementation
-        return 180;
+        return 0;
     }
     
     /**
