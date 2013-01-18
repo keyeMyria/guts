@@ -116,7 +116,7 @@ public class GUTScontrol implements Runnable {
         this.speedCalculator = new SpeedCalculator();
         this.antennaCorrectionCalculator = new AntennaCorrectionCalculator();
         
-        this.towers.add(new Tower(0, 0, "Default"));
+        this.towers.add(new Tower(52.483791, 13.226141, "Default"));
         this.activeTower = 0;
         
         
