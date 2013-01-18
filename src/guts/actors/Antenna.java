@@ -13,9 +13,9 @@ public class Antenna {
     private ServoLatchEngine pitchEngine;
     private ServoLatchEngine rollEngine;
     
-    public Antenna(int yawEngineAddress, int pitchEngineAddress , int rollEngineAddress){
-        this.pitchEngine = new ServoLatchEngine(pitchEngineAddress);
-        this.rollEngine = new ServoLatchEngine(rollEngineAddress);
+    public Antenna(int yawEngineAddress, int pitchEngineAddress , int rollEngineAddress,double pitchEngineLeftMax, double pitchEngineRightMax, double rollEngineLeftMax, double rollEngineRightMax){
+        this.pitchEngine = new ServoLatchEngine(pitchEngineAddress,pitchEngineLeftMax, pitchEngineRightMax);
+        this.rollEngine = new ServoLatchEngine(rollEngineAddress,rollEngineLeftMax, rollEngineRightMax);
         this.yawEngine = new ServoEngine(yawEngineAddress);
         
     }
@@ -24,30 +24,6 @@ public class Antenna {
         this.pitchEngine = new ServoLatchEngine(pitchEngineLeftMax, pitchEngineRightMax);
         this.rollEngine = new ServoLatchEngine(rollEngineLeftMax, rollEngineRightMax);
         this.yawEngine = new ServoEngine();
-    }
-    
-    /**
-     * Sets the yawengine
-     * @param yawEngine as engine object
-     */
-    private void setYawEngine(ServoEngine yawEngine){
-        this.yawEngine = yawEngine;
-    }
-    
-    /**
-     * Sets the pitchEngine
-     * @param pitchEngine as latchengine object
-     */
-    private void setPitchEngine(ServoLatchEngine pitchEngine){
-        this.pitchEngine = pitchEngine;
-    }
-    
-    /**
-     * Sets the rollEngine
-     * @param rollEngine as latchengine object
-     */
-    private void setRollEngine(ServoLatchEngine rollEngine){
-        this.rollEngine = rollEngine;
     }
     
     public double getYawAngle() {

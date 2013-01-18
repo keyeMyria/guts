@@ -57,7 +57,7 @@ class ServoEngine {
      * Allows moving of the servoengine.
      * @params move the direction and distance
      */
-    private void move(double move){
+    protected void move(double move){
         simEngine.move(move);
     }
 }

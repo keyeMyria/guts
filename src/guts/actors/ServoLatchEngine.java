@@ -9,48 +9,18 @@ public class ServoLatchEngine extends ServoEngine{
     private double leftMax;
     private double rightMax;
 
-    ServoLatchEngine(int EngineAddress) {
-        //TODO: add limits
+    ServoLatchEngine(int EngineAddress,double leftMax, double rightMax) {
         super(EngineAddress);
+        this.leftMax = leftMax;
+        this.rightMax = rightMax;
     }
 
     ServoLatchEngine(double leftMax, double rightMax) {
         super();
-        this.leftMax= leftMax;
-        this.rightMax = rightMax;
-    }
-    
-    /**
-     * Sets the left movement maximum
-     * @param leftMax as float
-     */
-    public void setLeftMax(double leftMax){
         this.leftMax = leftMax;
-    }
-    
-    /**
-     * Sets the right movement maximum
-     * @param rightMax as float
-     */
-    public void setRightMax(double rightMax){
         this.rightMax = rightMax;
     }
     
-    /**
-     * Gets the left movement maximum
-     * @returns leftMax as float
-     */
-    public double getLeftMax(){
-        return this.leftMax;
-    }
-    
-    /**
-     * Gets the right movement maximum
-     * @returns rightMax as float
-     */
-    public double getRightMax(){
-        return this.rightMax;
-    }
     
     /**
      * Allows setting of a new angle to get to.
@@ -60,7 +30,23 @@ public class ServoLatchEngine extends ServoEngine{
      */
     @Override
     public void moveToAngle(double angle){
-        //todo: needs implementation
+        double currentAngle = fetchAngle();
+        double movement = 0;
+        if (angle < currentAngle){
+            // counterclockwise
+            movement = -1 * (currentAngle - angle);
+            if(Math.abs(movement) > (currentAngle - leftMax)){
+                movement = -1 * (currentAngle - leftMax);
+            }
+        } else if(angle > currentAngle) {
+            // clockwise
+            movement = (angle - currentAngle);
+            if(movement > (rightMax - currentAngle)){
+                movement = rightMax - currentAngle;
+            }
+            
+        }
+        super.move(movement);
     }
 
 }
