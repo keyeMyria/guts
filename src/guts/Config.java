@@ -21,6 +21,7 @@ public class Config {
     public static final int DEBUG = LOG_WAR;
     public static final int REFRESHRATE = 100; // time in miliseconds
     public static final int SIMREFRESHRATE = REFRESHRATE;
+    public static final int SERVOTURNRATE = 5;
     
     // vehicle vars
     public static final String VEHICLE_TOP = "/img/jeep.top.png";
