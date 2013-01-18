@@ -51,7 +51,7 @@ public class Antenna {
     }
     
     public double getRollAngle() {
-        return this.rollEngine.getAngle();
+        return this.rollEngine.fetchAngle();
     }
     
     /**

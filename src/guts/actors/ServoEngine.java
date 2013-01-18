@@ -34,9 +34,9 @@ class ServoEngine {
      * Returns the current angle of the servoengine.
      * @return the current angle as float
      */
-    public float fetchAngle(){
+    public double fetchAngle(){
         //todo: needs driver access and implementation
-        return 0;
+        return 180;
     }
     
     /**
