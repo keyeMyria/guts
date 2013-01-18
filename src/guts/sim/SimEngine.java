@@ -23,13 +23,15 @@ public class SimEngine {
     }
 
     public void move(double move) {
-        if(move > Config.SERVOTURNRATE){
+        /*if(move > Config.SERVOTURNRATE){
             currentangle = currentangle + Config.SERVOTURNRATE;
         }else if(move < -Config.SERVOTURNRATE){
             currentangle = currentangle - Config.SERVOTURNRATE;
         }else{
-            currentangle = currentangle + move;
-        }
+            
+        }*/
+        
+        currentangle = currentangle + move;
         currentangle = Math.abs(currentangle) % 359;
     }
     

@@ -78,7 +78,20 @@ public class AntennaCorrectionCalculator {
            i=deltay/deltax;
            newAngle = Math.atan(Math.toRadians(i));
         }
-
+        
+        double lon1 = Math.toRadians(currentLocation. getLongitude());
+        double lon2 = Math.toRadians(activeTower.getLongitude());
+        
+        double lat1 = Math.toRadians(currentLocation.getLatitude());
+        double lat2 = Math.toRadians(activeTower.getLatitude());
+        
+        System.out.println("Before: " + newAngle);
+        newAngle = Math.atan2(Math.sin(lon2-lon1)*
+                Math.cos(lat2), Math.cos(lat1)*
+                Math.sin(lat2) - Math.sin(lat1)*
+                Math.cos(lat2)*
+                Math.cos(lon2-lon1)) % (2*Math.PI);
+        System.out.println("After: " + Math.toDegrees(newAngle));
         // der endgültige newAngle ergibt sich dann aus der Differenz aus dem gesamten Winkelbereich
         // und der Summe des momentanen Winkels der Antennenausrichtung und des eben berechneten 
         // Winkels newAngle. Damit wir korrekte Werte haben, die im gültigen Bereich (360) liegen

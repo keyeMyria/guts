@@ -29,12 +29,12 @@ class ServoEngine {
      */
     public void moveToAngle(double angle){
         double currentAngle = fetchAngle();
-        if (currentAngle > angle){
+        if (angle < currentAngle){
             // counterclockwise
-            move(- currentAngle - angle);
-        }else if(currentAngle < angle){
+            move(-1 * (currentAngle - angle));
+        } else if(angle > currentAngle) {
             // clockwise
-            move(currentAngle - angle);
+            move(angle - currentAngle);
         }
         // currentangel == angle -> nothing to do
     }
