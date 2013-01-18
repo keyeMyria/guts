@@ -23,7 +23,6 @@ import guts.gui.GUI;
 import guts.sensors.GPS;
 import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

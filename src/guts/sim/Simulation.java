@@ -3,8 +3,6 @@ package guts.sim;
 
 import guts.Config;
 import guts.GUTSEntry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
