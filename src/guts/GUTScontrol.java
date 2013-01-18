@@ -38,21 +38,22 @@ public class GUTScontrol implements Runnable {
     private Antenna antenna;
     private int activeTower;
     
+    // Settings
     private boolean storeTrackEnabled;
     private boolean antennaCorrectionEnabled;
     
     private TrackLog trackLog;
     private TowerCollection towers;
     
-    private static double angel;
-    private static Location locat;
-    private static Axis axis;
+    // Current sensor values
+    private double angel;
+    private Location locat;
+    private Axis axis;
     
     private SpeedCalculator speedCalculator;
     private AntennaCorrectionCalculator antennaCorrectionCalculator;
     
-    private static GUI gui;
-    private static Log logger;
+    private GUI gui;
       
         private double i=0;
     
@@ -66,20 +67,19 @@ public class GUTScontrol implements Runnable {
                         Logger.getLogger(GUTScontrol.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                // Get new data from sensors
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
                 locat = this.gps.fetchLocation();
                 axis = this.gyroscope.fetchPosition();
                 
+                //Calculate correction for antenna if enabled
                 if(this.antennaCorrectionEnabled){
                     correctAntennaPostion();
                 }
-                //gui.rotateToAngle(angel + );
                 
                 gui.rotateToAngle(antenna.getYawAngle());
                 
-                //Log.writeToLog(Log.ok_level, "Antenna position corrected");
-                
-                gui.moveToWaypoint(GUTScontrol.locat);
+                gui.moveToWaypoint(locat);
                 gui.repaint();
                 
                 try {
@@ -89,7 +89,8 @@ public class GUTScontrol implements Runnable {
     }
 
     /*
-     * Override default constructor for default values.
+     * GUTScontrol constructor.
+     * Sets everything up and creates all need data structures.
      */
     public GUTScontrol() throws InterruptedException {        
         this.gui = new GUI();        
@@ -100,7 +101,7 @@ public class GUTScontrol implements Runnable {
         
         // Create Hardware
         this.gps = new GPS();
-        this.gps.setStartPoint(52.483791, 13.226141);
+        this.gps.setStartPoint(Config.CARSTARTLAT, Config.CARSTARTLON);
         
         this.gyroscope = new Gyroscope();
         this.magneticFieldSensor = new MagneticFieldSensor();
@@ -119,9 +120,9 @@ public class GUTScontrol implements Runnable {
         this.speedCalculator = new SpeedCalculator();
         this.antennaCorrectionCalculator = new AntennaCorrectionCalculator();
         
-        this.towers.add(new Tower(52.493791, 13.226141, "Default"));
+        // Add the default tower
+        this.towers.add(new Tower(Config.DEFAULTTOWERLAT, Config.DEFAULTTOWERLON, "Default"));
         this.activeTower = 0;
-        
         
         
         magneticFieldSensor.addObserver(gui.getJeepTop());

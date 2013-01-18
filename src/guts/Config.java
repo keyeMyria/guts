@@ -30,6 +30,10 @@ public class Config {
     // GEO Data
     public static final double STARTLAT = 52.483791;
     public static final double STARTLON = 13.226141;
+    public static final double CARSTARTLAT = 52.483791;
+    public static final double CARSTARTLON = 13.226141;
+    public static final double DEFAULTTOWERLAT = 52.483791;
+    public static final double DEFAULTTOWERLON = 13.226141;
     
     // Engine borders
     public static final double PITCHENGINELEFTMAX = 0;
