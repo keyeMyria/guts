@@ -3,6 +3,8 @@ package guts.sim;
 
 import guts.Config;
 import guts.GUTSEntry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,14 +26,16 @@ public class Simulation implements Runnable{
     @Override
     public void run() {
         while(true){
-            //GUTSEntry.simlock.lock();
+            if(Config.SIMULATIONENABLED){
+                GUTSEntry.sem.release();
+                System.out.println("Freigabe: " + GUTSEntry.sem.availablePermits());
+            }
             simCompass.calculateAngelToMagneticNorth();
             simGPS.fetchNewLocation();
             simGyro.calculatePosition();
             try {
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {}
-            //GUTSEntry.guilock.unlock();
         }
     }
     
