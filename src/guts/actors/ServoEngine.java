@@ -1,6 +1,7 @@
 
 package guts.actors;
 
+import guts.Config;
 import guts.sim.SimEngine;
 
 /**
@@ -27,16 +28,29 @@ class ServoEngine {
      * @params angle the new angle as float
      */
     public void moveToAngle(double angle){
-        //todo: needs implementation
+        double currentAngle = fetchAngle();
+        if (currentAngle > angle){
+            // counterclockwise
+            move(- currentAngle - angle);
+        }else if(currentAngle < angle){
+            // clockwise
+            move(currentAngle - angle);
+        }
+        // currentangel == angle -> nothing to do
     }
     
     /**
      * Returns the current angle of the servoengine.
      * @return the current angle as float
      */
-    public float fetchAngle(){
-        //todo: needs driver access and implementation
-        return 0;
+    public double fetchAngle(){
+        if (Config.SIMULATIONENABLED){
+            return simEngine.fetchAngle();
+        }else{
+            // Implement real hardwareaccess
+            return 0;
+        }
+        
     }
     
     /**
@@ -44,6 +58,6 @@ class ServoEngine {
      * @params move the direction and distance
      */
     private void move(double move){
-        //todo: needs driver access and implementation
+        simEngine.move(move);
     }
 }
