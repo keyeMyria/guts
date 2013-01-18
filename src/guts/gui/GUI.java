@@ -78,6 +78,10 @@ public class GUI extends JFrame {
     public StatusBox getSpeedStatusBox() {
         return appWindow.getSidebar().getSpeedStatusBox();
     }
+    
+    public void rotateToAngle(double angle) {
+        appWindow.getMapPanel().rotateAntennaTo(angle);
+    }
 
     // Attributes and Constants
     // ------------------------

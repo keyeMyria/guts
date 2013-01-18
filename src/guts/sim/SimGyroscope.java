@@ -38,19 +38,22 @@ public class SimGyroscope {
     }
     
     private double getDeltaAngel() {
-        return ((int)(Math.random() * 3000 + 1))/(1600000.0 / Config.REFRESHRATE);
+        return ((int)(Math.random() * 3000 + 1))/(1600000.0 / Config.SIMREFRESHRATE);
     }
     
-    
     public Axis getPosition(){
+        return axis;
+    }
+    
+    public Axis calculatePosition(){
         // Momentan berechnen wir yawn nicht, da wir den Wert aus dem Compass erhalten
         // und nie interpretieren
         if(rollSimLength <= 0) {
-            rollSimLength = (int)(Math.random() * (1600 / Config.REFRESHRATE)) + 1;
+            rollSimLength = (int)(Math.random() * (1600 / Config.SIMREFRESHRATE)) + 1;
             rollDirection = getNextDirection();  
         }
         if(pitchSimLength <= 0) {
-            pitchSimLength = (int)(Math.random() * (1600 / Config.REFRESHRATE)) + 1;
+            pitchSimLength = (int)(Math.random() * (1600 / Config.SIMREFRESHRATE)) + 1;
             pitchDirection = getNextDirection();  
         }
         

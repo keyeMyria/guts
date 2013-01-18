@@ -23,6 +23,8 @@ import guts.gui.GUI;
 import guts.sensors.GPS;
 import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class GUTScontrol implements Runnable {
@@ -49,30 +51,44 @@ public class GUTScontrol implements Runnable {
     private AntennaCorrectionCalculator antennaCorrectionCalculator;
     
     private static GUI gui;
+    private static Log logger;
       
     
     @Override 
     public void run() {
             while(true) {
+                if(Config.SIMULATIONENABLED){
+                    try {
+                        GUTSEntry.sem.acquire();
+                        System.out.println("Nutzung: " + GUTSEntry.sem.availablePermits());
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(GUTScontrol.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
                 locat = this.gps.fetchLocation();
                 axis = this.gyroscope.fetchPosition();
-                //angelAntenna = this.antennaMockObject.fetchAngelToMagneticNorth();
+                
+                if(this.antennaCorrectionEnabled){
+                    correctAntennaPostion();
+                }
+                
+                //Log.writeToLog(Log.ok_level, "Antenna position corrected");
                 
                 gui.moveToWaypoint(GUTScontrol.locat);
+                gui.rotateToAngle(antenna.getRollAngle());
                 gui.repaint();
                 
                 try {
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {}
-                // Tell GUI to repaint the new values
         }
     }
 
     /*
      * Override default constructor for default values.
      */
-    public GUTScontrol() throws InterruptedException {
+    public GUTScontrol() throws InterruptedException {        
         this.gui = new GUI();        
         gui.drawInterface();
         
@@ -108,10 +124,8 @@ public class GUTScontrol implements Runnable {
         
         gyroscope.addObserver(gui.getJeepFront());
         gyroscope.addObserver(gui.getJeepSide());
-        
-
     }
-    
+   
     /**
      * Enable/Disable the antennacorrection mechanism. 
      */
@@ -131,9 +145,9 @@ public class GUTScontrol implements Runnable {
      */
     public void correctAntennaPostion(){
         Axis newAxis = antennaCorrectionCalculator.calculateCorrection(
-                    this.gps.fetchLocation(),
-                    this.gyroscope.fetchPosition(),
-                    this.magneticFieldSensor.fetchAngelToMagneticNorth(),
+                    this.locat,
+                    this.axis,
+                    this.angel,
                     this.towers.get(this.activeTower)
                 );
         antenna.applyNewAxis(newAxis);
@@ -163,38 +177,6 @@ public class GUTScontrol implements Runnable {
      */
     public boolean getAntennaCorrectionStatus(){
         return this.antennaCorrectionEnabled;
-    }
-    
-    /**
-     * Returns the gyroscope.
-     * @return A gyroscope object
-     */
-    private Gyroscope getGyroscope(){
-        return this.gyroscope;
-    }
-    
-    /**
-     * Returns the gps.
-     * @return A gps object
-     */
-    private GPS getGPS(){
-        return this.gps;
-    }
-    
-    /**
-     * Returns the mageneticfieldsensor.
-     * @return A magneticFieldSensor object
-     */
-    private MagneticFieldSensor getMagneticFieldSensor(){
-        return this.magneticFieldSensor;
-    }
-    
-    /**
-     * Returns the antenna.
-     * @return An antenna object
-     */
-    private Antenna getAntenna(){
-        return this.antenna;
     }
     
     /**

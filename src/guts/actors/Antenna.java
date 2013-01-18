@@ -9,16 +9,28 @@ import guts.entities.Axis;
  * @author Cedric Ohle
  */
 public class Antenna {
-    private Engine yawEngine;
-    private LatchEngine pitchEngine;
-    private LatchEngine rollEngine;
+    private ServoEngine yawEngine;
+    private ServoLatchEngine pitchEngine;
+    private ServoLatchEngine rollEngine;
     
+    public Antenna(int yawEngineAddress, int pitchEngineAddress , int rollEngineAddress){
+        this.pitchEngine = new ServoLatchEngine(pitchEngineAddress);
+        this.rollEngine = new ServoLatchEngine(rollEngineAddress);
+        this.yawEngine = new ServoEngine(yawEngineAddress);
+        
+    }
+    
+    public Antenna(){
+        this.pitchEngine = new ServoLatchEngine();
+        this.rollEngine = new ServoLatchEngine();
+        this.yawEngine = new ServoEngine();
+    }
     
     /**
      * Sets the yawengine
      * @param yawEngine as engine object
      */
-    private void setYawEngine(Engine yawEngine){
+    private void setYawEngine(ServoEngine yawEngine){
         this.yawEngine = yawEngine;
     }
     
@@ -26,7 +38,7 @@ public class Antenna {
      * Sets the pitchEngine
      * @param pitchEngine as latchengine object
      */
-    private void setPitchEngine(LatchEngine pitchEngine){
+    private void setPitchEngine(ServoLatchEngine pitchEngine){
         this.pitchEngine = pitchEngine;
     }
     
@@ -34,32 +46,12 @@ public class Antenna {
      * Sets the rollEngine
      * @param rollEngine as latchengine object
      */
-    private void setRollEngine(LatchEngine rollEngine){
+    private void setRollEngine(ServoLatchEngine rollEngine){
         this.rollEngine = rollEngine;
     }
     
-    /**
-     * Returns the yawEngine
-     * @returns yawEngine as latchengine object
-     */
-    private Engine getYawEngine(){
-        return this.yawEngine;
-    }
-    
-    /**
-     * Returns the pitchEngine
-     * @returns pitchEngine as latchengine object
-     */
-    private LatchEngine getPitchEngine(){
-        return this.pitchEngine;
-    }
-    
-    /**
-     * Returns the rollEngine
-     * @returns rollEngine as latchengine object
-     */
-    private LatchEngine getRollEngine(){
-        return this.rollEngine;
+    public double getRollAngle() {
+        return this.rollEngine.getAngle();
     }
     
     /**

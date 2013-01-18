@@ -28,7 +28,7 @@ public class MagneticFieldSensor extends java.util.Observable {
      */
     public double fetchAngelToMagneticNorth(){
         if (Config.SIMULATIONENABLED) {
-            double angel = this.simMagneticFieldSensor.getAngelToMagneticNorth();
+            double angel = this.simMagneticFieldSensor.getCurrentAngel();
             setChanged();
             notifyObservers(angel);
             

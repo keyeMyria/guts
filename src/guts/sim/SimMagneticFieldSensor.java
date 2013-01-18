@@ -33,10 +33,10 @@ public class SimMagneticFieldSensor implements java.util.Observer{
      * 
      * @return the new angel
      */
-    public double getAngelToMagneticNorth() {
+    public double calculateAngelToMagneticNorth() {
         // Every simLength turns, a new direction is generated
         if(simLength <= 0) {
-            simLength = (int)(utils.getRandomBetween(100.0,5000.0,100.0) / Config.REFRESHRATE);
+            simLength = (int)(utils.getRandomBetween(100.0,5000.0,100.0) / Config.SIMREFRESHRATE);
             direction = getNextDirection();  
         }        
      
@@ -67,7 +67,7 @@ public class SimMagneticFieldSensor implements java.util.Observer{
      * @return The change in angel for the next rendering
      */
     private double getDeltaAngel() {
-        return utils.getRandomBetween(0.0001 , 0.02 , 0.00001) * Config.REFRESHRATE;
+        return utils.getRandomBetween(0.0001 , 0.02 , 0.00001) * Config.SIMREFRESHRATE;
     }
 
     
@@ -78,7 +78,7 @@ public class SimMagneticFieldSensor implements java.util.Observer{
      * @return the current angel
      * @see #getAngelToMagneticNorth()
      */
-    protected static double getCurrentAngel(){
+    public static double getCurrentAngel(){
         return angel;
     }
     
