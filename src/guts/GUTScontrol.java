@@ -51,6 +51,7 @@ public class GUTScontrol implements Runnable {
     private AntennaCorrectionCalculator antennaCorrectionCalculator;
     
     private static GUI gui;
+    private static Log logger;
       
     
     @Override 
@@ -72,6 +73,8 @@ public class GUTScontrol implements Runnable {
                     correctAntennaPostion();
                 }
                 
+                //Log.writeToLog(Log.ok_level, "Antenna position corrected");
+                
                 gui.moveToWaypoint(GUTScontrol.locat);
                 gui.repaint();
                 
@@ -84,7 +87,7 @@ public class GUTScontrol implements Runnable {
     /*
      * Override default constructor for default values.
      */
-    public GUTScontrol() throws InterruptedException {
+    public GUTScontrol() throws InterruptedException {        
         this.gui = new GUI();        
         gui.drawInterface();
         
@@ -120,10 +123,8 @@ public class GUTScontrol implements Runnable {
         
         gyroscope.addObserver(gui.getJeepFront());
         gyroscope.addObserver(gui.getJeepSide());
-        
-
     }
-    
+   
     /**
      * Enable/Disable the antennacorrection mechanism. 
      */

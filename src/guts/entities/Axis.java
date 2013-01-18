@@ -10,6 +10,7 @@ public class Axis {
     private double pitch;
     private double yawn;
     private double roll;
+    public double getRoll;
     
     public Axis(){
         

@@ -6,7 +6,6 @@ package guts;
 
 import guts.sim.Simulation;
 import java.util.concurrent.Semaphore;
-//import java.util.concurrent.locks.*;
 
 
 /**
