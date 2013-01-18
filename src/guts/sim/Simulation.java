@@ -1,9 +1,8 @@
-
 package guts.sim;
-
+ 
 import guts.Config;
 import guts.GUTSEntry;
-
+ 
 /**
  *
  * @author Cedric Ohle
@@ -20,7 +19,7 @@ public class Simulation implements Runnable{
         this.simGyro=SimGyroscope.getInstance();
         this.simGPS.addObserver(simCompass);
     }
-
+ 
     @Override
     public void run() {
         while(true){

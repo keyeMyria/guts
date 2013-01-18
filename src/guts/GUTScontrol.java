@@ -53,6 +53,7 @@ public class GUTScontrol implements Runnable {
     private static GUI gui;
     private static Log logger;
       
+        private double i=0;
     
     @Override 
     public void run() {
@@ -72,6 +73,8 @@ public class GUTScontrol implements Runnable {
                 if(this.antennaCorrectionEnabled){
                     correctAntennaPostion();
                 }
+                //gui.rotateToAngle(angel + antenna.getRollAngle());
+                gui.rotateToAngle(angel + i++);
                 
                 //Log.writeToLog(Log.ok_level, "Antenna position corrected");
                 

@@ -50,6 +50,9 @@ public class Antenna {
         this.rollEngine = rollEngine;
     }
     
+    public double getRollAngle() {
+        return this.rollEngine.fetchAngle();
+    }
     
     /**
      * This function allows to set a new position.

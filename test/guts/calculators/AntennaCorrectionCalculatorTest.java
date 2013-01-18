@@ -50,7 +50,7 @@ public class AntennaCorrectionCalculatorTest {
      @Test
      public void testInvertAngleAndZeroDelta()
      {
-        Axis actAxis = acc.calculateCorrection(new Location(0.0,0.0), new Axis(20.0,0.0,20.0), 0, new Tower(0.0, 0.0, "Test"));
+        Axis actAxis = acc.calculateCorrection(new Location(0.0,0.0), new Axis(20.0,0.0,20.0), 0.0, new Tower(0.0, 0.0, "Test"));
         Axis reqAxis = new Axis(-20.0,0.0,-20.0);
         
         // Gramm fragen, warum assertEquals nur mit der toString() Methode funktioniert

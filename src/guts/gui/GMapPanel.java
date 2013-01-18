@@ -99,6 +99,10 @@ public class GMapPanel extends JLayeredPane {
         
     }
     
+    public void rotateAntennaTo(double angel) {
+        antenna.rotateTo(angel);
+    }
+    
     
     
     public RotatableImage getJeepTop() {

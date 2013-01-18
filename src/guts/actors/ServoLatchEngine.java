@@ -62,4 +62,5 @@ public class ServoLatchEngine extends ServoEngine{
     public void moveToAngle(double angle){
         //todo: needs implementation
     }
+
 }
