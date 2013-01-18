@@ -74,7 +74,6 @@ public class GUTScontrol implements Runnable {
                     correctAntennaPostion();
                 }
                 //gui.rotateToAngle(angel + );
-                System.out.println(antenna.getYawAngle());
                 
                 gui.rotateToAngle(antenna.getYawAngle());
                 
@@ -162,7 +161,6 @@ public class GUTScontrol implements Runnable {
                     this.angel,
                     this.towers.get(this.activeTower)
                 );
-        System.out.println(newAxis);
         antenna.applyNewAxis(newAxis);
     }
     
@@ -216,7 +214,5 @@ public class GUTScontrol implements Runnable {
         return this.towers;
     }
     
-
-
 
 }
