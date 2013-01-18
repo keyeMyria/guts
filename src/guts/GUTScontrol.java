@@ -25,6 +25,7 @@ import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import osmViewer.data.Tower;
 
 
 public class GUTScontrol implements Runnable {
@@ -73,8 +74,8 @@ public class GUTScontrol implements Runnable {
                 if(this.antennaCorrectionEnabled){
                     correctAntennaPostion();
                 }
-                //gui.rotateToAngle(angel + antenna.getRollAngle());
-                gui.rotateToAngle(angel + i++);
+                //gui.rotateToAngle(angel + );
+                gui.rotateToAngle(antenna.getYawAngle());
                 
                 //Log.writeToLog(Log.ok_level, "Antenna position corrected");
                 
@@ -94,7 +95,7 @@ public class GUTScontrol implements Runnable {
         this.gui = new GUI();        
         gui.drawInterface();
         
-        this.antennaCorrectionEnabled = false;
+        this.antennaCorrectionEnabled = true;
         this.storeTrackEnabled = false;
         
         // Create Hardware
@@ -112,6 +113,9 @@ public class GUTScontrol implements Runnable {
         // Create Guts Calculators
         this.speedCalculator = new SpeedCalculator();
         this.antennaCorrectionCalculator = new AntennaCorrectionCalculator();
+        
+        this.towers.add(new Tower(0, 0, "Default"));
+        this.activeTower = 0;
         
         
         

@@ -50,8 +50,8 @@ public class Antenna {
         this.rollEngine = rollEngine;
     }
     
-    public double getRollAngle() {
-        return this.rollEngine.fetchAngle();
+    public double getYawAngle() {
+        return this.yawEngine.fetchAngle();
     }
     
     /**
