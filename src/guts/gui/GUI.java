@@ -59,6 +59,10 @@ public class GUI extends JFrame {
         return appWindow.getSidebar().getJeepFront();
     }
     
+    public RotatableImage getAntenna() {
+        return appWindow.getMapPanel().getAntenna();
+    }
+    
     public AxisVisualization getJeepSide() {
         return appWindow.getSidebar().getJeepSide();
     }
