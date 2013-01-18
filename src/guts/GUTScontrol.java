@@ -76,6 +76,7 @@ public class GUTScontrol implements Runnable {
                 //Log.writeToLog(Log.ok_level, "Antenna position corrected");
                 
                 gui.moveToWaypoint(GUTScontrol.locat);
+                gui.rotateToAngle(antenna.getRollAngle());
                 gui.repaint();
                 
                 try {

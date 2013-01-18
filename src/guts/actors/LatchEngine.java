@@ -61,4 +61,5 @@ public class LatchEngine extends Engine{
     public void moveToAngle(double angle){
         //todo: needs implementation
     }
+
 }
