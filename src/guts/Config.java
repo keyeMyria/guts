@@ -1,11 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package guts;
 
 /**
- *
+ * This class holds all the settings.
  * @author Cedric Ohle
  * @author Patrick Selge
  */
@@ -34,4 +30,11 @@ public class Config {
     // GEO Data
     public static final double STARTLAT = 52.483791;
     public static final double STARTLON = 13.226141;
+    
+    // Engine borders
+    public static final double PITCHENGINELEFTMAX = 0;
+    public static final double PITCHENGINERIGHTMAX = 120;
+    
+    public static final double ROLLENGINELEFTMAX = 45;
+    public static final double ROLLENGINERIGHTMAX = 45;
 }
