@@ -5,16 +5,16 @@ package guts.actors;
  * This class represents a special form of a engine with a limited movementradius.
  * @author Cedric Ohle
  */
-public class LatchEngine extends Engine{
+public class ServoLatchEngine extends ServoEngine{
     private double leftMax;
     private double rightMax;
 
-    LatchEngine(int EngineAddress) {
+    ServoLatchEngine(int EngineAddress) {
         //TODO: add limits
         super(EngineAddress);
     }
 
-    LatchEngine() {
+    ServoLatchEngine() {
         //TODO: add limits
         super();
     }
