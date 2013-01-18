@@ -8,15 +8,15 @@ import guts.sim.SimEngine;
  * It allows communication with the hardwareengine.
  * @author Cedric Ohle
  */
-class Engine {
+class ServoEngine {
     private int address;
     private SimEngine simEngine;
 
-    Engine(int yawEngineAddress) {
+    ServoEngine(int yawEngineAddress) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    Engine(){
+    ServoEngine(){
         this.simEngine = new SimEngine();
     }
     
