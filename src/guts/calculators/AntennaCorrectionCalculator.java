@@ -91,14 +91,16 @@ public class AntennaCorrectionCalculator {
                 Math.sin(lat2) - Math.sin(lat1)*
                 Math.cos(lat2)*
                 Math.cos(lon2-lon1)) % (2*Math.PI);
+        
+        
         System.out.println("After: " + Math.toDegrees(newAngle));
         // der endgültige newAngle ergibt sich dann aus der Differenz aus dem gesamten Winkelbereich
         // und der Summe des momentanen Winkels der Antennenausrichtung und des eben berechneten 
         // Winkels newAngle. Damit wir korrekte Werte haben, die im gültigen Bereich (360) liegen
         // wird der modulo gebildet
         
-        return Math.toDegrees(newAngle);
+        return (360 + Math.toDegrees(newAngle)) % 360;
         
-        return (360 - currentAngle + newAngle) % 360;
+        // return (360 - currentAngle + newAngle) % 360;
     }
 }

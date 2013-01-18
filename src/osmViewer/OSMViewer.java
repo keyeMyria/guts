@@ -46,7 +46,7 @@ public final class OSMViewer extends JXMapKit {
         mapView.setZoom(1); // Setting the default zoom to it's maximum
         mapView.setZoomEnabled(false); // disabling the mousewheel zoom
         
-        towers.add(new Tower(52.483791, 13.226141, "Test"));
+        towers.add(new Tower(52.493791, 13.226141, "Test"));
         
         // Initializes the Mouse and Actionlisteners, as well as the Popup Menu
         this.initControlElements();
