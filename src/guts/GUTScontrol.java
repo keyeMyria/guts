@@ -104,7 +104,7 @@ public class GUTScontrol implements Runnable {
         
         this.gyroscope = new Gyroscope();
         this.magneticFieldSensor = new MagneticFieldSensor();
-        this.antenna = new Antenna();
+        this.antenna = new Antenna(0,120,45,45);
         
         // Create Stores
         this.towers = new TowerCollection();

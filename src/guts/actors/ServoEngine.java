@@ -1,6 +1,7 @@
 
 package guts.actors;
 
+import guts.Config;
 import guts.sim.SimEngine;
 
 /**
@@ -12,8 +13,8 @@ class ServoEngine {
     private int address;
     private SimEngine simEngine;
 
-    ServoEngine(int yawEngineAddress) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    ServoEngine(int EngineAddress) {
+        address = EngineAddress;
     }
     
     ServoEngine(){
@@ -27,7 +28,15 @@ class ServoEngine {
      * @params angle the new angle as float
      */
     public void moveToAngle(double angle){
-        //todo: needs implementation
+        double currentAngle = fetchAngle();
+        if (currentAngle > angle){
+            // counterclockwise
+            move(- currentAngle - angle);
+        }else if(currentAngle < angle){
+            // clockwise
+            move(currentAngle - angle);
+        }
+        // currentangel == angle -> nothing to do
     }
     
     /**
@@ -35,8 +44,13 @@ class ServoEngine {
      * @return the current angle as float
      */
     public double fetchAngle(){
-        //todo: needs driver access and implementation
-        return 0;
+        if (Config.SIMULATIONENABLED){
+            return simEngine.fetchAngle();
+        }else{
+            // Implement real hardwareaccess
+            return 0;
+        }
+        
     }
     
     /**
@@ -44,6 +58,6 @@ class ServoEngine {
      * @params move the direction and distance
      */
     private void move(double move){
-        //todo: needs driver access and implementation
+        simEngine.move(move);
     }
 }

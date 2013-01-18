@@ -14,9 +14,10 @@ public class ServoLatchEngine extends ServoEngine{
         super(EngineAddress);
     }
 
-    ServoLatchEngine() {
-        //TODO: add limits
+    ServoLatchEngine(double leftMax, double rightMax) {
         super();
+        this.leftMax= leftMax;
+        this.rightMax = rightMax;
     }
     
     /**
