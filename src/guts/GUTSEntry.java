@@ -5,7 +5,8 @@
 package guts;
 
 import guts.sim.Simulation;
-import java.util.concurrent.locks.*;
+import java.util.concurrent.Semaphore;
+//import java.util.concurrent.locks.*;
 
 
 /**
@@ -15,8 +16,7 @@ import java.util.concurrent.locks.*;
 public class GUTSEntry {
     private static GUTScontrol guts;
     private static Simulation sim;
-    //public static Lock guilock = new ReentrantLock();
-    //public static Lock simlock = new ReentrantLock();
+    public static final Semaphore sem = new Semaphore(-1, true);
     
     
     /**

@@ -59,7 +59,12 @@ public class GUTScontrol implements Runnable {
     public void run() {
             while(true) {
                 if(Config.SIMULATIONENABLED){
-                    //GUTSEntry.guilock.lock();
+                    try {
+                        GUTSEntry.sem.acquire();
+                        System.out.println("Nutzung: " + GUTSEntry.sem.availablePermits());
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(GUTScontrol.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
                 locat = this.gps.fetchLocation();
@@ -77,10 +82,6 @@ public class GUTScontrol implements Runnable {
                 try {
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {}
-                
-                if(Config.SIMULATIONENABLED){
-                    //GUTSEntry.simlock.unlock();
-                }
         }
     }
 
