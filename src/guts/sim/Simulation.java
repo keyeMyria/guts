@@ -25,7 +25,6 @@ public class Simulation implements Runnable{
         while(true){
             if(Config.SIMULATIONENABLED){
                 GUTSEntry.sem.release();
-                System.out.println("Freigabe: " + GUTSEntry.sem.availablePermits());
             }
             simCompass.calculateAngelToMagneticNorth();
             simGPS.fetchNewLocation();

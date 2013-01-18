@@ -30,6 +30,7 @@ public class SimEngine {
         }else{
             currentangle = currentangle + move;
         }
+        currentangle = currentangle % 359;
     }
     
 }
