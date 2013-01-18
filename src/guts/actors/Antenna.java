@@ -20,9 +20,9 @@ public class Antenna {
         
     }
     
-    public Antenna(){
-        this.pitchEngine = new ServoLatchEngine();
-        this.rollEngine = new ServoLatchEngine();
+    public Antenna(double pitchEngineLeftMax, double pitchEngineRightMax, double rollEngineLeftMax, double rollEngineRightMax){
+        this.pitchEngine = new ServoLatchEngine(pitchEngineLeftMax, pitchEngineRightMax);
+        this.rollEngine = new ServoLatchEngine(rollEngineLeftMax, rollEngineRightMax);
         this.yawEngine = new ServoEngine();
     }
     

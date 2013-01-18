@@ -13,8 +13,8 @@ class ServoEngine {
     private int address;
     private SimEngine simEngine;
 
-    ServoEngine(int yawEngineAddress) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    ServoEngine(int EngineAddress) {
+        address = EngineAddress;
     }
     
     ServoEngine(){
