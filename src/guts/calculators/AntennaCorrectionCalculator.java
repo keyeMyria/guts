@@ -96,6 +96,9 @@ public class AntennaCorrectionCalculator {
         // und der Summe des momentanen Winkels der Antennenausrichtung und des eben berechneten 
         // Winkels newAngle. Damit wir korrekte Werte haben, die im gültigen Bereich (360) liegen
         // wird der modulo gebildet
+        
+        return Math.toDegrees(newAngle);
+        
         return (360 - currentAngle + newAngle) % 360;
     }
 }

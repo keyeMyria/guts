@@ -74,9 +74,9 @@ public class GUTScontrol implements Runnable {
                     correctAntennaPostion();
                 }
                 //gui.rotateToAngle(angel + );
-                System.out.println(angel + antenna.getYawAngle());
+                System.out.println(antenna.getYawAngle());
                 
-                gui.rotateToAngle(angel + antenna.getYawAngle());
+                gui.rotateToAngle(antenna.getYawAngle());
                 
                 //Log.writeToLog(Log.ok_level, "Antenna position corrected");
                 
