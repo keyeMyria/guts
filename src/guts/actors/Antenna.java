@@ -9,28 +9,28 @@ import guts.entities.Axis;
  * @author Cedric Ohle
  */
 public class Antenna {
-    private Engine yawEngine;
-    private LatchEngine pitchEngine;
-    private LatchEngine rollEngine;
+    private ServoEngine yawEngine;
+    private ServoLatchEngine pitchEngine;
+    private ServoLatchEngine rollEngine;
     
     public Antenna(int yawEngineAddress, int pitchEngineAddress , int rollEngineAddress){
-        this.pitchEngine = new LatchEngine(pitchEngineAddress);
-        this.rollEngine = new LatchEngine(rollEngineAddress);
-        this.yawEngine = new Engine(yawEngineAddress);
+        this.pitchEngine = new ServoLatchEngine(pitchEngineAddress);
+        this.rollEngine = new ServoLatchEngine(rollEngineAddress);
+        this.yawEngine = new ServoEngine(yawEngineAddress);
         
     }
     
     public Antenna(){
-        this.pitchEngine = new LatchEngine();
-        this.rollEngine = new LatchEngine();
-        this.yawEngine = new Engine();
+        this.pitchEngine = new ServoLatchEngine();
+        this.rollEngine = new ServoLatchEngine();
+        this.yawEngine = new ServoEngine();
     }
     
     /**
      * Sets the yawengine
      * @param yawEngine as engine object
      */
-    private void setYawEngine(Engine yawEngine){
+    private void setYawEngine(ServoEngine yawEngine){
         this.yawEngine = yawEngine;
     }
     
@@ -38,7 +38,7 @@ public class Antenna {
      * Sets the pitchEngine
      * @param pitchEngine as latchengine object
      */
-    private void setPitchEngine(LatchEngine pitchEngine){
+    private void setPitchEngine(ServoLatchEngine pitchEngine){
         this.pitchEngine = pitchEngine;
     }
     
@@ -46,7 +46,7 @@ public class Antenna {
      * Sets the rollEngine
      * @param rollEngine as latchengine object
      */
-    private void setRollEngine(LatchEngine rollEngine){
+    private void setRollEngine(ServoLatchEngine rollEngine){
         this.rollEngine = rollEngine;
     }
     
