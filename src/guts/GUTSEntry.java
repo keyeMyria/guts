@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package guts;
 
 import guts.sim.Simulation;
@@ -9,7 +5,8 @@ import java.util.concurrent.Semaphore;
 
 
 /**
- *
+ * This class creates a starting point for the program.
+ * If enabled, it will also create the simulation.
  * @author Cedric Ohle
  */
 public class GUTSEntry {
@@ -25,12 +22,14 @@ public class GUTSEntry {
      */
     public static void main(String[] args) throws InterruptedException {
         
+        // Create Simulation if needed and the the simthread
         if(Config.SIMULATIONENABLED){
            sim = new Simulation();
             Thread simThread = new Thread( sim );
             simThread.start(); 
         }
-
+        
+        // Create GUTScontrol and start the controlthread
         guts = new GUTScontrol();
         Thread gutsThread = new Thread( guts );
         gutsThread.start();

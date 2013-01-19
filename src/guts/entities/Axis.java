@@ -10,11 +10,6 @@ public class Axis {
     private double pitch;
     private double yawn;
     private double roll;
-    public double getRoll;
-    
-    public Axis(){
-        
-    }
     
     public Axis(double pitch, double yawn, double roll){
         this.pitch = pitch;

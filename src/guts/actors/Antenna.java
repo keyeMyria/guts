@@ -4,8 +4,8 @@ package guts.actors;
 import guts.entities.Axis;
 
 /**
- * This class represents the antenna. It has three engines to allow to be
- * positionend.
+ * This class represents the antenna.
+ * It has three engines to allow to be positionend.
  * @author Cedric Ohle
  */
 public class Antenna {
@@ -13,6 +13,16 @@ public class Antenna {
     private ServoLatchEngine pitchEngine;
     private ServoLatchEngine rollEngine;
     
+    /*
+     * Hardware construtor.
+     * @param yawEngineAddress
+     * @param pitchEngineAddress
+     * @param rollEngineAddress
+     * @param pitchEngineLeftMax
+     * @param pitchEngineRightMax
+     * @param rollEngineLeftMax
+     * @param rollEngineRightMax
+     */
     public Antenna(int yawEngineAddress, int pitchEngineAddress , int rollEngineAddress,double pitchEngineLeftMax, double pitchEngineRightMax, double rollEngineLeftMax, double rollEngineRightMax){
         this.pitchEngine = new ServoLatchEngine(pitchEngineAddress,pitchEngineLeftMax, pitchEngineRightMax);
         this.rollEngine = new ServoLatchEngine(rollEngineAddress,rollEngineLeftMax, rollEngineRightMax);
@@ -20,12 +30,23 @@ public class Antenna {
         
     }
     
+    /*
+     * Constructor for simulation purposes.
+     * @param pitchEngineLeftMax
+     * @param pitchEngineRightMax
+     * @param rollEngineLeftMax
+     * @param rollEngineRightMax
+     */
     public Antenna(double pitchEngineLeftMax, double pitchEngineRightMax, double rollEngineLeftMax, double rollEngineRightMax){
         this.pitchEngine = new ServoLatchEngine(pitchEngineLeftMax, pitchEngineRightMax);
         this.rollEngine = new ServoLatchEngine(rollEngineLeftMax, rollEngineRightMax);
         this.yawEngine = new ServoEngine();
     }
     
+    /**
+     * Returns the current yaw angle of the antenna for use in gui
+     * @return yaw angle of the antenna as double
+     */
     public double getYawAngle() {
         return this.yawEngine.fetchAngle();
     }

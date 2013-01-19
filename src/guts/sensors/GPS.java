@@ -14,14 +14,26 @@ public class GPS extends java.util.Observable {
     private int address;
     private SimGPS simGPS;
     
+    /**
+     * Hardware constructor
+     * @param address
+     */
     public GPS(int address){
         this.address = address;
     }
     
+    /**
+     * Constructor for simulation purposes
+     */
     public GPS(){
         this.simGPS = SimGPS.getInstance();
     }
     
+    /**
+     * Allows to set a GPS startingpoint
+     * @param latitude
+     * @param longitude
+     */
     public void setStartPoint(double latitude, double longitude) {
         simGPS.setLocation(new Location(latitude, longitude));
     }

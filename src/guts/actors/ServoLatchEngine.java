@@ -9,14 +9,25 @@ public class ServoLatchEngine extends ServoEngine{
     private double leftMax;
     private double rightMax;
 
-    ServoLatchEngine(int EngineAddress,double leftMax, double rightMax) {
+    /*
+     * Hardware constructor
+     * @params EngineAddress as int
+     * @params leftMax as double
+     * @params rightMax as double
+     */
+    public ServoLatchEngine(int EngineAddress,double leftMax, double rightMax) {
         super(EngineAddress);
         this.leftMax = leftMax;
         this.rightMax = rightMax;
     }
 
-    ServoLatchEngine(double leftMax, double rightMax) {
-        super();
+    /*
+     * Constructor for simulation purposes
+     * @params leftMax as double
+     * @params rightMax as double
+     */
+    public ServoLatchEngine(double leftMax, double rightMax, double startPosition) {
+        super(startPosition);
         this.leftMax = leftMax;
         this.rightMax = rightMax;
     }
@@ -26,7 +37,7 @@ public class ServoLatchEngine extends ServoEngine{
      * Allows setting of a new angle to get to.
      * Calculates the needed direction and distance to drive the servoengine and
      * moves it. If the movement borders are exceeded the servo is moved to the border.
-     * @params angle the new angle as float
+     * @params angle angle the new angle as float
      */
     @Override
     public void moveToAngle(double angle){

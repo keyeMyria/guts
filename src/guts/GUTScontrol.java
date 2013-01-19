@@ -54,12 +54,12 @@ public class GUTScontrol implements Runnable {
     private AntennaCorrectionCalculator antennaCorrectionCalculator;
     
     private GUI gui;
-      
-        private double i=0;
     
     @Override 
     public void run() {
             while(true) {
+                
+                // Wait in case the simulation is not keeping up
                 if(Config.SIMULATIONENABLED){
                     try {
                         GUTSEntry.sem.acquire();
@@ -67,6 +67,7 @@ public class GUTScontrol implements Runnable {
                         Logger.getLogger(GUTScontrol.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                
                 // Get new data from sensors
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
                 locat = this.gps.fetchLocation();
@@ -82,6 +83,7 @@ public class GUTScontrol implements Runnable {
                 gui.moveToWaypoint(locat);
                 gui.repaint();
                 
+                // Just wait for a bit to let the processor cool down
                 try {
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {}
@@ -173,7 +175,6 @@ public class GUTScontrol implements Runnable {
         this.trackLog.add(currentLocation);
     }
     
-
     
     /**
      * Returns state of trackrecording.

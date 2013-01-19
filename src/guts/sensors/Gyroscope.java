@@ -15,10 +15,17 @@ public class Gyroscope extends java.util.Observable {
     private int address;
     private SimGyroscope simGyroscope;
     
+    /**
+     * Hardware constructor
+     * @param address
+     */
     public Gyroscope(int address){
         this.address = address;
     }
     
+    /**
+     * Constructor for simulation purposes
+     */
     public Gyroscope(){
         this.simGyroscope = SimGyroscope.getInstance();
     }

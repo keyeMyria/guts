@@ -1,12 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package guts.entities;
 
 import java.util.LinkedList;
 
 /**
+ * !!! WARNING: MAY BE REMOVED !!!
  * This class stores the track.
  * @author Cedric Ohle
  * @author Patrick Selge

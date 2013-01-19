@@ -13,7 +13,11 @@ class ServoEngine {
     private int address;
     private SimEngine simEngine;
 
-    ServoEngine(int EngineAddress) {
+    /*
+     * Hardware constructor
+     * @param engineaddress as int
+     */
+    public ServoEngine(int EngineAddress) {
         address = EngineAddress;
     }
     
