@@ -1,6 +1,7 @@
 
 package guts.actors;
 
+import guts.Config;
 import guts.entities.Axis;
 
 /**
@@ -38,9 +39,9 @@ public class Antenna {
      * @param rollEngineRightMax
      */
     public Antenna(double pitchEngineLeftMax, double pitchEngineRightMax, double rollEngineLeftMax, double rollEngineRightMax){
-        this.pitchEngine = new ServoLatchEngine(pitchEngineLeftMax, pitchEngineRightMax);
-        this.rollEngine = new ServoLatchEngine(rollEngineLeftMax, rollEngineRightMax);
-        this.yawEngine = new ServoEngine();
+        this.pitchEngine = new ServoLatchEngine(pitchEngineLeftMax, pitchEngineRightMax, Config.PITCHENGINESTART);
+        this.rollEngine = new ServoLatchEngine(rollEngineLeftMax, rollEngineRightMax,Config.ROLLENGINESTART);
+        this.yawEngine = new ServoEngine(Config.YAWENGINESTART);
     }
     
     /**

@@ -39,6 +39,12 @@ public class Config {
     public static final double PITCHENGINELEFTMAX = 0;
     public static final double PITCHENGINERIGHTMAX = 120;
     
-    public static final double ROLLENGINELEFTMAX = 45;
-    public static final double ROLLENGINERIGHTMAX = 45;
+    public static final double ROLLENGINELEFTMAX = 0;
+    public static final double ROLLENGINERIGHTMAX = 180;
+    
+    //Engine start positions
+    public static final double PITCHENGINESTART = 90;
+    public static final double ROLLENGINESTART = 90;
+    public static final int YAWENGINESTART = 0;
+    
 }
