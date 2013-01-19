@@ -29,9 +29,7 @@ public class Simulation implements Runnable{
     @Override
     public void run() {
         while(true){
-            if(Config.SIMULATIONENABLED){
-                GUTSEntry.sem.release();
-            }
+            GUTSEntry.sem.release();
             simCompass.calculateAngelToMagneticNorth();
             simGPS.fetchNewLocation();
             simGyro.calculatePosition();
