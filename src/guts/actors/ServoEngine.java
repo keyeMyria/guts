@@ -2,7 +2,7 @@
 package guts.actors;
 
 import guts.Config;
-import guts.sim.SimEngine;
+import guts.sim.SimServoEngine;
 
 /**
  * This class represents an servoengine with a sensor to get the current angle.
@@ -11,7 +11,7 @@ import guts.sim.SimEngine;
  */
 class ServoEngine {
     private int address;
-    private SimEngine simEngine;
+    private SimServoEngine simEngine;
 
     /*
      * Hardware constructor
@@ -21,8 +21,11 @@ class ServoEngine {
         address = EngineAddress;
     }
     
-    ServoEngine(){
-        this.simEngine = new SimEngine();
+    /*
+     * Constructor for simulation purposes
+     */
+    public ServoEngine(double startPosition){
+        this.simEngine = new SimServoEngine(startPosition);
     }
     
     /**
