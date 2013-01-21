@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package guts.gui;
 
 import osmViewer.data.Waypoint;
@@ -97,6 +93,10 @@ public class GMapPanel extends JLayeredPane {
         
         waypoints.add(wp);
         
+    }
+    
+    public void rotateAntennaTo(double angel) {
+        antenna.rotateTo(angel);
     }
     
     

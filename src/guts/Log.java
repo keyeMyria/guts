@@ -1,19 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package guts;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.security.Timestamp;
 import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
 
 /**
- *
+ * !!! WARNING: WORK IN PROGRESS !!!
+ * This class makes it possible to write a central log
  * @author Patrick Selge
  */
 public class Log {

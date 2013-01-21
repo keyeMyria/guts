@@ -1,32 +1,46 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package guts.sim.data;
 
 import guts.entities.Location;
 import guts.sim.SimUtilities;
 
 /**
- *
- * @author patrick
+ * This class extends the standart used location to allow overflow checking and
+ * setting of data which is not needed at use with real hardware.
+ * @author Patrick Selge
  */
 public class SimulatedLocation {
     
+    /**
+     * Constructor
+     * @param latitude
+     * @param longitude
+     */
     public SimulatedLocation(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
     
+    /**
+     * converts the simlocation object as location object
+     * @return a location object based on the simlocation object
+     */
     public Location to_Location() {
         return new Location(latitude, longitude);
     }
     
+    /**
+     * Imports the data from a location object into the simlocation object
+     * @param location
+     */
     public void from_Location(Location location) {
         this.latitude = location.getLatitude();
         this.longitude = location.getLongitude();
     }
     
+    /**
+     * Checks and corrects overflows.
+     * @return true if correction was necessary
+     */
     public boolean checkAndCorrectOverflows() {
         return (checkAndCorrectOverflowLatitude() || 
                 checkAndCorrectOverflowLongitude());
@@ -34,6 +48,7 @@ public class SimulatedLocation {
     
     /**
      * Checks the latitude for any overflows and corrects them.
+     * @return true if correction was necessary
      */
     private boolean checkAndCorrectOverflowLatitude(){
         if (Math.abs(latitude) > 90) {
@@ -49,6 +64,7 @@ public class SimulatedLocation {
     
     /**
      * Checks the longitude for any overflows and corrects them.
+     * @return true if correction was necessary
      */
     private boolean checkAndCorrectOverflowLongitude(){
         if (Math.abs(longitude) > 180) {
@@ -63,18 +79,34 @@ public class SimulatedLocation {
     
     /* Getter and Setter */
     
+    /**
+     * Sets the latitude
+     * @param latitude
+     */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
     
+    /**
+     * Sets the longitude
+     * @param longitude
+     */
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
     
+    /**
+     * Returns the latitude
+     * @return
+     */
     public double getLatitude() {
         return latitude;
     }
     
+    /**
+     * Returns the longitude
+     * @return
+     */
     public double getLongitude() {
         return longitude;
     }

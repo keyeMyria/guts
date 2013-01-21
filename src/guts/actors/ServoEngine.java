@@ -1,7 +1,8 @@
 
 package guts.actors;
 
-import guts.sim.SimEngine;
+import guts.Config;
+import guts.sim.SimServoEngine;
 
 /**
  * This class represents an servoengine with a sensor to get the current angle.
@@ -10,14 +11,21 @@ import guts.sim.SimEngine;
  */
 class ServoEngine {
     private int address;
-    private SimEngine simEngine;
+    private SimServoEngine simEngine;
 
-    ServoEngine(int yawEngineAddress) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /*
+     * Hardware constructor
+     * @param engineaddress as int
+     */
+    public ServoEngine(int EngineAddress) {
+        address = EngineAddress;
     }
     
-    ServoEngine(){
-        this.simEngine = new SimEngine();
+    /*
+     * Constructor for simulation purposes
+     */
+    public ServoEngine(double startPosition){
+        this.simEngine = new SimServoEngine(startPosition);
     }
     
     /**
@@ -27,23 +35,36 @@ class ServoEngine {
      * @params angle the new angle as float
      */
     public void moveToAngle(double angle){
-        //todo: needs implementation
+        double currentAngle = fetchAngle();
+        if (angle < currentAngle){
+            // counterclockwise
+            move(-1 * (currentAngle - angle));
+        } else if(angle > currentAngle) {
+            // clockwise
+            move(angle - currentAngle);
+        }
+        // currentangel == angle -> nothing to do
     }
     
     /**
      * Returns the current angle of the servoengine.
      * @return the current angle as float
      */
-    public float fetchAngle(){
-        //todo: needs driver access and implementation
-        return 0;
+    public double fetchAngle(){
+        if (Config.SIMULATIONENABLED){
+            return simEngine.fetchAngle();
+        }else{
+            // Implement real hardwareaccess
+            return 0;
+        }
+        
     }
     
     /**
      * Allows moving of the servoengine.
      * @params move the direction and distance
      */
-    private void move(double move){
-        //todo: needs driver access and implementation
+    protected void move(double move){
+        simEngine.move(move);
     }
 }

@@ -1,11 +1,12 @@
 
 package guts.actors;
 
+import guts.Config;
 import guts.entities.Axis;
 
 /**
- * This class represents the antenna. It has three engines to allow to be
- * positionend.
+ * This class represents the antenna.
+ * It has three engines to allow to be positionend.
  * @author Cedric Ohle
  */
 public class Antenna {
@@ -13,43 +14,43 @@ public class Antenna {
     private ServoLatchEngine pitchEngine;
     private ServoLatchEngine rollEngine;
     
-    public Antenna(int yawEngineAddress, int pitchEngineAddress , int rollEngineAddress){
-        this.pitchEngine = new ServoLatchEngine(pitchEngineAddress);
-        this.rollEngine = new ServoLatchEngine(rollEngineAddress);
+    /*
+     * Hardware construtor.
+     * @param yawEngineAddress
+     * @param pitchEngineAddress
+     * @param rollEngineAddress
+     * @param pitchEngineLeftMax
+     * @param pitchEngineRightMax
+     * @param rollEngineLeftMax
+     * @param rollEngineRightMax
+     */
+    public Antenna(int yawEngineAddress, int pitchEngineAddress , int rollEngineAddress,double pitchEngineLeftMax, double pitchEngineRightMax, double rollEngineLeftMax, double rollEngineRightMax){
+        this.pitchEngine = new ServoLatchEngine(pitchEngineAddress,pitchEngineLeftMax, pitchEngineRightMax);
+        this.rollEngine = new ServoLatchEngine(rollEngineAddress,rollEngineLeftMax, rollEngineRightMax);
         this.yawEngine = new ServoEngine(yawEngineAddress);
         
     }
     
-    public Antenna(){
-        this.pitchEngine = new ServoLatchEngine();
-        this.rollEngine = new ServoLatchEngine();
-        this.yawEngine = new ServoEngine();
+    /*
+     * Constructor for simulation purposes.
+     * @param pitchEngineLeftMax
+     * @param pitchEngineRightMax
+     * @param rollEngineLeftMax
+     * @param rollEngineRightMax
+     */
+    public Antenna(double pitchEngineLeftMax, double pitchEngineRightMax, double rollEngineLeftMax, double rollEngineRightMax){
+        this.pitchEngine = new ServoLatchEngine(pitchEngineLeftMax, pitchEngineRightMax, Config.PITCHENGINESTART);
+        this.rollEngine = new ServoLatchEngine(rollEngineLeftMax, rollEngineRightMax,Config.ROLLENGINESTART);
+        this.yawEngine = new ServoEngine(Config.YAWENGINESTART);
     }
     
     /**
-     * Sets the yawengine
-     * @param yawEngine as engine object
+     * Returns the current yaw angle of the antenna for use in gui
+     * @return yaw angle of the antenna as double
      */
-    private void setYawEngine(ServoEngine yawEngine){
-        this.yawEngine = yawEngine;
+    public double getYawAngle() {
+        return this.yawEngine.fetchAngle();
     }
-    
-    /**
-     * Sets the pitchEngine
-     * @param pitchEngine as latchengine object
-     */
-    private void setPitchEngine(ServoLatchEngine pitchEngine){
-        this.pitchEngine = pitchEngine;
-    }
-    
-    /**
-     * Sets the rollEngine
-     * @param rollEngine as latchengine object
-     */
-    private void setRollEngine(ServoLatchEngine rollEngine){
-        this.rollEngine = rollEngine;
-    }
-    
     
     /**
      * This function allows to set a new position.

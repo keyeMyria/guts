@@ -25,6 +25,7 @@ import guts.sensors.Gyroscope;
 import guts.sensors.MagneticFieldSensor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import osmViewer.data.Tower;
 
 
 public class GUTScontrol implements Runnable {
@@ -37,47 +38,52 @@ public class GUTScontrol implements Runnable {
     private Antenna antenna;
     private int activeTower;
     
+    // Settings
     private boolean storeTrackEnabled;
     private boolean antennaCorrectionEnabled;
     
     private TrackLog trackLog;
     private TowerCollection towers;
     
-    private static double angel;
-    private static Location locat;
-    private static Axis axis;
+    // Current sensor values
+    private double angel;
+    private Location locat;
+    private Axis axis;
     
     private SpeedCalculator speedCalculator;
     private AntennaCorrectionCalculator antennaCorrectionCalculator;
     
-    private static GUI gui;
-    private static Log logger;
-      
+    private GUI gui;
     
     @Override 
     public void run() {
             while(true) {
+                
+                // Wait in case the simulation is not keeping up
                 if(Config.SIMULATIONENABLED){
                     try {
                         GUTSEntry.sem.acquire();
-                        System.out.println("Nutzung: " + GUTSEntry.sem.availablePermits());
                     } catch (InterruptedException ex) {
                         Logger.getLogger(GUTScontrol.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                
+                // Get new data from sensors
                 angel = this.magneticFieldSensor.fetchAngelToMagneticNorth();
                 locat = this.gps.fetchLocation();
                 axis = this.gyroscope.fetchPosition();
                 
+                //Calculate correction for antenna if enabled
                 if(this.antennaCorrectionEnabled){
                     correctAntennaPostion();
                 }
                 
-                //Log.writeToLog(Log.ok_level, "Antenna position corrected");
+                gui.rotateToAngle(antenna.getYawAngle());
                 
-                gui.moveToWaypoint(GUTScontrol.locat);
+                gui.moveToWaypoint(locat);
                 gui.repaint();
                 
+                // Just wait for a bit to let the processor cool down
                 try {
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {}
@@ -85,22 +91,28 @@ public class GUTScontrol implements Runnable {
     }
 
     /*
-     * Override default constructor for default values.
+     * GUTScontrol constructor.
+     * Sets everything up and creates all need data structures.
      */
     public GUTScontrol() throws InterruptedException {        
         this.gui = new GUI();        
         gui.drawInterface();
         
-        this.antennaCorrectionEnabled = false;
+        this.antennaCorrectionEnabled = true;
         this.storeTrackEnabled = false;
         
         // Create Hardware
         this.gps = new GPS();
-        this.gps.setStartPoint(52.483791, 13.226141);
+        this.gps.setStartPoint(Config.CARSTARTLAT, Config.CARSTARTLON);
         
         this.gyroscope = new Gyroscope();
         this.magneticFieldSensor = new MagneticFieldSensor();
-        this.antenna = new Antenna();
+        this.antenna = new Antenna(
+                Config.PITCHENGINELEFTMAX,
+                Config.PITCHENGINERIGHTMAX,
+                Config.ROLLENGINELEFTMAX,
+                Config.ROLLENGINERIGHTMAX
+                );
         
         // Create Stores
         this.towers = new TowerCollection();
@@ -110,6 +122,9 @@ public class GUTScontrol implements Runnable {
         this.speedCalculator = new SpeedCalculator();
         this.antennaCorrectionCalculator = new AntennaCorrectionCalculator();
         
+        // Add the default tower
+        this.towers.add(new Tower(Config.DEFAULTTOWERLAT, Config.DEFAULTTOWERLON, "Default"));
+        this.activeTower = 0;
         
         
         magneticFieldSensor.addObserver(gui.getJeepTop());
@@ -160,7 +175,6 @@ public class GUTScontrol implements Runnable {
         this.trackLog.add(currentLocation);
     }
     
-
     
     /**
      * Returns state of trackrecording.
@@ -202,7 +216,5 @@ public class GUTScontrol implements Runnable {
         return this.towers;
     }
     
-
-
 
 }

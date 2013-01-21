@@ -1,11 +1,10 @@
-
 package guts.sim;
-
+ 
 import guts.Config;
 import guts.GUTSEntry;
-
+ 
 /**
- *
+ * This class is the entry point for the simulation.
  * @author Cedric Ohle
  */
 public class Simulation implements Runnable{
@@ -14,20 +13,23 @@ public class Simulation implements Runnable{
     SimGPS simGPS;
     SimGyroscope simGyro;
     
+    /**
+     * Constructor. If needed creates the simulated sensors
+     */
     public Simulation(){
         this.simCompass=SimMagneticFieldSensor.getInstance();
         this.simGPS=SimGPS.getInstance();
         this.simGyro=SimGyroscope.getInstance();
         this.simGPS.addObserver(simCompass);
     }
-
+ 
+    /**
+     * The simulation thread creates new datapoints for use in the control
+     */
     @Override
     public void run() {
         while(true){
-            if(Config.SIMULATIONENABLED){
-                GUTSEntry.sem.release();
-                System.out.println("Freigabe: " + GUTSEntry.sem.availablePermits());
-            }
+            GUTSEntry.sem.release();
             simCompass.calculateAngelToMagneticNorth();
             simGPS.fetchNewLocation();
             simGyro.calculatePosition();

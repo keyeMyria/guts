@@ -13,13 +13,22 @@ public class MagneticFieldSensor extends java.util.Observable {
     private int address;
     private SimMagneticFieldSensor simMagneticFieldSensor;
     
+    /**
+    * Hardware constructor
+    * @param address
+    */
+    public MagneticFieldSensor(int address){
+        this.address = address;
+    }
+    
+    /**
+     * Constructor for simulation purposes
+     */
     public MagneticFieldSensor(){
         this.simMagneticFieldSensor = SimMagneticFieldSensor.getInstance();
     }
     
-    public MagneticFieldSensor(int address){
-        this.address = address;
-    }
+
     
     
     /**
