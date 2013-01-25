@@ -34,6 +34,7 @@ public class Config {
     public static final double CARSTARTLON = 13.226141;
     public static final double DEFAULTTOWERLAT = 52.483791;
     public static final double DEFAULTTOWERLON = 13.226141;
+    public static final String DEFAULTTOWERNAME = "Default";
     
     // Engine borders
     public static final double PITCHENGINELEFTMAX = 0;

@@ -123,7 +123,7 @@ public class GUTScontrol implements Runnable {
         this.antennaCorrectionCalculator = new AntennaCorrectionCalculator();
         
         // Add the default tower
-        this.towers.add(new Tower(Config.DEFAULTTOWERLAT, Config.DEFAULTTOWERLON, "Default"));
+        this.towers.add(new Tower(Config.DEFAULTTOWERLAT, Config.DEFAULTTOWERLON, Config.DEFAULTTOWERNAME));
         this.activeTower = 0;
         
         

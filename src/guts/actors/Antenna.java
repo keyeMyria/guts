@@ -39,9 +39,9 @@ public class Antenna {
      * @param rollEngineRightMax
      */
     public Antenna(double pitchEngineLeftMax, double pitchEngineRightMax, double rollEngineLeftMax, double rollEngineRightMax){
-        this.pitchEngine = new ServoLatchEngine(pitchEngineLeftMax, pitchEngineRightMax, Config.PITCHENGINESTART);
-        this.rollEngine = new ServoLatchEngine(rollEngineLeftMax, rollEngineRightMax,Config.ROLLENGINESTART);
-        this.yawEngine = new ServoEngine(Config.YAWENGINESTART);
+        this.pitchEngine = new ServoLatchEngine((double) pitchEngineLeftMax, pitchEngineRightMax, Config.PITCHENGINESTART);
+        this.rollEngine = new ServoLatchEngine((double) rollEngineLeftMax, rollEngineRightMax,Config.ROLLENGINESTART);
+        this.yawEngine = new ServoEngine((double) Config.YAWENGINESTART);
     }
     
     /**
