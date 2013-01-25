@@ -28,14 +28,14 @@ public class Simulation implements Runnable{
      */
     @Override
     public void run() {
-        while(true){
-            GUTSEntry.sem.release();
+        while(true){          
             simCompass.calculateAngelToMagneticNorth();
             simGPS.fetchNewLocation();
             simGyro.calculatePosition();
             try {
                     Thread.sleep(Config.REFRESHRATE);
                 } catch (InterruptedException ex) {}
+            GUTSEntry.sem.release();
         }
     }
     
