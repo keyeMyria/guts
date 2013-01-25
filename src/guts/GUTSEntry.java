@@ -22,11 +22,11 @@ public class GUTSEntry {
      */
     public static void main(String[] args) throws InterruptedException {
         
-        // Create Simulation if needed and the the simthread
+        // Create Simulation if needed and start the simthread
         if(Config.SIMULATIONENABLED){
            sim = new Simulation();
-            Thread simThread = new Thread( sim );
-            simThread.start(); 
+           Thread simThread = new Thread( sim );
+           simThread.start(); 
         }
         
         // Create GUTScontrol and start the controlthread
