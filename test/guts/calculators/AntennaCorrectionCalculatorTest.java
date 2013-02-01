@@ -33,7 +33,7 @@ public class AntennaCorrectionCalculatorTest {
      @Test
      public void testCurrentAngleInBounds() 
      {
-        acc.calculateCorrection(new Location(0.0,0.0),new Axis(),25, new Tower(0.0,0.0, "Test"));
+        acc.calculateCorrection(new Location(0.0,0.0),new Axis(20.0,0.0,20.0),25, new Tower(0.0,0.0, "Test"));
      }
      
      // testet, ob currentAngle innerhalb 0 und 359 liegt 
@@ -43,8 +43,8 @@ public class AntennaCorrectionCalculatorTest {
      {
         exception.expect(IllegalArgumentException.class);
         
-        acc.calculateCorrection(new Location(0.0,0.0),new Axis(),-1, new Tower(0.0,0.0, "Test"));
-        acc.calculateCorrection(new Location(0.0,0.0),new Axis(),360, new Tower(0.0,0.0, "Test"));
+        acc.calculateCorrection(new Location(0.0,0.0),new Axis(20.0,0.0,20.0),-1, new Tower(0.0,0.0, "Test"));
+        acc.calculateCorrection(new Location(0.0,0.0),new Axis(20.0,0.0,20.0),360, new Tower(0.0,0.0, "Test"));
      }
      
      @Test
@@ -57,4 +57,3 @@ public class AntennaCorrectionCalculatorTest {
         assertEquals(reqAxis.toString(), actAxis.toString());
      }
 }
-
