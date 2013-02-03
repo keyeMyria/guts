@@ -161,7 +161,6 @@ public class GUTScontrol implements Runnable {
         Axis newAxis = antennaCorrectionCalculator.calculateCorrection(
                     this.locat,
                     this.axis,
-                    this.angel,
                     this.towers.get(this.activeTower)
                 );
         antenna.applyNewAxis(newAxis);

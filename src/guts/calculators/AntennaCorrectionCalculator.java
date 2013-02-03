@@ -16,26 +16,18 @@ public class AntennaCorrectionCalculator {
     
     private Location currentLocation;
     private Tower activeTower;
-    private double currentAngle;
     
     /**
      * 
      * @param currentLocation
      * @param currentAxis
-     * @param currentAngle
      * @param activeTower
      * @return new Axis Object
      */
-    public Axis calculateCorrection(Location currentLocation, Axis currentAxis, 
-        double currentAngle, Tower activeTower){
-        // Grenzwerte festlegen
-        if (currentAngle < 0 || currentAngle >= 360){
-            throw new IllegalArgumentException("currentAngle must be between 0 and 359");
-        }
+    public Axis calculateCorrection(Location currentLocation, Axis currentAxis, Tower activeTower){
 
         // Set attributes
         this.currentLocation = currentLocation;
-        this.currentAngle = currentAngle;
         this.activeTower = activeTower;
         
         return new Axis(-currentAxis.getPitch(), calculateAngel(), -currentAxis.getRoll());
