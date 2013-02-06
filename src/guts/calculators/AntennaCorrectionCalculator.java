@@ -39,12 +39,24 @@ public class AntennaCorrectionCalculator {
      */
     private double calculateAngel(){
         
+        /*brauchen den rad zur Angabe der Größe des Winkels (in länge und breite). 
+         * Ein Winkel mit 1 Radiant --> im Kreis 1 Meter Radius einen Bogen der Länge 1 Meter. 
+         */  
         double lon1 = Math.toRadians(currentLocation. getLongitude());
         double lon2 = Math.toRadians(activeTower.getLongitude());
         
         double lat1 = Math.toRadians(currentLocation.getLatitude());
         double lat2 = Math.toRadians(activeTower.getLatitude());
         
+        
+
+        /*Gibt einen Winkel zurück, 
+         *dessen Tangens der Quotient zweier angegebener Zahlen ist.
+          * math.atan2 trifft automatisch die richtige auswahl des quadranten, 
+          * in dem das dreieck liegt
+          * die Funktion erwartet zwei parameter. x- und y-wert des punktes(deltay,deltax)
+          * wohin die antenne ausgerichtet werden soll (gibt also den richtigen drehwinkel zurück
+          */
         double newAngle = Math.atan2(Math.sin(lon2-lon1)*
                 Math.cos(lat2), Math.cos(lat1)*
                 Math.sin(lat2) - Math.sin(lat1)*
