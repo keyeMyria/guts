@@ -59,7 +59,7 @@ implements java.util.Observer {
     @Override
     public void update(Observable t, Object o) {
         double angel = getAngel((Axis) o);
-        image.rotateTo(Math.toRadians(angel));
+        image.rotateTo(angel);
         text.setText(angel);
     }
     
