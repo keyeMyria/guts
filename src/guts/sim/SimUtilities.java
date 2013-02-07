@@ -24,6 +24,12 @@ public class SimUtilities {
         this.random = new Random();
     }
     
+    /**
+     * Returns the sign (+/-) of a given value
+     * 
+     * @param Any double value
+     * @return bool +1 or -1 
+     */
     public static int getSign(double value) {
         return (value >= 0) ? 1 : -1;
     }
