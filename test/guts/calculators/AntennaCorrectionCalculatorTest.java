@@ -46,27 +46,27 @@ public class AntennaCorrectionCalculatorTest {
      public void testCorrectionOfNinetyDegreeAngelToAntennaAndThirtyDegreeAtFront()
      {
          Axis actAxis = acc.calculateCorrection(30.0, new Location(0.0, 0.0), new Axis(0.0,0.0,0.0), new Tower(0.0, 10.0, "Test"));
-         Axis reqAxis = new Axis(-0.0, 60.0, -0.0);
+         double reqYawn = 60.0;
          
-         assertEquals(reqAxis.toString(), actAxis.toString());
+         assertEquals(reqYawn, actAxis.getYawn(), 1E-6);
      }
      
      @Test
      public void testCorrectionOfHundredEightyDegreeAngelToAntennaAndTwoHundredSeventyDegreeAtFront()
      {
          Axis actAxis = acc.calculateCorrection(270.0, new Location(0.0, 0.0), new Axis(0.0,0.0,0.0), new Tower(0.0, -10.0, "Test"));
-         Axis reqAxis = new Axis(-0.0, 0.0, -0.0);
+         double reqYawn = 0.0;
          
-         assertEquals(reqAxis.toString(), actAxis.toString());
+         assertEquals(reqYawn, actAxis.getYawn(), 1E-6);
      }
      
      @Test
      public void testCorrectionOfNinetyDegreeAngelToAntennaAndHundredEightyDegreeAtFront()
      {
          Axis actAxis = acc.calculateCorrection(180.0, new Location(0.0, 0.0), new Axis(0.0,0.0,0.0), new Tower(0.0, 10.0, "Test"));
-         Axis reqAxis = new Axis(-0.0, 270.0, -0.0);
+         double reqYawn = 270.0;
          
-         assertEquals(reqAxis.toString(), actAxis.toString());
+         assertEquals(reqYawn, actAxis.getYawn(), 1E-6);
      }
      
      @Test
