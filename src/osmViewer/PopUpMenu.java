@@ -34,8 +34,13 @@ public class PopUpMenu extends JPopupMenu {
         disableSimulation.setEnabled(false);
         this.add(disableSimulation);
         
+        JMenuItem exportKML = new JMenuItem("Exportiere Pfad");
+        exportKML.setName("btn_export");
+        this.add(exportKML);
+        
         
         newTower.addActionListener(listener);
+        exportKML.addActionListener(listener);
     }
     
     public String askForTowerName() {                

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package guts.gui;
+package osmViewer;
 
 import osmViewer.data.Tower;
 import osmViewer.data.Waypoint;

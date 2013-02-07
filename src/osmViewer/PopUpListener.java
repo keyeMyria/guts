@@ -6,15 +6,18 @@ import java.awt.event.MouseEvent;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
+import osmViewer.export.KmlExporter;
 
 /**
  *
  * @author Patrick Selge
  */
 class PopUpListener implements MouseInputListener, ActionListener {
+    private KmlExporter exporter;
 
     public PopUpListener(OSMViewer controller) {
         this.controller = controller;
+        this.exporter = new KmlExporter();
     }
     
     @Override
@@ -34,6 +37,9 @@ class PopUpListener implements MouseInputListener, ActionListener {
             
             if(jmi.getName().equals("btn_new_tower")) {
                 controller.setTower();
+            } else if(jmi.getName().equals("btn_export")) {
+                System.out.println("Exporting KML File");
+                this.exporter.exportHistoryAsXML(controller.getWaypoints());
             }
         }
     }

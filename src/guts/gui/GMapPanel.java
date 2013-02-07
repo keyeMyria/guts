@@ -1,5 +1,6 @@
 package guts.gui;
 
+import osmViewer.TrackDrawer;
 import osmViewer.data.Waypoint;
 import guts.gui.comp.Minimap;
 import guts.Config;
@@ -26,7 +27,7 @@ public class GMapPanel extends JLayeredPane {
     }
 
     public GMapPanel(GUI controller) {        
-        osm = new OSMViewer();
+        osm = new OSMViewer(this.waypoints);
         drawMapPanel();
     }
     

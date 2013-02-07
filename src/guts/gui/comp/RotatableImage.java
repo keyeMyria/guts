@@ -49,12 +49,10 @@ public class RotatableImage extends JPanel implements java.util.Observer {
 
     public void rotateTo(double angel) {
         this.angel = Math.toRadians(angel);
-        System.out.println(this.angel);
     }
     
     @Override
     public void update(Observable t, Object o) {
         rotateTo(((Double)o).doubleValue());
-        System.out.println("Rotate");
     }
 }

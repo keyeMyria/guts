@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package guts;
+package osmViewer.export;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -15,7 +15,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.jdesktop.swingx.mapviewer.Waypoint;
+import osmViewer.data.Waypoint;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -28,7 +28,7 @@ import org.w3c.dom.Text;
 public class KmlExporter {
     private static Text coords;
     
-    public static void exportHistoryAsXML(Set<Waypoint> history) {
+    public static void exportHistoryAsXML(Set<osmViewer.data.Waypoint> history) {
         
                 Document doc;
                try {
@@ -39,7 +39,7 @@ public class KmlExporter {
 		 
                 coords = doc.createTextNode("");
                 for (Waypoint wp : history) {
-                    coords.appendData(wp.getPosition().getLongitude() + "," + wp.getPosition().getLatitude() + ",0 \n");
+                    coords.appendData(wp.getLongitude() + "," + wp.getLatitude() + ",0 \n");
                 }
                 
                 buildXML(doc);
@@ -99,10 +99,10 @@ public class KmlExporter {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
 		DOMSource source = new DOMSource(doc);
-		StreamResult result = new StreamResult(new File("/Users/patrick/waypoints.kml"));
+		StreamResult result = new StreamResult(new File("waypoints.kml"));
  
 		// Output to console for testing
-		// StreamResult result = new StreamResult(System.out);
+		//StreamResult result = new StreamResult(System.out);
  
 		transformer.transform(source, result);
  
@@ -110,7 +110,8 @@ public class KmlExporter {
  
 	  
 	  } catch (TransformerException tfe) {
-		tfe.printStackTrace();
+              System.out.println("Error");
+              tfe.printStackTrace();
 	  }
     }
     
