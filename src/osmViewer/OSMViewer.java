@@ -7,18 +7,13 @@ package osmViewer;
 import osmViewer.data.Tower;
 import guts.Config;
 import guts.entities.Location;
-import guts.gui.TrackDrawer;
 import java.awt.Component;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelListener;
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.LinkedHashSet;
-import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
+import java.util.Set;
 import javax.swing.event.MouseInputListener;
 import org.jdesktop.swingx.JXMapKit;
 import org.jdesktop.swingx.JXMapViewer;
@@ -30,8 +25,9 @@ import org.jdesktop.swingx.mapviewer.Waypoint;
  * @author Patrick Selge
  */
 public final class OSMViewer extends JXMapKit {
+    private Set<osmViewer.data.Waypoint> waypoints;
     
-    public OSMViewer() {
+    public OSMViewer(Set<osmViewer.data.Waypoint> waypoints) {
         // Configuring the MapKit to our needs
         this.setName("OSMViewer");
         this.setDefaultProvider(JXMapKit.DefaultProviders.OpenStreetMaps);
@@ -50,6 +46,12 @@ public final class OSMViewer extends JXMapKit {
         
         // Initializes the Mouse and Actionlisteners, as well as the Popup Menu
         this.initControlElements();
+        
+        this.waypoints = waypoints;
+    }
+    
+    public Set<osmViewer.data.Waypoint> getWaypoints() {
+        return this.waypoints;
     }
     
     /**
@@ -112,9 +114,5 @@ public final class OSMViewer extends JXMapKit {
     private PopUpMenu popUpMenu;
     
     private LinkedHashSet<Tower> towers = new LinkedHashSet<Tower>();
-
-    
-    
-    
 
 }
