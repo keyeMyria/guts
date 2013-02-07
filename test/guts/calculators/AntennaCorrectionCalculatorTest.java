@@ -27,30 +27,6 @@ public class AntennaCorrectionCalculatorTest {
          acc = new AntennaCorrectionCalculator();
      }
     
-     @Rule
-     public ExpectedException exception = ExpectedException.none();
-
-      // testet, ob currentAngle innerhalb 0 und 359 liegt 
-     // da die Werte, die außerhalb liegen, ungültig sind. In diesem Fall wird 
-     //ein gültiger Wert als Parameter übergeben. -->25, liegt im grünen bereich
-     @Test
-     public void testCurrentAngleInBounds() 
-     {
-        acc.calculateCorrection(new Location(0.0,0.0),new Axis(20.0,25,20.0), new Tower(0.0,0.0, "Test"));
-     }
-     
-     // testet, ob currentAngle innerhalb 0 und 359 liegt 
-     // da die Werte, die außerhalb liegen, ungültig sind. In diesem Fall werden 
-     //2 ungültige Werte als Parameter übergeben. 
-     @Test
-     public void testCurrentAngleOutOfBounds() 
-     {
-        exception.expect(IllegalArgumentException.class);
-        
-        acc.calculateCorrection(new Location(0.0,0.0),new Axis(20.0,-1,20.0), new Tower(0.0,0.0, "Test"));
-        acc.calculateCorrection(new Location(0.0,0.0),new Axis(20.0,360,20.0), new Tower(0.0,0.0, "Test"));
-     }
- 
      //testet ob der erste und dritte Parameter currentAxis.getPitch() 
      //und currentAxis.getRoll() invertiert wurden, da dies für die Ausrichtung in die richtige Richtung 
      //erforderlich ist
