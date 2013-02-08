@@ -12,6 +12,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -27,7 +28,7 @@ import org.jdesktop.swingx.mapviewer.WaypointRenderer;
 public class TrackDrawer extends WaypointPainter {
 
     private LinkedHashSet<Waypoint> wps;
-    private LinkedHashSet<Tower> towers;
+    private ArrayList<Tower> towers;
     private WaypointRenderer wpRenderer;
     
 
@@ -35,7 +36,7 @@ public class TrackDrawer extends WaypointPainter {
         this.wps = waypoints;    
     }
     
-    public void setTowers(LinkedHashSet<Tower> towers) {
+    public void setTowers(ArrayList<Tower> towers) {
         this.towers = towers;
         
     }
@@ -104,21 +105,23 @@ public class TrackDrawer extends WaypointPainter {
     }
 
     protected void drawTowers(Graphics2D g, JXMapViewer map) {
-        for (Tower tw : this.towers) {
-            Point2D pt = map.getTileFactory().geoToPixel(tw, map.getZoom());
+        if(this.towers != null) {
+            for (Tower tw : this.towers) {
+                Point2D pt = map.getTileFactory().geoToPixel(tw, map.getZoom());
 
-            int x = (int)pt.getX();
-            int y = (int)pt.getY();
+                int x = (int)pt.getX();
+                int y = (int)pt.getY();
 
-            g.setColor(Color.BLACK);
+                g.setColor(Color.BLACK);
 
-            try {
-                g.drawImage(ImageIO.read(TrackDrawer.class.getResource("/img/antennamast.png")), null, x-11, y-21);
-            } catch (Exception ex) {
-                System.out.println("can't read the image");
+                try {
+                    g.drawImage(ImageIO.read(TrackDrawer.class.getResource("/img/antennamast.png")), null, x-11, y-21);
+                } catch (Exception ex) {
+                    System.out.println("can't read the image");
+                }
+
+                g.drawString(tw.getName(), x+20, y+10);
             }
-
-            g.drawString(tw.getName(), x+20, y+10);
         }
     }
 }

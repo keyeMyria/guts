@@ -14,7 +14,9 @@ import guts.entities.Location;
 import guts.gui.comp.RotatableImage;
 
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.*; 
+import osmViewer.data.Tower;
 
 /**
  * The GUI Controller communicates with the GUTS Controller
@@ -86,8 +88,22 @@ public class GUI extends JFrame {
     public void rotateToAngle(double angle) {
         appWindow.getMapPanel().rotateAntennaTo(angle);
     }
+    
+    public void setTowers(ArrayList<Tower> towers) {
+        appWindow.getMapPanel().setTowers(towers);
+        appWindow.getMenuBar().setTowers(towers);
+        
+    }
 
     // Attributes and Constants
     // ------------------------
     private AppWindow appWindow;  
+
+    public Tower getActiveTower() {
+        return appWindow.getMenuBar().getActiveTower();
+    }
+
+    public void setActiveTower(Tower tower) {
+        appWindow.getMenuBar().setActiveTower(tower);
+    }
 }

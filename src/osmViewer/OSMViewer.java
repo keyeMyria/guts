@@ -11,6 +11,7 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -26,6 +27,7 @@ import org.jdesktop.swingx.mapviewer.Waypoint;
  */
 public final class OSMViewer extends JXMapKit {
     private Set<osmViewer.data.Waypoint> waypoints;
+    private TrackDrawer painter;
     
     public OSMViewer(Set<osmViewer.data.Waypoint> waypoints) {
         // Configuring the MapKit to our needs
@@ -34,7 +36,6 @@ public final class OSMViewer extends JXMapKit {
         this.setMiniMapVisible(false);
         this.setZoomSliderVisible(false); 
         
-        // TODO replace with global definition!!!
         this.setAddressLocation(new GeoPosition(Config.STARTLAT, Config.STARTLON));
         
         // Getting the MapViewer out of the Kit
@@ -42,12 +43,15 @@ public final class OSMViewer extends JXMapKit {
         mapView.setZoom(1); // Setting the default zoom to it's maximum
         mapView.setZoomEnabled(false); // disabling the mousewheel zoom
         
-        towers.add(new Tower(Config.DEFAULTTOWERLAT, Config.DEFAULTTOWERLON, Config.DEFAULTTOWERNAME));
-        
         // Initializes the Mouse and Actionlisteners, as well as the Popup Menu
         this.initControlElements();
         
         this.waypoints = waypoints;
+    }
+
+    public void setTowers(ArrayList<Tower> towers) {
+        this.towers = towers;
+        painter.setTowers(towers);
     }
     
     public Set<osmViewer.data.Waypoint> getWaypoints() {
@@ -72,8 +76,8 @@ public final class OSMViewer extends JXMapKit {
     }
     
     public void setOverlayPainter(TrackDrawer painter) {
-        painter.setTowers(towers);
-        mapView.setOverlayPainter(painter);
+        this.painter = painter;
+        mapView.setOverlayPainter(this.painter);
     }
     
     public Rectangle getViewportBounds() {
@@ -113,6 +117,6 @@ public final class OSMViewer extends JXMapKit {
     private GeoPosition geopos;
     protected PopUpMenu popUpMenu;
     
-    private LinkedHashSet<Tower> towers = new LinkedHashSet<Tower>();
+    private ArrayList<Tower> towers;
 
 }

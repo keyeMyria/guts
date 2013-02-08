@@ -10,11 +10,13 @@ import osmViewer.OSMViewer;
 import guts.gui.comp.RotatableImage;
 import guts.utils.*;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
+import osmViewer.data.Tower;
 
 /**
  *
@@ -31,6 +33,9 @@ public class GMapPanel extends JLayeredPane {
         drawMapPanel();
     }
     
+    public void setTowers(ArrayList<Tower> towers) {
+        osm.setTowers(towers);
+    }
     
     
     private void drawMapPanel() {   
