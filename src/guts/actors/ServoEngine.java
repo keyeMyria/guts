@@ -12,6 +12,7 @@ import guts.sim.SimServoEngine;
 class ServoEngine {
     private int address;
     private SimServoEngine simEngine;
+    private double angel;
 
     /*
      * Hardware constructor
@@ -53,10 +54,11 @@ class ServoEngine {
      */
     public double fetchAngle(){
         if (Config.SIMULATIONENABLED){
-            return simEngine.fetchAngle();
+            this.angel = simEngine.fetchAngle();
+            return angel;
         }else{
             // Implement real hardwareaccess
-            return 0;
+            return this.angel;
         }
         
     }

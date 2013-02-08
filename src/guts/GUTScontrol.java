@@ -36,7 +36,6 @@ public class GUTScontrol implements Runnable {
     private GPS gps;
     
     private Antenna antenna;
-    private int activeTower;
     
     // Settings
     private boolean storeTrackEnabled;
@@ -127,9 +126,11 @@ public class GUTScontrol implements Runnable {
         this.antennaCorrectionCalculator = new AntennaCorrectionCalculator();
         
         // Add the default tower
-        this.towers.add(new Tower(Config.DEFAULTTOWERLAT, Config.DEFAULTTOWERLON, Config.DEFAULTTOWERNAME));
-        this.activeTower = 0;
+        Tower defaultTower = new Tower(Config.DEFAULTTOWERLAT, Config.DEFAULTTOWERLON, Config.DEFAULTTOWERNAME);
+        this.towers.add(defaultTower);
+        this.setActiveTower(defaultTower);
         
+        gui.setTowers(this.towers);
         
         magneticFieldSensor.addObserver(gui.getJeepTop());
         magneticFieldSensor.addObserver(gui.getOrientationStatusBox());
@@ -166,7 +167,7 @@ public class GUTScontrol implements Runnable {
                     angel,
                     this.locat,
                     this.axis,
-                    this.towers.get(this.activeTower)
+                    this.getActiveTower()
                 );
         antenna.applyNewAxis(newAxis);
     }
@@ -198,18 +199,18 @@ public class GUTScontrol implements Runnable {
     
     /**
      * Allows setting of the tower to be used as target of the antenna.
-     * @param towerID of the targettower as int
+     * @param tower of the targettower as tower
      */
-    public void setActiveTower(int towerID){
-        this.activeTower = towerID;
+    public void setActiveTower(Tower tower){
+        this.gui.setActiveTower(tower);
     }
     
     /**
-     * Returns the ID of the active targettower.
-     * @return An activeTower as int
+     * Returns the active targettower.
+     * @return An activeTower as tower
      */
-    public int getActiveTower(){
-        return this.activeTower;
+    public Tower getActiveTower(){
+        return this.gui.getActiveTower();
     }
     
     /**

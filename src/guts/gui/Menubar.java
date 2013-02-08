@@ -3,6 +3,7 @@
  */
 package guts.gui;
 
+import guts.gui.comp.TowerSelectBox;
 import guts.Config;
 import guts.gui.comp.SizedPanel;
 import guts.gui.comp.StatusLED;
@@ -10,6 +11,7 @@ import guts.gui.comp.TitledBox;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -17,12 +19,15 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import osmViewer.data.Tower;
 
 /**
  *
  * @author Patrick Selge
  */
 public final class Menubar extends JPanel {
+    private JButton antennaControlButton;
+    private Tower activeTower;
     
     public Menubar() {
         this.setLayout(new BoxLayout(this,BoxLayout.LINE_AXIS));
@@ -49,10 +54,8 @@ public final class Menubar extends JPanel {
         };
         StatusLED positionStatusLED = new StatusLED();
         
-        positionStatusLED.setEnabled(false);
-        
-        statusPanel.add(drawStatusLine(antennaStatusLED, "Antennenausrichtung"));
-        statusPanel.add(drawStatusLine(positionStatusLED, "Positionsaufzeichnung"));
+        statusPanel.add(drawStatusLine(antennaStatusLED, "Simulation"));
+        statusPanel.add(drawStatusLine(positionStatusLED, "Antennenausrichtung"));
         
         this.add(statusPanel);
     }
@@ -71,7 +74,7 @@ public final class Menubar extends JPanel {
     private void drawAntennaControlPanel() {
         TitledBox antennaControlPanel = new TitledBox("Antennenausrichtung",220,PANEL_HEIGHT);
         
-        JButton antennaControlButton = drawControlButton("Aktivieren");
+        this.antennaControlButton = drawControlButton("Aktivieren");
         
         antennaControlPanel.add(drawAntennaSelection());
         antennaControlPanel.add(wrapControlButton(antennaControlButton));
@@ -82,14 +85,16 @@ public final class Menubar extends JPanel {
     private JPanel drawAntennaSelection() {
         SizedPanel panel = new SizedPanel(220,35,FlowLayout.CENTER);
         
-        antennaSelection = new JComboBox();
-
+        antennaSelection = new TowerSelectBox();
+        antennaControlButton.addActionListener(new AntennaControlListener(antennaSelection, this));
         
         panel.add(new JLabel("Antenne:"));
         panel.add(antennaSelection);
                 
         return panel;
     }
+
+
     
     private JPanel wrapControlButton(JButton button) {
         SizedPanel panel = new SizedPanel(220,35,FlowLayout.CENTER);
@@ -117,6 +122,20 @@ public final class Menubar extends JPanel {
         this.add(positionControlPanel);
     }
     
+    public void setTowers(ArrayList<Tower> towers) {
+        antennaSelection.setTowers(towers);
+    }
+    
+    public void setActiveTower(Tower activeTower) {
+        this.activeTower = activeTower;
+    }
+    
+    public Tower getActiveTower() {
+        return this.activeTower;
+    } 
+    
     public static final int PANEL_HEIGHT = 100;
-    public static JComboBox antennaSelection;
+    public static TowerSelectBox antennaSelection;
+
+
 }

@@ -36,5 +36,10 @@ public class Tower extends Location {
         return this.name;
     }
     
+    @Override
+    public String toString() {
+        return getName();
+    }
+    
     private String name;
 }
