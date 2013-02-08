@@ -35,6 +35,9 @@ implements java.util.Observer {
                 current.getTimestamp());
         double distance = current.distanceTo(lastKnownLocation);
         
+        if (distance == 0){
+            return 0;
+        }
         return distance/time;
     }
     
