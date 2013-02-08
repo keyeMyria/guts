@@ -14,6 +14,7 @@ import guts.sim.SimGyroscope;
 public class Gyroscope extends java.util.Observable {
     private int address;
     private SimGyroscope simGyroscope;
+    private Axis axis;
     
     /**
      * Hardware constructor
@@ -36,14 +37,14 @@ public class Gyroscope extends java.util.Observable {
      */
     public Axis fetchPosition(){
         if (Config.SIMULATIONENABLED == true){
-            Axis axis = simGyroscope.getPosition();
+            this.axis = simGyroscope.getPosition();
             setChanged();
             notifyObservers(axis);
             
             return axis;
         }else{
             // Implement real hardware access
-            return null;
+            return this.axis;
         }
         
     }

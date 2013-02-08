@@ -78,13 +78,13 @@ public class AntennaCorrectionCalculator {
         angel = (angel - currentAngel);
         while (angel < 0) angel += 360;
         
-        return angel % 360;
+        return angel;
     }
     
     public double rotationToNorth(double angel, double currentAngel) {
         angel = (angel + currentAngel);
         while (angel >= 360) angel -= 360;
         
-        return angel % 360;
+        return angel;
     }
 }

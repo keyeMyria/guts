@@ -13,6 +13,7 @@ import guts.sim.SimGPS;
 public class GPS extends java.util.Observable {
     private int address;
     private SimGPS simGPS;
+    private Location location;
     
     /**
      * Hardware constructor
@@ -46,7 +47,7 @@ public class GPS extends java.util.Observable {
     public Location fetchLocation(){
         if (Config.SIMULATIONENABLED){
             
-            Location location = simGPS.getLocation();
+            this.location = simGPS.getLocation();
             setChanged();
             notifyObservers(location);
             
@@ -54,7 +55,7 @@ public class GPS extends java.util.Observable {
         }
         else{
             // Implement real hardware access
-            return null;
+            return this.location;
         }
     }
     

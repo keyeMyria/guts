@@ -3,11 +3,13 @@
  */
 package guts.gui;
 
+import guts.Config;
 import guts.gui.comp.SizedPanel;
 import guts.gui.comp.StatusLED;
 import guts.gui.comp.TitledBox;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -34,13 +36,23 @@ public final class Menubar extends JPanel {
     private void drawStatusPanel() {
         TitledBox statusPanel = new TitledBox("Statusinformationen",320,PANEL_HEIGHT);
         
-        StatusLED antennaStatusLED = new StatusLED();
+        StatusLED antennaStatusLED = new StatusLED() {
+            @Override
+            public void paint(Graphics g) {
+                super.paint(g);
+                if(Config.SIMULATIONENABLED) {
+                    this.enable();
+                } else {
+                    this.disable();
+                }
+            }
+        };
         StatusLED positionStatusLED = new StatusLED();
         
         positionStatusLED.setEnabled(false);
         
         statusPanel.add(drawStatusLine(antennaStatusLED, "Antennenausrichtung"));
-        statusPanel.add(drawStatusLine(positionStatusLED, "Positionsausrichtung"));
+        statusPanel.add(drawStatusLine(positionStatusLED, "Positionsaufzeichnung"));
         
         this.add(statusPanel);
     }

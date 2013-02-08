@@ -27,6 +27,19 @@ public class GUTSEntry {
            sim = new Simulation();
            Thread simThread = new Thread( sim );
            simThread.start(); 
+           
+           // Create GUTScontrol and start the controlthread
+            guts = new GUTScontrol();
+            Thread gutsThread = new Thread( guts );
+            gutsThread.start();
+           
+           while(true) {
+                if(!Config.SIMULATIONENABLED) {
+                    simThread.suspend();
+                } else {
+                    simThread.resume();
+                }
+           }
         }
         
         // Create GUTScontrol and start the controlthread
@@ -34,7 +47,7 @@ public class GUTSEntry {
         Thread gutsThread = new Thread( guts );
         gutsThread.start();
         
-
+        
         
         
     }
