@@ -58,6 +58,7 @@ public class AntennaCorrectionCalculator {
          * in dem das dreieck liegt
          * die Funktion erwartet zwei parameter. x- und y-wert des punktes(deltay,deltax)
          * wohin die antenne ausgerichtet werden soll (gibt also den richtigen drehwinkel zurück
+         * wegen +  - 180 wird am ende der modulo gebildet
          */
         double newAngle = Math.atan2(Math.sin(lon2-lon1)*
                 Math.cos(lat2), Math.cos(lat1)*
