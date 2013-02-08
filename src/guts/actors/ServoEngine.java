@@ -36,10 +36,11 @@ class ServoEngine {
      */
     public void moveToAngle(double angle){
         double currentAngle = fetchAngle();
-        if (angle < currentAngle){
+        double diffAngle = Math.abs(currentAngle - angle);
+        if (diffAngle >= 180 ){
             // counterclockwise
             move(-1 * (currentAngle - angle));
-        } else if(angle > currentAngle) {
+        } else if(diffAngle < 180 && diffAngle > 0) {
             // clockwise
             move(angle - currentAngle);
         }
