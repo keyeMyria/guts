@@ -46,6 +46,6 @@ public class Config {
     //Engine start positions
     public static final double PITCHENGINESTART = 90;
     public static final double ROLLENGINESTART = 90;
-    public static final int YAWENGINESTART = 0;
+    public static final double YAWENGINESTART = 0;
     
 }
