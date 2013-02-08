@@ -89,7 +89,6 @@ public class GUTScontrol implements Runnable {
                 // Just wait for a bit to let the processor cool down
                 try {
                     Thread.sleep(Config.REFRESHRATE);
-                    System.out.println(this.getActiveTower());
                 } catch (InterruptedException ex) {}
         }
     }
