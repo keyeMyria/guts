@@ -5,6 +5,7 @@
 package guts.calculators;
 
 import guts.entities.Location;
+import java.util.Date;
 import java.util.Observable;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -43,51 +44,26 @@ public class SpeedCalculatorTest {
      */
     @Test
     public void testReset_Location() {
-        System.out.println("reset");
         Location start = null;
         SpeedCalculator instance = new SpeedCalculator();
         instance.reset(start);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double speed = instance.calculateSpeed(start);
+        
+        assertEquals(0.0, speed, 1E-6);
+    }
+    
+    
+    
+    @Test
+    public void testSpeedCalculation(){
+        Location start = new Location(0.0,0.0, new Date(0));
+        SpeedCalculator instance = new SpeedCalculator();
+        instance.reset(start);
+        double speed = instance.calculateSpeed(new Location(0.0,1.0,new Date((long)3.6E6)));
+        double reqSpeed = 111.3;
+        
+        assertEquals(reqSpeed, speed, ((reqSpeed/100)*0.2) );
     }
 
-    /**
-     * Test of reset method, of class SpeedCalculator.
-     */
-    @Test
-    public void testReset_0args() {
-        System.out.println("reset");
-        SpeedCalculator instance = new SpeedCalculator();
-        instance.reset();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
-    /**
-     * Test of update method, of class SpeedCalculator.
-     */
-    @Test
-    public void testUpdate() {
-        System.out.println("update");
-        Observable t = null;
-        Object o = null;
-        SpeedCalculator instance = new SpeedCalculator();
-        instance.update(t, o);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getSpeed method, of class SpeedCalculator.
-     */
-    @Test
-    public void testGetSpeed() {
-        System.out.println("getSpeed");
-        SpeedCalculator instance = new SpeedCalculator();
-        double expResult = 0.0;
-        double result = instance.getSpeed();
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 }
