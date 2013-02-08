@@ -12,6 +12,7 @@ import guts.sim.SimMagneticFieldSensor;
 public class MagneticFieldSensor extends java.util.Observable {
     private int address;
     private SimMagneticFieldSensor simMagneticFieldSensor;
+    private double angel = 0;
     
     /**
     * Hardware constructor
@@ -37,14 +38,14 @@ public class MagneticFieldSensor extends java.util.Observable {
      */
     public double fetchAngelToMagneticNorth(){
         if (Config.SIMULATIONENABLED) {
-            double angel = this.simMagneticFieldSensor.getCurrentAngel();
+            this.angel = this.simMagneticFieldSensor.getCurrentAngel();
             setChanged();
             notifyObservers(angel);
             
-            return angel;
+            return this.angel;
         } else{
             // Implement real hardware access
-            return 0;
+            return this.angel;
         }
     }
 }

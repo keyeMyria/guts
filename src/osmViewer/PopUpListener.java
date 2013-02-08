@@ -1,5 +1,6 @@
 package osmViewer;
 
+import guts.Config;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -40,6 +41,12 @@ class PopUpListener implements MouseInputListener, ActionListener {
             } else if(jmi.getName().equals("btn_export")) {
                 System.out.println("Exporting KML File");
                 this.exporter.exportHistoryAsXML(controller.getWaypoints());
+            } else if(jmi.getName().equals("btn_disable_sim")) {
+                Config.SIMULATIONENABLED = false;
+                controller.popUpMenu.repaint();
+            } else if(jmi.getName().equals("btn_enable_sim")) {
+                Config.SIMULATIONENABLED = true;
+                controller.popUpMenu.repaint();
             }
         }
     }

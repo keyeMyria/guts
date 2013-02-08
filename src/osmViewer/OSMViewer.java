@@ -111,7 +111,7 @@ public final class OSMViewer extends JXMapKit {
     
     private static final int MAX_ZOOM = 5; 
     private GeoPosition geopos;
-    private PopUpMenu popUpMenu;
+    protected PopUpMenu popUpMenu;
     
     private LinkedHashSet<Tower> towers = new LinkedHashSet<Tower>();
 

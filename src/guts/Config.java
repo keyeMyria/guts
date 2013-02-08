@@ -13,7 +13,7 @@ public class Config {
     public static final int LOG_NON = 0;
         
     // global vars
-    public static final boolean SIMULATIONENABLED = true;
+    public static boolean SIMULATIONENABLED = true;
     public static final int DEBUG = LOG_WAR;
     public static final int REFRESHRATE = 100; // time in miliseconds
     public static final int SIMREFRESHRATE = REFRESHRATE;

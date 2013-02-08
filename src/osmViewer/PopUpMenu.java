@@ -4,6 +4,7 @@
  */
 package osmViewer;
 
+import guts.Config;
 import guts.gui.GMapPanel;
 import guts.gui.Menubar;
 import java.awt.Rectangle;
@@ -23,6 +24,7 @@ import org.jdesktop.swingx.mapviewer.GeoPosition;
  * @author Patrick Selge
  */
 public class PopUpMenu extends JPopupMenu {
+    private JMenuItem disableSimulation;
     
     public PopUpMenu(ActionListener listener) {
         
@@ -30,9 +32,14 @@ public class PopUpMenu extends JPopupMenu {
         newTower.setName("btn_new_tower");
         this.add(newTower);
         
-        JMenuItem disableSimulation = new JMenuItem("Stoppe Simulation");
-        disableSimulation.setEnabled(false);
+
+        this.disableSimulation = new JMenuItem("Stoppe Simulation");
+        //disableSimulation.setEnabled(false);
+        disableSimulation.setName("btn_disable_sim");
         this.add(disableSimulation);
+
+        disableSimulation.addActionListener(listener);
+        
         
         JMenuItem exportKML = new JMenuItem("Exportiere Pfad");
         exportKML.setName("btn_export");
@@ -54,7 +61,18 @@ public class PopUpMenu extends JPopupMenu {
         return s;
     }
     
-
+    @Override
+    public void repaint() {
+        if(disableSimulation != null) {
+            if(Config.SIMULATIONENABLED) {
+                disableSimulation.setName("btn_disable_sim");
+                disableSimulation.setLabel("Stoppe Simulation");
+            } else {
+                disableSimulation.setName("btn_enable_sim");
+                disableSimulation.setLabel("Starte Simulation");
+            }
+        }
+    }
     
     
     

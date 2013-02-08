@@ -63,6 +63,8 @@ public class GUTScontrol implements Runnable {
                 if(Config.SIMULATIONENABLED){
                     try {
                         GUTSEntry.sem.acquire();
+                        
+                        
                     } catch (InterruptedException ex) {
                         Logger.getLogger(GUTScontrol.class.getName()).log(Level.SEVERE, null, ex);
                     }
